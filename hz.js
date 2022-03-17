@@ -1,0 +1,1 @@
+const salam = 1;
