@@ -1,0 +1,21 @@
+schema 
+{
+laukus ar liniju neatdalam 
+
+saishu tipi 
+
+atdalit saites 
+}
+		Practice___
+			
+		ka lietotajs redzes praktisko dalu? 
+
+		file uploda practice test 
+
+
+VacancyID pie Users 
+
+
+ 
+Integret kaut kadu citu testa veidus 
+
