@@ -6,15 +6,20 @@ module.exports = function(status) {
         if (req.method === "OPTIONS") {
             next()
         }
+
         try {
-            const token = req.headers.authorization.split(' ')[1] // Bearer asfasnfkajsfnjk
+            const token = req.headers.authorization.split(' ')[1] // Bearer
             if (!token) {
                 return next(ApiError.NotAutorized())
             }
             const decoded = jwt.verify(token, process.env.SECRET_KEY)
-            if (decoded.status !== status) {
-                return next(ApiError.forbidden())
+
+            if (decoded.status !== status ) {
+                if(decoded.status !== 'ADMIN'){
+                    return next(ApiError.forbidden())
+                }
             }
+
             req.user = decoded;
             next()
         } catch{

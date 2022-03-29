@@ -62,6 +62,41 @@ class UserController {
         }
 
     }
+
+    async update(req, res, next) {
+        try {
+            const {name, surname, email, password, birthDate, status} = req.body
+            await User.update({name, surname, email, password, birthDate, status}, {
+                where: {
+                    id: req.params.id
+                }
+            });
+            res.json({
+                "message": "User data updated"
+            });
+        }catch {
+            return next(ApiError.internal())
+        }
+
+    }
+
+    async delete(req, res, next) {
+        try {
+            await User.destroy({
+                where: {
+                    id: req.params.id
+                }
+            });
+
+            res.json({
+                "message": "User deleted"
+            });
+        } catch {
+            return next(ApiError.internal())
+        }
+
+    }
+
 }
 
 module.exports = new UserController()

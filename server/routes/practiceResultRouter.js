@@ -1,10 +1,11 @@
 const Router = require('express')
 const router = new Router()
 const PracticeResultController = require('../controllers/practiceResultController.js')
+const checkRole = require('../middleware/checkRoleMiddleware.js')
 
-router.post('/create', PracticeResultController.create)
-router.delete('/delete', PracticeResultController.delete)
-router.get('/userid/' , PracticeResultController.getByUserId)
-router.get('/testid/' , PracticeResultController.getByTestId)
+router.post('/create' ,checkRole('USER'), PracticeResultController.create)
+router.delete('/delete',checkRole('ADMIN'), PracticeResultController.delete)
+router.get('/userid/',checkRole('USER') , PracticeResultController.getByUserId)
+router.get('/testid/',checkRole('ADMIN') , PracticeResultController.getByTestId)
 
 module.exports = router
