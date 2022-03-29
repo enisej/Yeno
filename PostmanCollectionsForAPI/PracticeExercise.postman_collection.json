@@ -1,0 +1,158 @@
+{
+	"info": {
+		"_postman_id": "576a9984-24d3-4c5b-891b-3f2056c90145",
+		"name": "PracticeExercise",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Post practice",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJlbmlzZWpAZ21haWwuY29tIiwic3RhdHVzIjoiQURNSU4iLCJpYXQiOjE2NDg1Nzk4OTYsImV4cCI6MTY0ODY2NjI5Nn0.3m6pEOmFqz19zSfEqt1IKHoB-pCYVEJ3OttY5KIjcHI",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\":\"Online store\",\r\n    \"link\":\"google.forms.com/1123123123323aa2sda22D\",\r\n    \"description\":\"Easy test\",\r\n    \"activeFrom\":\"2022-03-03 00:00:00\",\r\n    \"activeTo\":\"2022-05-05 00:00:00\"\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:5000/api/practice/create",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"practice",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update practice",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJlbmlzZWpAZ21haWwuY29tIiwic3RhdHVzIjoiQURNSU4iLCJpYXQiOjE2NDg1Nzk4OTYsImV4cCI6MTY0ODY2NjI5Nn0.3m6pEOmFqz19zSfEqt1IKHoB-pCYVEJ3OttY5KIjcHI",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\":\"Online store\",\r\n    \"link\":\"google.forms.com/1123123123323aa2sda22D\",\r\n    \"description\":\"Hard exercise\",\r\n    \"activeFrom\":\"2022-03-03 00:00:00\",\r\n    \"activeTo\":\"2022-05-05 00:00:00\"\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:5000/api/practice/update/3",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"practice",
+						"update",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete practice",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJlbmlzZWpAZ21haWwuY29tIiwic3RhdHVzIjoiQURNSU4iLCJpYXQiOjE2NDg1Nzk4OTYsImV4cCI6MTY0ODY2NjI5Nn0.3m6pEOmFqz19zSfEqt1IKHoB-pCYVEJ3OttY5KIjcHI",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:5000/api/practice/delete/3",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"practice",
+						"delete",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all practice",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJlbmlzZWpAZ21haWwuY29tIiwic3RhdHVzIjoiQURNSU4iLCJpYXQiOjE2NDg1Nzk4OTYsImV4cCI6MTY0ODY2NjI5Nn0.3m6pEOmFqz19zSfEqt1IKHoB-pCYVEJ3OttY5KIjcHI",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:5000/api/practice",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"practice"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get practice by Id",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJlbmlzZWpAZ21haWwuY29tIiwic3RhdHVzIjoiQURNSU4iLCJpYXQiOjE2NDg1Nzk4OTYsImV4cCI6MTY0ODY2NjI5Nn0.3m6pEOmFqz19zSfEqt1IKHoB-pCYVEJ3OttY5KIjcHI",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:5000/api/practice/1",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"practice",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -1,0 +1,157 @@
+{
+	"info": {
+		"_postman_id": "5960e48c-3624-4d4c-b3ab-aed8449907b1",
+		"name": "Vacancies",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Post vacancy",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJlbmlzZWpAZ21haWwuY29tIiwic3RhdHVzIjoiQURNSU4iLCJpYXQiOjE2NDg1Nzk4OTYsImV4cCI6MTY0ODY2NjI5Nn0.3m6pEOmFqz19zSfEqt1IKHoB-pCYVEJ3OttY5KIjcHI",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\":\"php programmer\",\r\n    \"description\":\"need developer , very good proffesional developer\",\r\n    \"status\":1,\r\n    \"practiceExerciseId\":1,\r\n    \"theoryTestId\":1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:5000/api/vacancies/create",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"vacancies",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update vacancy",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJlbmlzZWpAZ21haWwuY29tIiwic3RhdHVzIjoiQURNSU4iLCJpYXQiOjE2NDg1Nzk4OTYsImV4cCI6MTY0ODY2NjI5Nn0.3m6pEOmFqz19zSfEqt1IKHoB-pCYVEJ3OttY5KIjcHI",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:5000/api/vacancies/update/2",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"vacancies",
+						"update",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete vacancy",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJlbmlzZWpAZ21haWwuY29tIiwic3RhdHVzIjoiQURNSU4iLCJpYXQiOjE2NDg1Nzk4OTYsImV4cCI6MTY0ODY2NjI5Nn0.3m6pEOmFqz19zSfEqt1IKHoB-pCYVEJ3OttY5KIjcHI",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:5000/api/vacancies/delete/2",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"vacancies",
+						"delete",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All vacancies",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:5000/api/vacancies/?page=1&limit=3",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"vacancies",
+						""
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "limit",
+							"value": "3"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get vacancy by Id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:5000/api/vacancies/1",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"vacancies",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

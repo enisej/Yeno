@@ -1,0 +1,173 @@
+{
+	"info": {
+		"_postman_id": "3671dcb9-a71d-4748-9bc8-caddc0bdd574",
+		"name": "PracticeResults",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Post practice results",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJlbmlzZWpAZ21haWwuY29tIiwic3RhdHVzIjoiQURNSU4iLCJpYXQiOjE2NDg1Nzk4OTYsImV4cCI6MTY0ODY2NjI5Nn0.3m6pEOmFqz19zSfEqt1IKHoB-pCYVEJ3OttY5KIjcHI",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"link\":\"answer.com/1212\",\r\n    \"practiceExerciseId\":1,\r\n    \"userId\":1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:5000/api/practice_results/create",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"practice_results",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete practice results",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJlbmlzZWpAZ21haWwuY29tIiwic3RhdHVzIjoiQURNSU4iLCJpYXQiOjE2NDg1Nzk4OTYsImV4cCI6MTY0ODY2NjI5Nn0.3m6pEOmFqz19zSfEqt1IKHoB-pCYVEJ3OttY5KIjcHI",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:5000/api/practice_results/delete/2",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"practice_results",
+						"delete",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get practice results by userid",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJlbmlzZWpAZ21haWwuY29tIiwic3RhdHVzIjoiQURNSU4iLCJpYXQiOjE2NDg1Nzk4OTYsImV4cCI6MTY0ODY2NjI5Nn0.3m6pEOmFqz19zSfEqt1IKHoB-pCYVEJ3OttY5KIjcHI",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:5000/api/practice_results/userid/?userId=1",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"practice_results",
+						"userid",
+						""
+					],
+					"query": [
+						{
+							"key": "userId",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get practice results by testid",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJlbmlzZWpAZ21haWwuY29tIiwic3RhdHVzIjoiQURNSU4iLCJpYXQiOjE2NDg1Nzk4OTYsImV4cCI6MTY0ODY2NjI5Nn0.3m6pEOmFqz19zSfEqt1IKHoB-pCYVEJ3OttY5KIjcHI",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:5000/api/practice_results/testid/?practiceExerciseId=1",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"practice_results",
+						"testid",
+						""
+					],
+					"query": [
+						{
+							"key": "practiceExerciseId",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Send Feedback (Post Point)",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJlbmlzZWpAZ21haWwuY29tIiwic3RhdHVzIjoiQURNSU4iLCJpYXQiOjE2NDg1Nzk4OTYsImV4cCI6MTY0ODY2NjI5Nn0.3m6pEOmFqz19zSfEqt1IKHoB-pCYVEJ3OttY5KIjcHI",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"recievedPoint\":12\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:5000/api/practice_results/feedback/1",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"practice_results",
+						"feedback",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

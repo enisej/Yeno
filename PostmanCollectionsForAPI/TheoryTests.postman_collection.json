@@ -1,0 +1,158 @@
+{
+	"info": {
+		"_postman_id": "ca4d5845-ccf5-40fc-9ef0-8e81dd13c907",
+		"name": "TheoryTests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Post Test",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJlbmlzZWpAZ21haWwuY29tIiwic3RhdHVzIjoiQURNSU4iLCJpYXQiOjE2NDg1Nzk4OTYsImV4cCI6MTY0ODY2NjI5Nn0.3m6pEOmFqz19zSfEqt1IKHoB-pCYVEJ3OttY5KIjcHI",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\":\"Python easy test\",\r\n    \"link\":\"google.forms.com/11231231233232\",\r\n    \"description\":\"Easy test\",\r\n    \"activeFrom\":\"2022-03-03 00:00:00\",\r\n    \"activeTo\":\"2022-05-05 00:00:00\"\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:5000/api/test/create",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"test",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update test",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJlbmlzZWpAZ21haWwuY29tIiwic3RhdHVzIjoiQURNSU4iLCJpYXQiOjE2NDg1Nzk4OTYsImV4cCI6MTY0ODY2NjI5Nn0.3m6pEOmFqz19zSfEqt1IKHoB-pCYVEJ3OttY5KIjcHI",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\":\"Php hard test\",\r\n    \"link\":\"google.forms.com/1123\",\r\n    \"description\":\"Easy test\",\r\n    \"activeFrom\":\"2022-03-03 00:00:00\",\r\n    \"activeTo\":\"2022-05-05 00:00:00\"\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:5000/api/test/update/1",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"test",
+						"update",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetAllTest",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJlbmlzZWpAZ21haWwuY29tIiwic3RhdHVzIjoiQURNSU4iLCJpYXQiOjE2NDg1Nzk4OTYsImV4cCI6MTY0ODY2NjI5Nn0.3m6pEOmFqz19zSfEqt1IKHoB-pCYVEJ3OttY5KIjcHI",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:5000/api/test",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"test"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetByTestId",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJlbmlzZWpAZ21haWwuY29tIiwic3RhdHVzIjoiQURNSU4iLCJpYXQiOjE2NDg1Nzk4OTYsImV4cCI6MTY0ODY2NjI5Nn0.3m6pEOmFqz19zSfEqt1IKHoB-pCYVEJ3OttY5KIjcHI",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:5000/api/test/2",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"test",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Test",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJlbmlzZWpAZ21haWwuY29tIiwic3RhdHVzIjoiQURNSU4iLCJpYXQiOjE2NDg1Nzk4OTYsImV4cCI6MTY0ODY2NjI5Nn0.3m6pEOmFqz19zSfEqt1IKHoB-pCYVEJ3OttY5KIjcHI",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:5000/api/test/delete/3",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"test",
+						"delete",
+						"3"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

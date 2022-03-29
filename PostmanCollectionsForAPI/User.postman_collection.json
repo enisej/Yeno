@@ -1,0 +1,194 @@
+{
+	"info": {
+		"_postman_id": "11183829-244f-4975-aa0c-014b3589cc25",
+		"name": "User",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Delete user",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJlbmlzZWpAZ21haWwuY29tIiwic3RhdHVzIjoiQURNSU4iLCJpYXQiOjE2NDg1Nzg5MTUsImV4cCI6MTY0ODY2NTMxNX0.iZNTmbA0SN-X2wZyuZCVuezVWZCFJ1Y3DiWQaaCke5g",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:5000/api/user/delete/2",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"user",
+						"delete",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetById",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJlbmlzZWpAZ21haWwuY29tIiwic3RhdHVzIjoiQURNSU4iLCJpYXQiOjE2NDg1Nzg5MTUsImV4cCI6MTY0ODY2NTMxNX0.iZNTmbA0SN-X2wZyuZCVuezVWZCFJ1Y3DiWQaaCke5g",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:5000/api/user/1",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"user",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJlbmlzZWpAZ21haWwuY29tIiwic3RhdHVzIjoiQURNSU4iLCJpYXQiOjE2NDg1Nzg5MTUsImV4cCI6MTY0ODY2NTMxNX0.iZNTmbA0SN-X2wZyuZCVuezVWZCFJ1Y3DiWQaaCke5g",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\":\"vitjok\",\r\n    \"surname\":\"semjonich\",\r\n    \"email\":\"enisej1@gmail.com\",\r\n    \"password\":\"12345\",\r\n    \"birthDate\":\"2002-02-02 00:00:00\",\r\n    \"status\":\"USER\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:5000/api/user/update/2",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"user",
+						"update",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Auth",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJlbmlzZWpAZ21haWwuY29tIiwic3RhdHVzIjoiQURNSU4iLCJpYXQiOjE2NDg1Nzg4MTMsImV4cCI6MTY0ODY2NTIxM30.t5cUl-AO4xCV-gJvA9P6akYPxbTfg49oRQJTK0zwhdE",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:5000/api/user/auth",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"user",
+						"auth"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\r\n    \"email\":\"enisej@gmail.com\",\r\n    \"password\":\"12345\"\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:5000/api/user/login",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"user",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Registration",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\":\"evlampij\",\r\n    \"surname\":\"olegov\",\r\n    \"email\":\"enisej1@gmail.com\",\r\n    \"password\":\"12345\",\r\n    \"birthDate\":\"2002-02-02 00:00:00\",\r\n    \"status\":\"USER\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:5000/api/user/registration",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"user",
+						"registration"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
