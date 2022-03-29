@@ -17,8 +17,8 @@ class UserController {
     async registration(req, res, next) {
         try {
             const {name, surname, email, password, birthDate, status} = req.body
-            if (!email || !password) {
-                return next(ApiError.custom('Incorrect email or password'))
+            if (!email || !password || !name || !surname || !birthDate || !status  ) {
+                return next(ApiError.custom('Incorrect data'))
             }
             const candidate = await User.findOne({where: {email}})
             if (candidate) {
@@ -70,7 +70,8 @@ class UserController {
             if (!email || !password || !name || !surname || !birthDate || !status  ) {
                 return next(ApiError.custom('Empty fields!'))
             }
-            await User.update({name, surname, email, password, birthDate, status}, {
+            const hashPassword = await bcrypt.hash(password, 5)
+            await User.update({name, surname, email, password: hashPassword, birthDate, status}, {
                 where: {
                     id: req.params.id
                 }

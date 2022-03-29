@@ -17,7 +17,7 @@ const Vacancy = sequelize.define('vacancies', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true  },
     title: {type: DataTypes.STRING, allowNull: false },
     description: {type: DataTypes.STRING, allowNull: false },
-    status: {type: DataTypes.BOOLEAN, default: true},
+    status: {type: DataTypes.BOOLEAN, defaultValue: true},
     createdAt: {type: DataTypes.DATE, allowNull: false, default: Date.now()},
     updatedAt: {type: DataTypes.DATE, allowNull: false, default: Date.now()}
 })
@@ -52,6 +52,9 @@ const TheoryTestResult = sequelize.define('theoryTestResults', {
 
 const PracticeResult = sequelize.define('practiceResults', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true  },
+    link: {type: DataTypes.STRING, allowNull: false, unique: true },
+    RecievedPoint: {type: DataTypes.INTEGER, allowNull: true }
+
 }, {
     timestamps: false
 })

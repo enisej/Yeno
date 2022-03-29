@@ -4,8 +4,9 @@ const PracticeResultController = require('../controllers/practiceResultControlle
 const checkRole = require('../middleware/checkRoleMiddleware.js')
 
 router.post('/create' ,checkRole('USER'), PracticeResultController.create)
-router.delete('/delete',checkRole('ADMIN'), PracticeResultController.delete)
+router.delete('/delete/:id',checkRole('ADMIN'), PracticeResultController.delete)
 router.get('/userid/',checkRole('USER') , PracticeResultController.getByUserId)
 router.get('/testid/',checkRole('ADMIN') , PracticeResultController.getByTestId)
+router.patch('/feedback/:id', checkRole('ADMIN'),PracticeResultController.SendFeetback)
 
 module.exports = router

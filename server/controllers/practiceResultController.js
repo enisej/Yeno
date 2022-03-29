@@ -5,8 +5,8 @@ class PracticeResultController{
 
     async create(req, res, next ){
         try {
-            const {userId, theoryTestId} = req.body
-            await PracticeResult.create({userId, theoryTestId});
+            const {userId, practiceExerciseId, link} = req.body
+            await PracticeResult.create({userId, practiceExerciseId, link});
             res.json({
                 "message": "Result created"
             });
@@ -29,6 +29,24 @@ class PracticeResultController{
         } catch {
             return next(ApiError.internal())
         }
+    }
+
+    async SendFeetback(req, res, next){
+        try{
+            const {recievedPoint} = req.body
+            await PracticeResult.update({recievedPoint}, {
+                where: {
+                    id: req.params.id
+                }
+            });
+            res.json({
+                "message": "Points recieved"
+            });
+
+        }catch {
+            return next(ApiError.internal())
+        }
+
     }
 
     async getByUserId(req, res, next){
