@@ -65,7 +65,11 @@ class UserController {
 
     async update(req, res, next) {
         try {
+
             const {name, surname, email, password, birthDate, status} = req.body
+            if (!email || !password || !name || !surname || !birthDate || !status  ) {
+                return next(ApiError.custom('Empty fields!'))
+            }
             await User.update({name, surname, email, password, birthDate, status}, {
                 where: {
                     id: req.params.id
@@ -95,6 +99,38 @@ class UserController {
             return next(ApiError.internal())
         }
 
+    }
+
+    async getAll(req, res, next){
+        try {
+            const vacancies = await User.findAll()
+            return res.json(vacancies)
+        } catch {
+            return next(ApiError.internal())
+        }
+    }
+
+    async getById(req, res, next){
+        try {
+            const data = await User.findAll({
+                where: {
+                    id: req.params.id
+                }
+
+            });
+
+            if (data.length === 0)
+            {
+                return next(ApiError.badRequest())
+            }else
+            {
+                res.json(data[0]);
+            }
+
+        } catch {
+
+            return ApiError.internal()
+        }
     }
 
 }
