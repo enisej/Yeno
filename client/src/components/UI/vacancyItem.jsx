@@ -11,13 +11,11 @@ const VacancyItem = () => {
     return (
         <div >
             <Container className="p-5">
-
             <Card >
-
                 <Card.Body >
                     <Row className="justify-content-md-center">
                     <Col sm>
-                        <Card.Title className="fs-1 mb-5">{value} </Card.Title>
+                        <Card.Title className="fs-1 mb-5">{value}</Card.Title>
                         <Card.Text > <Image src={icon} alt="clock"/> {value}</Card.Text>
                     </Col>
 
