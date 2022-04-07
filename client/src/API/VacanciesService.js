@@ -1,7 +1,21 @@
-import {$host} from "./index.js";
+import React from 'react';
+import axios from "axios";
 
-export const fetchVacancies = async () => {
+const VacanciesService = () => {
 
-    const {data} = await $host.get('api/vacancies')
-    return data
-}
+
+
+
+
+
+    return (
+
+        <div>
+
+
+
+        </div>
+    );
+};
+
+export default VacanciesService;

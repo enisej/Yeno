@@ -4,10 +4,7 @@ import icon from "bootstrap-icons/icons/clock.svg"
 
 
 
-
-
 const VacancyItem = () => {
-
 
 
     return (
