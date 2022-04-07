@@ -1,15 +1,12 @@
-import Navigation from './components/UI/navigation.jsx'
-import Vacancies from "./pages/vacancies";
-
-
-
+import React from "react";
+import {BrowserRouter} from "react-router-dom";
+import AppRouter from "./components/AppRouter";
 
 function App() {
   return (
-    <div className="App">
-      <Navigation/>
-       <Vacancies/>
-    </div>
+    <BrowserRouter>
+        <AppRouter/>
+    </BrowserRouter>
   );
 }
 
