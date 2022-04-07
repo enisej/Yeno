@@ -15,5 +15,5 @@ export default class UserStore{
         this._user = user
     }
 
-    
+
 }
