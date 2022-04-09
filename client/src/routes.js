@@ -6,6 +6,7 @@ import TestResponses from "./pages/Tests/testResponses";
 import PracticeResponses from "./pages/Tests/practiceResponses";
 import Auth from "./pages/authorization/Auth";
 import Register from "./pages/authorization/register";
+
 import {
     HOME_ROUTE, LOGIN_ROUTE,
     PRACTICE_RESPONSE_ROUTE,
@@ -14,6 +15,7 @@ import {
     TEST_ROUTE,
     VACANCIES_ROUTE
 } from "./utils/consts";
+
 
 export const authRoutes = [
     {
@@ -43,6 +45,7 @@ export const authRoutes = [
 
 
 
+
 ]
 
 
@@ -52,8 +55,9 @@ export const publicRoutes = [
         path: HOME_ROUTE,
         Component: Home
     },
+
     {
-        path: VACANCIES_ROUTE ,
+        path: VACANCIES_ROUTE,
         Component: Vacancies
     },
     {
