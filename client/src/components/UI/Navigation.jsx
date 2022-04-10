@@ -3,10 +3,12 @@ import {Context} from "../../index";
 import {Image, Nav, Navbar, Button} from "react-bootstrap";
 import logo from "../../images/racoon.png";
 import {observer} from "mobx-react-lite";
-
+import {HOME_ROUTE, PROFILE_ROUTE, REGISTER_ROUTE, VACANCIES_ROUTE} from "../../utils/consts";
+import {useHistory} from "react-router-dom"
 
 const Navigation = observer(() => {
 
+    const history = useHistory()
     const {user} = useContext(Context)
     return (
         <Navbar bg="dark" expand="lg" variant="dark">
@@ -15,9 +17,9 @@ const Navigation = observer(() => {
                     {user.isAuth ?
 
                         <Nav className="me-auto">
-                            <Button className={"nav-link"} variant={"outline-dark"} >Sākums</Button>
-                            <Button className={"nav-link"} variant={"outline-dark"} >Vakances</Button>
-                            <Button className={"nav-link"} variant={"outline-dark"} >Profils</Button>
+                            <Button className={"nav-link"} variant={"outline-dark"} onClick={() => history.push(HOME_ROUTE)} >Sākums</Button>
+                            <Button className={"nav-link"} variant={"outline-dark"} onClick={() =>history.push(VACANCIES_ROUTE)}>Vakances</Button>
+                            <Button className={"nav-link"} variant={"outline-dark"} onClick={() =>history.push(PROFILE_ROUTE)} >Profils</Button>
                             <Button className={"nav-link"} variant={"outline-dark"} onClick={() => user.setIsAuth(false)} >Iziet</Button>
 
                         </Nav>
@@ -25,9 +27,9 @@ const Navigation = observer(() => {
                         :
 
                         <Nav className="me-auto">
-                            <Button className={"nav-link"} variant={"outline-dark"}>Sākums</Button>
-                            <Button className={"nav-link"} variant={"outline-dark"}>Vakances</Button>
-                            <Button className={"nav-link"} variant={"outline-dark"}>Reģistrēties</Button>
+                            <Button className={"nav-link"} variant={"outline-dark"} onClick={() =>history.push(HOME_ROUTE)}>Sākums</Button>
+                            <Button className={"nav-link"} variant={"outline-dark"} onClick={() =>history.push(VACANCIES_ROUTE)}>Vakances</Button>
+                            <Button className={"nav-link"} variant={"outline-dark"} onClick={() =>history.push(REGISTER_ROUTE)} >Reģistrēties</Button>
                             <Button className={"nav-link"} variant={"outline-dark"} onClick={() => user.setIsAuth(true)}>Pieslegties</Button>
                         </Nav>
 

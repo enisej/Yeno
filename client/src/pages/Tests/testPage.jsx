@@ -1,9 +1,10 @@
 import React from 'react';
+import TestItem from "../../components/Items/TestItem";
 
 const TestPage = () => {
     return (
         <div>
-            TestPage
+            <TestItem/>
         </div>
     );
 };

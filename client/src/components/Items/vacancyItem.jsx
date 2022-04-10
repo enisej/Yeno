@@ -4,7 +4,7 @@ import {Context} from "../../index";
 import {Card, Col, Container, Image, Row, Button} from "react-bootstrap";
 import icon from "bootstrap-icons/icons/clock-fill.svg";
 import VacancyModalItem from "./vacancyModalItem";
-
+import {TEST_ROUTE} from "../../utils/consts";
 
 
 
@@ -20,7 +20,7 @@ const VacancyItem = observer(() => {
     return (
         <Container  >
             {vacancies.vacancies.map(vacancy =>
-            <Card  className="mt-5" key={vacancy.id} >
+            <Card  className="mt-5 shadow" key={vacancy.id} >
 
                 <Card.Body  >
                     <Row className="justify-content-md-center">
@@ -29,19 +29,27 @@ const VacancyItem = observer(() => {
                                     <Card.Text > <Image src={icon} alt="clock"/> {vacancy.createdAt}</Card.Text>
 
                         </Col>
-                        <Col className="col-sm-2 d-flex mt-3 mb-3 me-3">
-                        <Button variant="dark" className="align-self-center shadow"
+                        <Col className="col-lg-3 d-flex mt-3 mb-3 me-lg-5">
+                        <Button variant="outline-dark" className="align-self-center shadow m-1"
                                 onClick={() => {
+
                                     setVacancy(vacancy)
                                     setShow(true);
                                 } } >Apskatīt</Button>
-
+                            <Button
+                                variant="outline-success"
+                                className="align-self-center shadow m-1"
+                                href = {TEST_ROUTE + '/' + vacancy.theoryTestId}
+                            >
+                                Pieteikties
+                            </Button>
                         </Col>
                     </Row>
                 </Card.Body>
             </Card>
            )}
             <VacancyModalItem
+
                 icon = {icon}
                 vacancy={vacancy}
                 show={show}

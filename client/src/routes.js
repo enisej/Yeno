@@ -10,11 +10,12 @@ import Register from "./pages/authorization/register";
 import {
     HOME_ROUTE, LOGIN_ROUTE,
     PRACTICE_RESPONSE_ROUTE,
-    PRACTICE_ROUTE, REGISTER_ROUTE,
+    PRACTICE_ROUTE, PROFILE_ROUTE, REGISTER_ROUTE,
     TEST_RESPONSE_ROUTE,
     TEST_ROUTE,
     VACANCIES_ROUTE
 } from "./utils/consts";
+import Profile from "./pages/authorization/profile";
 
 
 export const authRoutes = [
@@ -41,6 +42,11 @@ export const authRoutes = [
     {
         path: PRACTICE_RESPONSE_ROUTE,
         Component: PracticeResponses
+    },
+    {
+      path: PROFILE_ROUTE,
+        Component: Profile
+
     },
 
 
