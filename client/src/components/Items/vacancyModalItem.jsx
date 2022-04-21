@@ -1,20 +1,19 @@
 import React from 'react';
 import {Modal, ListGroup, Image} from "react-bootstrap";
 import infoIcon from "bootstrap-icons/icons/info-square.svg"
+import {observer} from "mobx-react-lite";
 
 
 
 
-const VacancyModalItem =  (props) => {
-
-
-
+const VacancyModalItem = observer ((props) => {
 
     return (
         <Modal show={props.show}
                size="lg"
                aria-labelledby="contained-modal-title-vcenter"
-               centered >
+               centered
+        >
             <Modal.Header closeButton
                           onClick={props.close}
                           className="p-4" >
@@ -55,6 +54,6 @@ const VacancyModalItem =  (props) => {
 
         </Modal>
     );
-};
+});
 
 export default VacancyModalItem;

@@ -5,7 +5,7 @@ import {Card, Col, Container, Image, Row, Button} from "react-bootstrap";
 import icon from "bootstrap-icons/icons/clock-fill.svg";
 import VacancyModalItem from "./vacancyModalItem";
 import {TEST_ROUTE} from "../../utils/consts";
-
+import {useHistory} from "react-router-dom";
 
 
 
@@ -15,7 +15,7 @@ const VacancyItem = observer(() => {
 
     const [show, setShow] = useState(false);
     const [vacancy, setVacancy] = useState('');
-
+    const history = useHistory();
 
     return (
         <Container  >
@@ -39,7 +39,7 @@ const VacancyItem = observer(() => {
                             <Button
                                 variant="outline-success"
                                 className="align-self-center shadow m-1"
-                                href = {TEST_ROUTE + '/' + vacancy.theoryTestId}
+                                onClick={e => {history.push(TEST_ROUTE + '/' + vacancy.id)}}
                             >
                                 Pieteikties
                             </Button>

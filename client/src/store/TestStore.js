@@ -4,7 +4,6 @@ export default class testStore {
     constructor() {
         this._theoryTest = [
 
-
         ]
         makeAutoObservable(this)
     }

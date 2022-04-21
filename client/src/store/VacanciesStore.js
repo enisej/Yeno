@@ -69,7 +69,7 @@ export default class VacanciesStore {
                 theoryTestId: 2,
             },
             {
-                id: 2,
+                id: 3,
                 title: "PHP programmer",
                 description: "need developer , very good proffesional developer",
                 qualifications:"2+ years’ experience as IT Business Analyst or Systems analyst.\n" +
@@ -99,7 +99,7 @@ export default class VacanciesStore {
                 theoryTestId: 2,
             },
             {
-                id: 2,
+                id: 4,
                 title: "PHP programmer",
                 description: "need developer , very good proffesional developer",
                 qualifications:"2+ years’ experience as IT Business Analyst or Systems analyst.\n" +
@@ -129,7 +129,7 @@ export default class VacanciesStore {
                 theoryTestId: 2,
             },
             {
-                id: 2,
+                id: 5,
                 title: "PHP programmer",
                 description: "need developer , very good proffesional developer",
                 qualifications:"2+ years’ experience as IT Business Analyst or Systems analyst.\n" +
@@ -159,7 +159,7 @@ export default class VacanciesStore {
                 theoryTestId: 2,
             },
             {
-                id: 2,
+                id: 6,
                 title: "PHP programmer",
                 description: "need developer , very good proffesional developer",
                 qualifications:"2+ years’ experience as IT Business Analyst or Systems analyst.\n" +
