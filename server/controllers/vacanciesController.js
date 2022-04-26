@@ -5,8 +5,8 @@ const ApiError = require('../error/ApiError.js')
 class VacancyController {
     async create(req, res, next) {
         try {
-            const {title, description, theoryTestId, practiceExerciseId, status} = req.body
-            await Vacancy.create({title, description, theoryTestId, practiceExerciseId, status})
+            const {title, description, theoryTestId, practiceExerciseId, status, qualifications, offer} = req.body
+            await Vacancy.create({title, description, theoryTestId, practiceExerciseId, status, offer, qualifications})
             res.json({
                 "message": "Vacancy Created"
             });

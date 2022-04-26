@@ -6,7 +6,7 @@ class ApiError extends Error{
     }
 
     static badRequest(message) {
-        return new ApiError(404, message ='404 Page not found!')
+        return new ApiError(404, message ='404 Page not found.')
     }
 
     static internal(message) {

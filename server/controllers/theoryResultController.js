@@ -5,8 +5,8 @@ class TheoryResultController {
 
     async create(req, res, next) {
         try {
-            const {userId, theoryTestId} = req.body
-            await TheoryTestResult.create({userId, theoryTestId});
+            const {theoryTestId, response_link} = req.body
+            await TheoryTestResult.create({ theoryTestId ,response_link});
             res.json({
                 "message": "Result created"
             });
@@ -14,6 +14,7 @@ class TheoryResultController {
             return next(ApiError.internal())
         }
     }
+
 
     async delete(req, res, next) {
         try {
@@ -30,31 +31,13 @@ class TheoryResultController {
         }
     }
 
-    async getByUserId(req, res, next) {
-
-        try {
-
-            let {userId} = req.query
-            let result = await TheoryTestResult.findAll({
-                where: {userId},
-                include: [{model:TheoryTest, attributes: ['title', 'link']}]
-            })
-            return res.json(result)
-
-        } catch {
-
-            return next(ApiError.internal())
-        }
-
-    }
-
     async getByTestId(req, res, next) {
 
         try {
             let {theoryTestId} = req.query
             let result = await TheoryTestResult.findAll({
                 where: {theoryTestId},
-                include: [{model:TheoryTest, attributes: ['title', 'link']}]})
+                include: [{model:TheoryTest, attributes: ['title']}]})
             return res.json(result)
 
         } catch {

@@ -5,14 +5,13 @@ import Navigation from "./components/UI/Navigation";
 import {observer} from "mobx-react-lite";
 import {Context} from "./index";
 import {check} from "./http/userAPI";
-import {Container, Spinner} from "react-bootstrap";
+import {Container, Spinner, Col, Row} from "react-bootstrap";
 
 const App = observer(() => {
     const {user} = useContext(Context)
     const [loading, setLoading] = useState(true)
 
     useEffect(()=>{
-
             check().then(data =>{
                 user.setUser(true)
                 user.setIsAuth(true)
@@ -20,18 +19,26 @@ const App = observer(() => {
 
 
 
-    },[])
-    
+    },[user])
+
     if(loading){
-        return <Container className="d-flex justify-content-center mt-xxl-5">
-            <Spinner className="p-xxl-5" animation="border">
+        return <Container className="mt-xxl-5">
+            <Row className=" justify-content-md-center">
+                <Col md="auto">
+                    <Spinner className="p-lg-5" variant="success" animation="border"> </Spinner>
+                </Col>
+            </Row>
+            <Row className="justify-content-md-center ">
+                <Col md="auto" >
+                    <h1>Notiek ielāde </h1>
 
-            </Spinner>
+                </Col>
 
+            </Row>
 
         </Container>
 
-    }
+    };
 
   return (
     <BrowserRouter>

@@ -1,21 +1,22 @@
-import React, {useContext, useState} from 'react';
-import {observer} from "mobx-react-lite";
-import {Context} from "../../index";
+import React, {useState} from 'react';
 import {Card, Col, Container, Image, Row, Button} from "react-bootstrap";
 import icon from "bootstrap-icons/icons/clock-fill.svg";
 import VacancyModalItem from "./vacancyModalItem";
-import {TEST_ROUTE} from "../../utils/consts";
+import { TEST_ROUTE} from "../../utils/consts";
 import {useHistory} from "react-router-dom";
 
 
 
 
-const VacancyItem = observer(() => {
-    const {vacancies} = useContext(Context)
+
+const VacancyItem = ({vacancies}) => {
+
 
     const [show, setShow] = useState(false);
     const [vacancy, setVacancy] = useState('');
     const history = useHistory();
+
+
 
     return (
         <Container  >
@@ -56,6 +57,6 @@ const VacancyItem = observer(() => {
                 close={() => setShow (false)}/>
         </Container>
     );
-});
+};
 
 export default VacancyItem;

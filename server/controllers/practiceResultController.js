@@ -5,8 +5,8 @@ class PracticeResultController{
 
     async create(req, res, next ){
         try {
-            const {userId, practiceExerciseId, link} = req.body
-            await PracticeResult.create({userId, practiceExerciseId, link});
+            const {userId, practiceExerciseId, response_link, description} = req.body
+            await PracticeResult.create({userId, practiceExerciseId, response_link, description});
             res.json({
                 "message": "Result created"
             });
@@ -40,7 +40,7 @@ class PracticeResultController{
                 }
             });
             res.json({
-                "message": "Points recieved"
+                "message": "Points sent"
             });
 
         }catch {

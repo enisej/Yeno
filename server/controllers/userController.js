@@ -3,9 +3,9 @@ const {User} = require('../models/models')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 
-const generateJwt = (id, email, status) => {
+const generateJwt = (id, email, status, name, surname, birthDate, tel_number) => {
     return jwt.sign(
-        {id, email, status},
+        {id, email, status, name, surname, birthDate, tel_number},
         process.env.SECRET_KEY,
         {expiresIn: '24h'}
     )
@@ -13,11 +13,10 @@ const generateJwt = (id, email, status) => {
 
 
 class UserController {
-
     async registration(req, res, next) {
         try {
-            const {name, surname, email, password, birthDate, status} = req.body
-            if (!email || !password || !name || !surname || !birthDate || !status  ) {
+            const {name, surname, email, password, birthDate, status, tel_number} = req.body
+            if (!email || !password || !name || !surname || !birthDate || !tel_number ) {
                 return next(ApiError.custom('Incorrect data'))
             }
             const candidate = await User.findOne({where: {email}})
@@ -25,8 +24,8 @@ class UserController {
                 return next(ApiError.custom('User with this email already exists'))
             }
             const hashPassword = await bcrypt.hash(password, 5)
-            const user = await User.create({name, surname, email, birthDate, status, password: hashPassword})
-            const token = generateJwt(user.id, user.email, user.status, user.name, user.surname, user.birthDate)
+            const user = await User.create({name, surname, email, birthDate, status, tel_number, password: hashPassword})
+            const token = generateJwt(user.id, user.email, user.status, user.name, user.surname, user.birthDate ,user.tel_number)
             return res.json({token})
         } catch {
             return next(ApiError.internal())
@@ -46,7 +45,7 @@ class UserController {
         if (!comparePassword) {
             return next(ApiError.custom('Wrong password'))
         }
-        const token = generateJwt(user.id, user.email, user.status, user.name, user.surname, user.birthDate)
+        const token = generateJwt(user.id, user.email, user.status, user.name, user.surname, user.birthDate, user.tel_number)
         return res.json({token})
         }catch {
             next(ApiError.internal())
@@ -55,7 +54,7 @@ class UserController {
 
     async check(req, res, next) {
         try {
-            const token = generateJwt(req.user.id, req.user.email, req.user.status, req.user.name, req.user.surname, req.user.birthDate)
+            const token = generateJwt(req.user.id, req.user.email, req.user.status, req.user.name, req.user.surname, req.user.birthDate, req.user.tel_number)
             return res.json({token})
         } catch {
             return next(ApiError.internal())
@@ -66,12 +65,12 @@ class UserController {
     async update(req, res, next) {
         try {
 
-            const {name, surname, email, password, birthDate, status} = req.body
-            if (!email || !password || !name || !surname || !birthDate || !status  ) {
+            const {name, surname, email, password, birthDate, status, tel_number} = req.body
+            if (!email || !password || !name || !surname || !birthDate || !status || !tel_number ) {
                 return next(ApiError.custom('Empty fields!'))
             }
             const hashPassword = await bcrypt.hash(password, 5)
-            await User.update({name, surname, email, password: hashPassword, birthDate, status}, {
+            await User.update({name, surname, email, password: hashPassword, birthDate, status, tel_number}, {
                 where: {
                     id: req.params.id
                 }

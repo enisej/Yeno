@@ -10,11 +10,13 @@ const Register = observer(() => {
     const [name, setName] = useState('')
     const [surname, setSurname] = useState('')
     const [birthDate, setBirthDate] = useState('')
+    const [tel_number, setTelNumber] = useState('')
 
 
 
     const signup = async () => {
-        const data = await registration(email, password, name, surname, birthDate)
+        const data = await registration(email, password, name, surname, birthDate, tel_number)
+
         if(data){
             window.location.href=LOGIN_ROUTE;
         }
@@ -69,6 +71,17 @@ const Register = observer(() => {
                                     />
 
                             </Form.Group>
+
+                        <Form.Group controlId="formBasicTel_number" >
+                            <Form.Label>Telefona numurs</Form.Label>
+                            <Form.Control
+                                type="TelNumber"
+                                placeholder="+371 272 29 293"
+                                value={tel_number}
+                                onChange={e => setTelNumber(e.target.value)}
+                            />
+
+                        </Form.Group>
 
                             <Form.Group controlId="formBasicPassword">
                                 <Form.Label>Parole</Form.Label>
