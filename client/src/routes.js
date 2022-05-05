@@ -13,9 +13,12 @@ import {
     PRACTICE_ROUTE, PROFILE_ROUTE, REGISTER_ROUTE,
     TEST_RESPONSE_ROUTE,
     TEST_ROUTE,
-    VACANCIES_ROUTE
+    ALL_TEST_ROUTE,
+    VACANCIES_ROUTE, USER_RESPONSES_ROUTE
 } from "./utils/consts";
 import Profile from "./pages/authorization/profile";
+import VacancyTestPage from "./pages/Tests/VacancyTestPage";
+import UserResponses from "./pages/Tests/userResponses";
 
 
 export const authRoutes = [
@@ -26,6 +29,10 @@ export const authRoutes = [
     {
         path: VACANCIES_ROUTE ,
         Component: Vacancies
+    },
+    {
+        path: ALL_TEST_ROUTE + '/:theoryTestId/:practiceExerciseId',
+        Component: VacancyTestPage
     },
     {
         path: PRACTICE_ROUTE + '/:id',
@@ -42,6 +49,10 @@ export const authRoutes = [
     {
         path: PRACTICE_RESPONSE_ROUTE,
         Component: PracticeResponses
+    },
+    {
+        path: USER_RESPONSES_ROUTE,
+        Component: UserResponses
     },
     {
       path: PROFILE_ROUTE,

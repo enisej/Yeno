@@ -5,8 +5,8 @@ class PracticeTestController{
 
     async create(req, res, next){
         try {
-            const {title, link, description, activeFrom, activeTo} = req.body
-            await PracticeExercise.create({title, link, description, activeFrom, activeTo});
+            const {title, link, description} = req.body
+            await PracticeExercise.create({title, link, description});
             res.json({
                 "message": "Practice created"
             });

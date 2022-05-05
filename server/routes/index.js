@@ -6,6 +6,7 @@ const theoryTestRouter = require('./theoryTestRouter.js')
 const theoryResultRouter = require('./TheoryResultRouter.js')
 const practiceRouter = require('./PracticeTestRouter.js')
 const practiceResultRouter = require('./practiceResultRouter.js')
+const requestedVacanciesRouter = require('./requestedVacanciesRouter.js')
 
 
 router.use('/user', userRouter)
@@ -14,5 +15,6 @@ router.use('/test', theoryTestRouter)
 router.use('/practice', practiceRouter )
 router.use('/test_results', theoryResultRouter)
 router.use('/practice_results', practiceResultRouter)
+router.use('/requested_vacancies', requestedVacanciesRouter)
 
 module.exports = router

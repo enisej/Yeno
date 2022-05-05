@@ -5,8 +5,8 @@ class TheoryResultController {
 
     async create(req, res, next) {
         try {
-            const {theoryTestId, response_link} = req.body
-            await TheoryTestResult.create({ theoryTestId ,response_link});
+            const {theoryTestId, userId} = req.body
+            await TheoryTestResult.create({ theoryTestId, userId });
             res.json({
                 "message": "Result created"
             });

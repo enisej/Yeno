@@ -4,36 +4,15 @@ import {observer} from "mobx-react-lite";
 //import {useParams} from "react-router-dom"
 
 
-const TestItem = observer(() => {
-
-
-
-    const test = {
-        id: 1,
-        title: "Python easy test",
-        link: "https://docs.google.com/forms/d/e/1FAIpQLScfo7T5IE7fRe0ht5LqJdZ0OYgwx58vCnFVfDN9OaVFCLaCVQ/viewform?usp=sf_link",
-        description: "Easy test",
-        activeFrom: "2022-03-02T22:00:00.000Z",
-        activeTo: "2022-05-04T21:00:00.000Z"
-    }
-
-    //let {id} = useParams()
-
+const TestItem = observer(({tests}) => {
         document.body.style.overflow = "hidden"
-
-
-
-
     return (
             <iframe
-                title={test.id}
-                src={test.link}
+                title={tests.tests.link}
+                src={tests.tests.link}
                 frameBorder="0"
                 width="100%"
                 height={window.innerHeight}
-
-
-
             />
 
     );

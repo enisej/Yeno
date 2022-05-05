@@ -1,4 +1,4 @@
-const {Vacancy, TheoryTest, PracticeExercise} = require('../models/models.js')
+const {Vacancy} = require('../models/models.js')
 const ApiError = require('../error/ApiError.js')
 
 
@@ -23,10 +23,6 @@ class VacancyController {
             let offset = page * limit - limit
 
             const vacancies = await Vacancy.findAndCountAll({limit, offset,
-                include: [{model:PracticeExercise, attributes: ['title' , 'link']},
-                          {model:TheoryTest, attributes: ['title' , 'link']
-                    }],
-
             })
             return res.json(vacancies)
         } catch {
@@ -34,28 +30,24 @@ class VacancyController {
         }
     }
 
-    async getById(req, res, next){
+    async getAllActive(req, res, next) {
         try {
-            const vacancy = await Vacancy.findAll({
+            let {limit, page} = req.query
+            page = page || 1
+            limit = limit || 9
+            let offset = page * limit - limit
+
+            const vacancies = await Vacancy.findAndCountAll({limit, offset,
                 where: {
-                    id: req.params.id
-                },
-                include: [TheoryTest, PracticeExercise]
-            });
-
-            if (vacancy.length === 0)
-            {
-                return next(ApiError.badRequest())
-            }else
-            {
-                res.json(vacancy[0]);
-            }
-
+                status: true
+                }
+            })
+            return res.json(vacancies)
         } catch {
-
-            return ApiError.internal()
+            return next(ApiError.internal())
         }
     }
+
 
     async delete(req, res, next){
         try {

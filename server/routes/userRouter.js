@@ -11,6 +11,6 @@ router.get('/auth', authMiddleware ,userController.check)
 router.patch('/update/:id',checkRole('USER'), userController.update)
 router.delete('/delete/:id',checkRole('USER'), userController.delete)
 router.get('/', checkRole('ADMIN') ,userController.getAll)
-router.get('/:id', checkRole('ADMIN') ,userController.getById)
+router.get('/:id', checkRole('USER') ,userController.getById)
 
 module.exports = router

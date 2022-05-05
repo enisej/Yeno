@@ -6,6 +6,7 @@ import {observer} from "mobx-react-lite";
 import {Context} from "./index";
 import {check} from "./http/userAPI";
 import {Container, Spinner, Col, Row} from "react-bootstrap";
+import Footer from "./components/UI/footer";
 
 const App = observer(() => {
     const {user} = useContext(Context)
@@ -25,7 +26,7 @@ const App = observer(() => {
         return <Container className="mt-xxl-5">
             <Row className=" justify-content-md-center">
                 <Col md="auto">
-                    <Spinner className="p-lg-5" variant="success" animation="border"> </Spinner>
+                    <Spinner className="p-lg-5" variant="dark" animation="border"> </Spinner>
                 </Col>
             </Row>
             <Row className="justify-content-md-center ">
@@ -44,6 +45,7 @@ const App = observer(() => {
     <BrowserRouter>
         <Navigation/>
         <AppRouter/>
+        <Footer/>
     </BrowserRouter>
   );
 });

@@ -2,7 +2,7 @@ import React, { useState} from 'react';
 import {Button, Col, Container, Form, Row} from "react-bootstrap";
 import {registration} from "../../http/userAPI";
 import {observer} from "mobx-react-lite";
-import {LOGIN_ROUTE} from "../../utils/consts";
+import {PROFILE_ROUTE} from "../../utils/consts";
 
 const Register = observer(() => {
     const [email, setEmail] = useState('')
@@ -11,24 +11,26 @@ const Register = observer(() => {
     const [surname, setSurname] = useState('')
     const [birthDate, setBirthDate] = useState('')
     const [tel_number, setTelNumber] = useState('')
+    const [cv, setCv] = useState('')
+    const [githubLink, setGithubLink] = useState('')
 
 
 
     const signup = async () => {
-        const data = await registration(email, password, name, surname, birthDate, tel_number)
+        const data = await registration(email, password, name, surname, birthDate, tel_number, cv, githubLink)
 
         if(data){
-            window.location.href=LOGIN_ROUTE;
+            window.location.href=PROFILE_ROUTE;
         }
 
     }
 
     return (
-            <Container className="mt-1" >
+            <Container className="mt-2" >
 
-                <Row className="mt-1">
-                    <Col lg={5} md={10} sm={12} className="p-5 m-auto shadow-sm rounded-lg">
-                        <h1 className=" text-center ">Reģistrācija</h1>
+                <Row className="mt-2">
+                    <Col lg={5} md={10} sm={12} className="p-3 m-auto shadow rounded-lg ">
+                        <h4 className=" text-center ">Reģistrācija</h4>
                             <Form.Group controlId="formFirstname" >
                                 <Form.Label>Vārds</Form.Label>
                                 <Form.Control
@@ -83,6 +85,28 @@ const Register = observer(() => {
 
                         </Form.Group>
 
+                        <Form.Group controlId="formBasicCvLink" >
+                            <Form.Label>Links uz CV</Form.Label>
+                            <Form.Control
+                                type="link"
+                                placeholder="www.linked.id"
+                                value={cv}
+                                onChange={e => setCv(e.target.value)}
+                            />
+
+                        </Form.Group>
+
+                            <Form.Group controlId="formBasicLink" >
+                                <Form.Label>Github</Form.Label>
+                                <Form.Control
+                                    type="link"
+                                    placeholder="www.github.com/user"
+                                    value={githubLink}
+                                    onChange={e => setGithubLink(e.target.value)}
+                                />
+
+                        </Form.Group>
+
                             <Form.Group controlId="formBasicPassword">
                                 <Form.Label>Parole</Form.Label>
                                 <Form.Control
@@ -93,6 +117,7 @@ const Register = observer(() => {
                                     />
 
                             </Form.Group>
+
 
                             <Form.Group controlId="formRepeatPassword">
                                 <Form.Label>Atkartojiet paroli</Form.Label>

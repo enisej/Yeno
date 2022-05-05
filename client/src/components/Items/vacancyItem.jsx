@@ -2,14 +2,16 @@ import React, {useState} from 'react';
 import {Card, Col, Container, Image, Row, Button} from "react-bootstrap";
 import icon from "bootstrap-icons/icons/clock-fill.svg";
 import VacancyModalItem from "./vacancyModalItem";
-import { TEST_ROUTE} from "../../utils/consts";
+import {ALL_TEST_ROUTE} from "../../utils/consts";
 import {useHistory} from "react-router-dom";
+import {observer} from "mobx-react-lite";
+import {format, parseISO} from "date-fns";
 
 
 
 
 
-const VacancyItem = ({vacancies}) => {
+const VacancyItem = observer( ({vacancies}) => {
 
 
     const [show, setShow] = useState(false);
@@ -17,17 +19,17 @@ const VacancyItem = ({vacancies}) => {
     const history = useHistory();
 
 
-
     return (
         <Container  >
             {vacancies.vacancies.map(vacancy =>
+
             <Card  className="mt-5 shadow" key={vacancy.id} >
 
                 <Card.Body  >
                     <Row className="justify-content-md-center">
                         <Col sm>
                                     <Card.Title  className="fs-1 mb-5 " >{vacancy.title} </Card.Title>
-                                    <Card.Text > <Image src={icon} alt="clock"/> {vacancy.createdAt}</Card.Text>
+                                    <Card.Text > <Image src={icon} alt="clock"/> {format(parseISO(vacancy.createdAt), 'yyyy/MM/dd')}</Card.Text>
 
                         </Col>
                         <Col className="col-lg-3 d-flex mt-3 mb-3 me-lg-5">
@@ -40,7 +42,7 @@ const VacancyItem = ({vacancies}) => {
                             <Button
                                 variant="outline-success"
                                 className="align-self-center shadow m-1"
-                                onClick={e => {history.push(TEST_ROUTE + '/' + vacancy.id)}}
+                                onClick={e => {history.push(ALL_TEST_ROUTE + '/' + vacancy.theoryTestId + '/' + vacancy.practiceExerciseId)}}
                             >
                                 Pieteikties
                             </Button>
@@ -57,6 +59,6 @@ const VacancyItem = ({vacancies}) => {
                 close={() => setShow (false)}/>
         </Container>
     );
-};
+});
 
 export default VacancyItem;

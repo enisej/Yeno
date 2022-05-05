@@ -5,8 +5,8 @@ class PracticeResultController{
 
     async create(req, res, next ){
         try {
-            const {userId, practiceExerciseId, response_link, description} = req.body
-            await PracticeResult.create({userId, practiceExerciseId, response_link, description});
+            const {userId, practiceExerciseId, responseLink, responseDescription, timeSpent} = req.body
+            await PracticeResult.create({userId, practiceExerciseId, responseLink, responseDescription, timeSpent});
             res.json({
                 "message": "Result created"
             });

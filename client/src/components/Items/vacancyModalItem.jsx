@@ -8,6 +8,8 @@ import {observer} from "mobx-react-lite";
 
 const VacancyModalItem = observer ((props) => {
 
+
+
     return (
         <Modal show={props.show}
                size="lg"
