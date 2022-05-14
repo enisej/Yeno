@@ -1,14 +1,14 @@
 import {$authHost, $host} from "./index";
 
 
-export const fetchVacancies = async () => {
-    const {data} = await $host.get('api/vacancies')
+export const fetchVacancies = async (page, limit) => {
+    const {data} = await $host.get('api/vacancies', { params: {page, limit }})
     return data
 
 }
 
-export const createVacancy = async (vacancy) => {
-    const {data} = await $authHost.post('api/vacancies/create', vacancy)
+export const createVacancy = async (title, description, qualifications, offer, theoryTestId, practiceTestId) => {
+    const {data} = await $authHost.post('api/vacancies/create', {title, description, qualifications, offer, theoryTestId, practiceTestId})
     return data
 }
 

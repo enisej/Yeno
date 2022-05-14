@@ -4,6 +4,9 @@ import VacancyItem from "../components/Items/vacancyItem";
 import {Context} from "../index";
 import {fetchVacancies} from "../http/vacanciesAPI";
 import {observer} from "mobx-react-lite";
+import jwt_decode from "jwt-decode";
+import AdminVacancyItem from "../components/Items/AdminVacancyItem";
+import Pages from "../components/UI/pages";
 
 
 
@@ -11,20 +14,32 @@ const Vacancies = observer(() => {
 
     const {vacancies} = useContext(Context)
 
-        useEffect(() => {
+    useEffect(() => {
+        fetchVacancies(vacancies.page, 5).then(data => {
+            vacancies.setVacancies(data.rows)
+            vacancies.setTotalCount(data.count)
+        })
+    }, [vacancies.page, vacancies])
 
-            fetchVacancies().then(data => {
-                vacancies.setVacancies(data.rows)
-            })
-        }, [vacancies])
+    if(localStorage.token){
+        var userData = jwt_decode(localStorage.token)
+    }
 
     return (
-        <Container>
+        <Container className="mb-xxl-5">
+            {localStorage.token && userData.status === 'ADMIN' ?
             <Row >
                 <Col>
-                    <VacancyItem vacancies={vacancies}/>
+                    <AdminVacancyItem vacancies={vacancies}/>
+                    <Pages/>
                 </Col>
             </Row>
+                : <Row >
+                    <Col>
+                        <VacancyItem vacancies={vacancies}/>
+                        <Pages/>
+                    </Col>
+                </Row>}
         </Container>
     );
 });
