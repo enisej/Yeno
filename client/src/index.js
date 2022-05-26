@@ -6,7 +6,7 @@ import VacanciesStore from "./store/VacanciesStore";
 import TestStore from "./store/TestStore";
 import PracticeStore from "./store/PracticeStore";
 import PracticeResponsesStore from "./store/PracticeResponseStore";
-import TestResponsesStore from "./store/TestResponseStore";
+import RequestedVacanciesStore from "./store/RequestedVacanciesStore";
 export const Context = createContext(null )
 
 
@@ -17,7 +17,7 @@ ReactDOM.render(
         tests: new TestStore(),
         practices: new PracticeStore(),
         practiceResponses: new PracticeResponsesStore(),
-        testResponses: new TestResponsesStore()
+        requestedVacancies: new RequestedVacanciesStore(),
 
     }}>
         <App />

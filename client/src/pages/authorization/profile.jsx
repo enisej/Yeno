@@ -10,9 +10,14 @@ import git from "bootstrap-icons/icons/git.svg";
 import {format, parseISO} from "date-fns";
 import {useHistory} from "react-router-dom";
 import {deleteUser} from "../../http/userAPI";
-import {HOME_ROUTE, USER_RESPONSES_ROUTE} from "../../utils/consts";
+import {
+    HOME_ROUTE,
+    PRACTICES_ROUTE, REQUESTED_VACANCIES_ROUTE,
+    TESTS_ROUTE,
+    USER_RESPONSES_ROUTE
+} from "../../utils/consts";
 import {Context} from "../../index";
-import UserUpdateModal from "../../components/Items/userUpdateModal";
+import UserUpdateModal from "../../components/modals/userUpdateModal";
 
 
 
@@ -56,13 +61,39 @@ const Profile = observer(() => {
                                     setShow(true)
                                  }
                         >Rediģet</Button>
-                        <Button className="me-1" variant="outline-dark" onClick={() => deleteProfile(userData.id)} >Izdzēst</Button>
+                        <Button className="me-1" variant="outline-danger" onClick={() => deleteProfile(userData.id)} >Izdzēst</Button>
                         </Col>
                 </Card>
-                    <Card  className="p-3 mt-2 d-flex align-items-center">
-                            <h5>Praktisko uzdevumu rezultāti</h5>
-                            <Button className="me-1" variant="outline-dark" onClick={() =>history.push(USER_RESPONSES_ROUTE)}>Apskatīt</Button>
+                    {userData.status === 'ADMIN'
+                        ?
+                    <Card  className="p-3 mt-2">
+                        <Row>
+                            <Col  className="mb-2">
+                            <Button className="me-1"
+                                    variant="outline-dark"
+                                    onClick={() => history.push(PRACTICES_ROUTE)}
+                            >
+                                Praktiskie testi</Button>
+                        </Col>
+                            <Col  className="mb-2">
+                        <Button className="me-1"
+                                variant="outline-dark"
+                                onClick={() => history.push(TESTS_ROUTE)}
+                        >
+                             Teoretiskie testi</Button>
+
+                            </Col>
+                        </Row>
                     </Card>
+                        :
+                        <Card  className="p-3 mt-2 d-flex align-items-center">
+                            <Button className="me-1" variant="outline-dark"
+                                    onClick={() => {
+                                        history.push(USER_RESPONSES_ROUTE)
+                                    }}>Praktisko uzdevumu rezultāti</Button>
+                        </Card>
+
+                    }
                 </Col>
                 <Col sm={8} >
                         <ListGroup>
@@ -71,7 +102,6 @@ const Profile = observer(() => {
                                     <Col><b>Vārds: </b> </Col>
                                     <Col>{userData.name}</Col>
                                 </Row>
-
                             </ListGroupItem>
                             <ListGroupItem>
                                 <Row>
@@ -111,16 +141,18 @@ const Profile = observer(() => {
 
                             </ListGroupItem>
                         </ListGroup>
+
                     <Col className="d-inline">
-                        <Card.Header className="mt-2">Pieteiktas vakances</Card.Header>
-                        <Card>
-                            <Row className="p-3">
-                            <Col sm={9}>
-                            <Card.Body><Image src={arrow} alt={arrow}/> Php programmer   </Card.Body></Col>
-                            <Col sm={3}>
-                            <Button variant="outline-dark" className="mt-2">Apskatīt</Button></Col>
-                            </Row>
-                        </Card>
+                        {userData.status === 'ADMIN'
+                            ?
+                            <Card className="mt-2">
+                                <Button variant="dark" >Lietotāju saraksts</Button>
+                            </Card>
+                            :
+
+                        <Card className="mt-2">
+                            <Button variant="outline-dark" className="shadow" onClick={e=>{history.push(REQUESTED_VACANCIES_ROUTE)}} ><Image src={arrow} alt={arrow}/>Jūsu pieteiktas vakances</Button>
+                        </Card>}
                     </Col>
                 </Col>
             </Row>

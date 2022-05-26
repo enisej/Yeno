@@ -6,6 +6,14 @@ class RequestedVacanciesController{
 async create(req, res, next) {
     try {
         const {userId, vacancyId} = req.body
+
+        const reqVacancy = await RequestedVacancies.findOne({where: {userId, vacancyId}})
+        if (reqVacancy) {
+            return res.json({
+                "message": "vacancy has already been added"
+            });
+        }
+
         await RequestedVacancies.create({userId, vacancyId})
 
         res.json({
@@ -21,7 +29,7 @@ async create(req, res, next) {
             let {userId} = req.query
             let result = await RequestedVacancies.findAll({
                 where: {userId},
-                include: [{model:Vacancy, attributes: ['title']}]})
+                include: [{model:Vacancy, attributes: ['title', 'theoryTestId', 'practiceExerciseId']}]})
             return res.json(result)
 
         } catch {
@@ -29,6 +37,22 @@ async create(req, res, next) {
             return next(ApiError.internal())
         }
 
+    }
+
+    async delete(req, res, next){
+        try {
+            await RequestedVacancies.destroy({
+                where: {
+                    id: req.params.id
+                }
+            });
+
+            res.json({
+                "message": "Vacancy deleted from profile"
+            });
+        } catch {
+            return next(ApiError.internal())
+        }
     }
 
 

@@ -4,7 +4,8 @@ const RequestedVacanciesController = require('../controllers/requestedVacanciesC
 const checkRole = require('../middleware/checkRoleMiddleware.js')
 
 router.post('/create', checkRole('USER'), RequestedVacanciesController.create)
-router.get('/', checkRole('USER'),RequestedVacanciesController.getByUserId )
+router.get('/', checkRole('USER'), RequestedVacanciesController.getByUserId )
+router.delete('/delete/:id', checkRole('USER'), RequestedVacanciesController.delete )
 
 
 module.exports = router

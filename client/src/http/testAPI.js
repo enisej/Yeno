@@ -12,18 +12,18 @@ export const fetchByTestId= async (id) => {
 
 }
 
-export const createTest = async (test) => {
-    const {data} = await $authHost.post('api/test/create', test)
+export const createTest = async (title, link, description, responseLink) => {
+    const {data} = await $authHost.post('api/test/create', {title, link, description, responseLink})
     return data
 }
 
-export const updateTest = async (id) => {
-    const {data} = await $authHost.patch('api/test/update/', id)
+export const updateTest = async (id, title, link, description, responseLink) => {
+    const {data} = await $authHost.patch('api/test/update/'+ id, {title, link, description, responseLink})
     return data
 }
 
 
 export const deleteTest = async (id) => {
-    const {data} = await $authHost.delete('api/test/delete/', id)
+    const {data} = await $authHost.delete('api/test/delete/'+ id)
     return data
 }

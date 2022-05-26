@@ -44,28 +44,16 @@ const TheoryTest = sequelize.define('theoryTests', {
     updatedAt: {type: DataTypes.DATE, allowNull: false, defaultValue: Date.now()},
 })
 
-const TheoryTestResult = sequelize.define('theoryTestResults', {
-    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true  },
-}, {
-    timestamps: false
-})
-
 const PracticeResult = sequelize.define('practiceResults', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true  },
     responseLink: {type: DataTypes.STRING, allowNull: false},
     responseDescription: {type: DataTypes.TEXT, allowNull: false},
-    timeSpent: {type:DataTypes.TIME, allowNull:false},
     RecievedPoints: {type: DataTypes.INTEGER, allowNull: true },
     Feedback: {type: DataTypes.BOOLEAN, allowNull: false, defaultValue: false}
-
-}, {
-    timestamps: false
 })
 
 const RequestedVacancies = sequelize.define('requestedVacancies',{
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true  },
-}, {
-    timestamps: false
 })
 
 PracticeExercise.hasOne(Vacancy)
@@ -80,9 +68,6 @@ PracticeResult.belongsTo(PracticeExercise)
 User.hasMany(PracticeResult)
 PracticeResult.belongsTo(User)
 
-TheoryTest.hasMany(TheoryTestResult)
-TheoryTestResult.belongsTo(TheoryTest)
-
 Vacancy.hasMany(RequestedVacancies)
 RequestedVacancies.belongsTo(Vacancy)
 
@@ -93,7 +78,6 @@ module.exports = {
         User,
         Vacancy,
         TheoryTest,
-        TheoryTestResult,
         PracticeExercise,
         PracticeResult,
         RequestedVacancies,

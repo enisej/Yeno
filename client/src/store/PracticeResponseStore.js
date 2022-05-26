@@ -10,7 +10,7 @@ export default class PracticeResponsesStore {
         this._practiceResponses = practiceResponse
     }
 
-    get practiceResponses() {
+    get practiceResponse() {
         return this._practiceResponses
     }
 

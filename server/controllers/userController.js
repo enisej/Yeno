@@ -2,6 +2,7 @@ const ApiError = require('../error/ApiError');
 const {User} = require('../models/models')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
+const {hash} = require("bcrypt");
 
 const generateJwt = (id, email, status, name, surname, birthDate, tel_number, cv, githubLink) => {
     return jwt.sign(
@@ -103,8 +104,8 @@ class UserController {
 
     async getAll(req, res, next){
         try {
-            const vacancies = await User.findAll()
-            return res.json(vacancies)
+            const data = await User.findAll()
+            return res.json(data)
         } catch {
             return next(ApiError.internal())
         }
@@ -118,13 +119,13 @@ class UserController {
                 }
 
             });
-
             if (data.length === 0)
             {
                 return next(ApiError.badRequest())
             }else
             {
                 res.json(data[0]);
+
             }
 
         } catch {

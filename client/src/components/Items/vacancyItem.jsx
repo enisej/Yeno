@@ -1,22 +1,33 @@
 import React, {useState} from 'react';
 import {Card, Col, Container, Image, Row, Button} from "react-bootstrap";
 import icon from "bootstrap-icons/icons/clock-fill.svg";
-import VacancyModalItem from "./vacancyModalItem";
+import VacancyModalItem from "../modals/vacancyModalItem";
 import {ALL_TEST_ROUTE} from "../../utils/consts";
 import {useHistory} from "react-router-dom";
 import {observer} from "mobx-react-lite";
 import {format, parseISO} from "date-fns";
-
-
-
-
+import {AddRequestedVacancy} from "../../http/RequestedVacanciesAPI";
+import jwt_decode from "jwt-decode";
 
 const VacancyItem = observer( ({vacancies}) => {
 
-
     const [show, setShow] = useState(false);
     const [vacancy, setVacancy] = useState('');
+
     const history = useHistory();
+
+
+
+
+    const requestVacancy = async (vacancyId) => {
+        const userData = jwt_decode(localStorage.token)
+        const data = await AddRequestedVacancy(vacancyId, userData.id)
+
+        if(data){
+            alert(data.message)
+        }
+    }
+
 
 
     return (
@@ -42,8 +53,12 @@ const VacancyItem = observer( ({vacancies}) => {
                             <Button
                                 variant="outline-success"
                                 className="align-self-center shadow m-1"
-                                onClick={e => {history.push(ALL_TEST_ROUTE + '/' + vacancy.theoryTestId + '/' + vacancy.practiceExerciseId)}}
-                            >
+
+                                onClick={e => {
+                                    history.push(ALL_TEST_ROUTE + '/' + vacancy.theoryTestId + '/' + vacancy.practiceExerciseId)
+                                    requestVacancy(vacancy.id)
+                                }}
+                                >
                                 Pieteikties
                             </Button>
                         </Col>

@@ -18,6 +18,7 @@ const UserUpdateModal = observer((props) => {
     const {user} = useContext(Context)
     const id = jwt_decode(localStorage.token).id
     const [userData, setUserData] = useState([])
+
     useEffect(() => {
 
         getUser(id).then(data => { user.setUser(data)

@@ -7,12 +7,17 @@ export const fetchResponsesByUser = async (userId) => {
 
 }
 
+export const fetchResponsesByTestId = async(practiceId) => {
+    const {data} = await $authHost.get('api/practice_results/testid/?practiceExerciseId=' + practiceId)
+    return data
+}
+
 export const createResponses = async (practiceResponses) => {
     const {data} = await $authHost.post('api/practice_results/create', practiceResponses)
     return data
 }
 
-export const giveFeedback = async (id) => {
+export const sendFeedback = async (id, RecievedPoints, Feedback) => {
     const {data} = await $authHost.patch('api/practice_results/feedback/'+ id)
     return data
 }

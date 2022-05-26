@@ -3,7 +3,7 @@ import {makeAutoObservable} from "mobx";
 export default class UserStore {
     constructor() {
         this._isAuth = false //CHANGE TO FALSE
-        this._user = {}
+        this._user = []
         makeAutoObservable(this)
     }
 

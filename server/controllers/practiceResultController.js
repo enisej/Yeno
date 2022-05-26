@@ -1,5 +1,5 @@
 const ApiError = require("../error/ApiError");
-const {PracticeResult, PracticeExercise} = require('../models/models.js')
+const {PracticeResult, PracticeExercise, User} = require('../models/models.js')
 
 class PracticeResultController{
 
@@ -31,10 +31,10 @@ class PracticeResultController{
         }
     }
 
-    async SendFeetback(req, res, next){
+    async SendFeedback(req, res, next){
         try{
-            const {recievedPoint} = req.body
-            await PracticeResult.update({recievedPoint}, {
+            const {RecievedPoints, Feedback} = req.body
+            await PracticeResult.update({RecievedPoints, Feedback}, {
                 where: {
                     id: req.params.id
                 }
@@ -72,7 +72,12 @@ class PracticeResultController{
             let {practiceExerciseId} = req.query
             let result = await PracticeResult.findAll({
                 where:{practiceExerciseId},
-                include: [{model:PracticeExercise, attributes: ['title', 'link']}]
+                include: [
+                    {model:PracticeExercise, attributes: ['title', 'link']},
+                    {model: User , attributes: ['name', 'surname', 'email']}
+                ]
+
+
             })
             return res.json(result)
 
