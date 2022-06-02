@@ -12,13 +12,18 @@ export const fetchResponsesByTestId = async(practiceId) => {
     return data
 }
 
-export const createResponses = async (practiceResponses) => {
-    const {data} = await $authHost.post('api/practice_results/create', practiceResponses)
+export const createResponses = async (responseLink, userId, practiceExerciseId) => {
+    const {data} = await $authHost.post('api/practice_results/create', {responseLink, userId, practiceExerciseId})
     return data
 }
 
-export const sendFeedback = async (id, RecievedPoints, Feedback) => {
-    const {data} = await $authHost.patch('api/practice_results/feedback/'+ id)
+export const sendFeedback = async (id, RecievedPoints, Feedback, responseDescription) => {
+    const {data} = await $authHost.patch('api/practice_results/feedback/'+ id , {RecievedPoints, Feedback, responseDescription})
+    return data
+}
+
+export const checkIfResponseExists = async (userId, practiceExerciseId) => {
+    const {data} = await $authHost.get('api/practice_results/user/test/?userId='+userId+ '&practiceExerciseId=' + practiceExerciseId)
     return data
 }
 

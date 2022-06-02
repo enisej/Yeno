@@ -1,20 +1,28 @@
-import React, { useState} from 'react';
-import {Badge, Button, Card, Col, Container, Image, Row} from "react-bootstrap";
+import React, {useContext, useEffect, useState} from 'react';
+import {
+    Badge,
+    Button,
+    Card,
+    Col,
+    Container,
+    Form, FormControl,
+    Image,
+    Row
+} from "react-bootstrap";
 import icon from "bootstrap-icons/icons/clock-fill.svg";
 import {observer} from "mobx-react-lite";
 import {format, parseISO} from "date-fns";
 import VacancyCreateModal from "../modals/vacancyCreateModal";
-import {deleteVacancy} from "../../http/vacanciesAPI";
+import {deleteVacancy, fetchAllVacancies} from "../../http/vacanciesAPI";
 import VacancyUpdateModal from "../modals/vacancyUpdateModal";
 import VacancyModalItem from "../modals/vacancyModalItem";
+import {toast, ToastContainer} from "react-toastify";
+
+import NotFound from "../alerts/NotFound";
+import {Context} from "../../index";
 
 
-
-
-
-
-
-const AdminVacancyItem = observer( ({vacancies}) => {
+const AdminVacancyItem = observer( () => {
     const [showDetails, setShowDetails] = useState(false);
     const [showCreate, setShowCreate] = useState(false);
     const [showUpdate, setShowUpdate] = useState(false);
@@ -23,82 +31,120 @@ const AdminVacancyItem = observer( ({vacancies}) => {
     const deleteVacancyItem = async (id) => {
         const data = await deleteVacancy(id)
         if(data){
-            window.location.reload(false);
+            const notify = () => toast.success(data.message);
+            notify()
         }
     }
 
+
+
+    const {vacancies} = useContext(Context)
+
+    useEffect(() => {
+
+        fetchAllVacancies(vacancies.page, 5).then(data => {
+            vacancies.setTotalCount(data.count);
+            vacancies.setVacancies(data.rows);
+        })
+    }, [vacancies.vacancies, vacancies])
+
     return (
+
         <Container className="mt-xxl-5">
+            <ToastContainer/>
             <Card className="shadow">
                 <Card.Body>
                     <Row>
-                        <Col>
+                        <Col sm={1}>
                             <Button
-                                variant="success"
+                                variant="outline-info"
                                 onClick={() => {
-
                                     setVacancy(vacancy)
                                     setShowCreate(true);
-                                } }
-                            >Izveidot vakanci
+                                }}
+                            ><i className="bi bi-plus-circle"></i>
                             </Button>
+                        </Col>
+                        <Col>
+
+                        </Col>
+                        <Col>
+                            <Form className="d-flex">
+                                <FormControl
+                                    type="search"
+                                    placeholder="Meklēšana..."
+                                    className="me-2"
+                                    aria-label="Search"
+                                />
+                                <Button variant="outline-success"><i className="bi-search"></i></Button>
+                            </Form>
                         </Col>
                     </Row>
                 </Card.Body>
             </Card>
+            {vacancies.vacancies.length ?
+                <div>
+                    {vacancies.vacancies.map(vacancy =>
 
-            {vacancies.vacancies.map(vacancy =>
+                        <Card className="mt-5 shadow" key={vacancy.id}>
 
-                <Card  className="mt-5 shadow" key={vacancy.id} >
+                            <Card.Body>
+                                <Row className="justify-content-md-center">
+                                    <Col sm>
 
-                    <Card.Body  >
-                        <Row className="justify-content-md-center">
-                            <Col sm>
+                                        <Card.Title className="fs-1 mb-5 ">{vacancy.title}
 
-                                <Card.Title  className="fs-1 mb-5 " >{vacancy.title}
+                                        </Card.Title>
+                                        <Card.Text> <Image src={icon}
+                                                           alt="clock"/> {format(parseISO(vacancy.updatedAt), 'yyyy/MM/dd')}
+                                        </Card.Text>
 
-                                </Card.Title>
-                                <Card.Text > <Image src={icon} alt="clock"/> {format(parseISO(vacancy.createdAt), 'yyyy/MM/dd')}</Card.Text>
+                                    </Col>
+                                    <Col className="col-lg-3 d-flex mt-3 mb-3 me-lg-5">
+                                        <Button variant="outline-info" className="align-self-center shadow m-1"
+                                                onClick={() => {
 
-                            </Col>
-                            <Col className="col-lg-3 d-flex mt-3 mb-3 me-lg-5">
-                                <Button variant="outline-dark" className="align-self-center shadow m-1"
-                                        onClick={() => {
+                                                    setVacancy(vacancy)
+                                                    setShowDetails(true);
+                                                }}><i className="bi-info-lg"></i></Button>
+                                        <Button
+                                            variant="warning"
+                                            className="align-self-center shadow m-1"
+                                            onClick={() => {
+                                                setShowUpdate(true);
+                                                setVacancy(vacancy)
+                                            }}
+                                        ><i className="bi-pencil"></i>
+                                        </Button>
+                                        <Button
+                                            variant="danger"
+                                            className="align-self-center shadow m-1"
+                                            onClick={e => {
+                                                deleteVacancyItem(vacancy.id)
+                                            }}
+                                        >
+                                            <i className="bi-trash"></i>
+                                        </Button>
 
-                                            setVacancy(vacancy)
-                                            setShowDetails(true);
-                                        } } >Apskatīt</Button>
-                                <Button
-                                    variant="outline-dark"
-                                    className="align-self-center shadow m-1"
-                                    onClick={() => {
-                                        setShowUpdate(true);
-                                        setVacancy(vacancy)
-                                    } }
-                                >Rediģet
-                                </Button>
-                                <Button
-                                    variant="danger"
-                                    className="align-self-center shadow m-1"
-                                    onClick={e => {deleteVacancyItem(vacancy.id)}}
-                                >
-                                    Izdzēst
-                                </Button>
-
-                            </Col>
-                            <Col sm={1}>
-                                Status:
-                                {vacancy.status === true ?
-                                    <Badge className="align-self-center shadow m-1 text-success" pill bg="success">!</Badge>
-                                    :
-                                    <Badge className="align-self-center shadow m-1 text-danger" pill bg="danger">!</Badge>
-                                }
-                            </Col>
-                        </Row>
-                    </Card.Body>
-                </Card>
-            )}
-
+                                    </Col>
+                                    <Col sm={1}>
+                                        Status:
+                                        {vacancy.status === true ?
+                                            <Badge className="align-self-center shadow m-1 text-success" pill
+                                                   bg="success">!</Badge>
+                                            :
+                                            <Badge className="align-self-center shadow m-1 text-danger" pill
+                                                   bg="danger">!</Badge>
+                                        }
+                                    </Col>
+                                </Row>
+                            </Card.Body>
+                        </Card>
+                    )}
+                </div>
+                :
+                <NotFound/>
+            }
             <VacancyModalItem
 
                 icon = {icon}
@@ -108,7 +154,6 @@ const AdminVacancyItem = observer( ({vacancies}) => {
 
 
             <VacancyCreateModal
-
                 vacancy={vacancy}
                 show={showCreate}
                 close={() => setShowCreate (false)}/>

@@ -2,7 +2,9 @@ import {makeAutoObservable} from "mobx";
 
 export default class VacanciesStore {
     constructor() {
-        this._vacancies = []
+        this._vacancies = [
+
+        ]
         this._page = 1
         this._totalCount = 0
         this._limit = 5

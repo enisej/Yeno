@@ -1,9 +1,13 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {Button, Form, Modal, Row} from "react-bootstrap";
 import {observer} from "mobx-react-lite";
 import {createPracticeTest} from "../../http/practiceAPI";
+import {toast} from "react-toastify";
+import {Context} from "../../index";
 
 const PracticeCreateModal = observer((props) => {
+
+    const {practices} = useContext(Context)
 
     const [title, setTitle] = useState('')
     const [link, setLink] = useState('')
@@ -12,7 +16,9 @@ const PracticeCreateModal = observer((props) => {
     const post = async () => {
         const data = await createPracticeTest(title, link, description)
         if(data){
-            window.location.reload(false);
+            practices.setPracticeTest(data)
+            const notify = () => toast.success(data.message);
+            notify()
         }
 
     }
@@ -57,9 +63,12 @@ const PracticeCreateModal = observer((props) => {
                 </Form.Group>
 
                 <Row  className="mt-4" >
-                    <Button variant="dark" className="shadow" onClick={post}>Publicēt</Button>
+                    <Button variant="dark" className="shadow" onClick={e=>{post()
+                        setDescription('')
+                        setLink('')
+                        setTitle('')
+                    props.close()}}>Publicēt</Button>
                 </Row>
-
             </Modal.Body>
 
 

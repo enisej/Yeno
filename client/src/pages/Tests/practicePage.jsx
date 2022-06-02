@@ -4,6 +4,7 @@ import {Context} from "../../index";
 import {useParams} from "react-router-dom";
 import {fetchByPracticeId} from "../../http/practiceAPI";
 import {observer} from "mobx-react-lite";
+import {Container} from "react-bootstrap";
 
 const PracticePage = observer(() => {
 
@@ -17,9 +18,9 @@ const PracticePage = observer(() => {
     }, [practices, id])
 
     return (
-        <div>
+        <Container>
             <PracticeItem practices={practices}/>
-        </div>
+        </Container>
     );
 });
 

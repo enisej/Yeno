@@ -1,9 +1,13 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {Button, Form, Modal, Row} from "react-bootstrap";
 import {observer} from "mobx-react-lite";
 import {updatePractice} from "../../http/practiceAPI";
+import {toast} from "react-toastify";
+import {Context} from "../../index";
 
 const PracticeUpdateModal = observer((props) => {
+
+    const {practices} = useContext(Context)
 
     const [title, setTitle] = useState('')
     const [link, setLink] = useState('')
@@ -12,7 +16,9 @@ const PracticeUpdateModal = observer((props) => {
         const id = props.practice.id
         const data = await updatePractice(id ,title, link, description)
         if(data){
-            window.location.reload(false);
+            practices.setPracticeTest(data)
+            const notify = () => toast.success(data.message);
+            notify()
         }
 
     }
@@ -63,7 +69,8 @@ const PracticeUpdateModal = observer((props) => {
                 </Form.Group>
 
                 <Row  className="mt-4" >
-                    <Button variant="dark" className="shadow" onClick={update}>Saglabāt izmaiņas</Button>
+                    <Button variant="dark" className="shadow" onClick={e=>{update()
+                    props.close()}}>Saglabāt izmaiņas</Button>
                 </Row>
 
             </Modal.Body>

@@ -1,11 +1,11 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {Button, Form, Modal, Dropdown, Badge, Row, Col} from "react-bootstrap";
+import {Button, Form, Modal, Dropdown, Row, Col} from "react-bootstrap";
 import {observer} from "mobx-react-lite";
 import {createVacancy} from "../../http/vacanciesAPI";
 import {Context} from "../../index";
 import {fetchTests} from "../../http/testAPI";
 import {fetchPracticeTests} from "../../http/practiceAPI";
-
+import {toast, ToastContainer} from "react-toastify";
 
 const VacancyCreateModal = observer((props) => {
 
@@ -34,19 +34,21 @@ const VacancyCreateModal = observer((props) => {
 
     const post = async () => {
         const data = await createVacancy(title, description, qualifications, offer, theoryTestId, practiceExerciseId)
-
         if(data){
-            window.location.reload(false);
+            const notify = () => toast.success(data.message);
+            notify()
         }
-
     }
 
+
     return (
+        <ToastContainer/>,
         <Modal show={props.show}
                size="lg"
                aria-labelledby="contained-modal-title-vcenter"
                centered
         >
+
             <Modal.Header closeButton
                           onClick={props.close}
                           className="p-4" >
@@ -103,7 +105,7 @@ const VacancyCreateModal = observer((props) => {
                     <Col sm={3} >
                 <Dropdown className="mb-2">
                     <Dropdown.Toggle variant="secondary" id="dropdown-basic">
-                        Izvēlies testu
+                        Izvēlētais tests: {theoryTestId}
                     </Dropdown.Toggle>
                     <Dropdown.Menu >
                         <Dropdown.Item onClick={() => setTheoryTestId('') }>
@@ -120,12 +122,11 @@ const VacancyCreateModal = observer((props) => {
                     </Dropdown.Menu>
                 </Dropdown>
 
-                <h5><Badge bg="success"> Izvēlētais tests: {theoryTestId}</Badge></h5>
                     </Col>
                     <Col sm={3}>
                         <Dropdown className="mb-2">
                             <Dropdown.Toggle variant="secondary" id="dropdown-basic">
-                                Izvēlies uzdevumu
+                                 Izvēlētais uzdevums: {practiceExerciseId}
                             </Dropdown.Toggle>
 
 
@@ -140,11 +141,12 @@ const VacancyCreateModal = observer((props) => {
                                     >
                                         {practice.title}
                                     </Dropdown.Item>
+
                                 )}
                             </Dropdown.Menu>
                         </Dropdown>
 
-                        <h5><Badge bg="success"> Izvēlētais uzdevums: {practiceExerciseId}</Badge></h5>
+
                     </Col>
                 </Row>
 
@@ -153,7 +155,18 @@ const VacancyCreateModal = observer((props) => {
                 <Button
                     className="shadow"
                     variant="dark"
-                    onClick={post}
+                    onClick={e=> {
+                        post()
+                        props.close()
+                        setTitle('')
+                        setDescription('')
+                        setQualifications('')
+                        setOffer('')
+                        setPracticeExerciseId('')
+                        setTheoryTestId('')
+
+                    }}
+
                 >Publicēt</Button>
 
                 </Row>

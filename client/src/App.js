@@ -7,6 +7,8 @@ import {Context} from "./index";
 import {check} from "./http/userAPI";
 import {Container, Spinner, Col, Row} from "react-bootstrap";
 import Footer from "./components/UI/footer";
+import "bootstrap-icons/font/bootstrap-icons.css"
+
 
 const App = observer(() => {
     const {user} = useContext(Context)
@@ -14,8 +16,14 @@ const App = observer(() => {
 
     useEffect(()=>{
             check().then(data =>{
-                user.setUser(true)
+                if(data){
+                user.setUser(data)
                 user.setIsAuth(true)
+                }
+                if(!data){
+                    user.setUser('')
+                    user.setIsAuth(false)
+                }
             }).finally(() => setLoading(false))
 
 
@@ -42,11 +50,13 @@ const App = observer(() => {
     };
 
   return (
+
     <BrowserRouter>
         <Navigation/>
-        <AppRouter/>
+        <AppRouter />
         <Footer/>
     </BrowserRouter>
+
   );
 });
 

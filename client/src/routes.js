@@ -27,8 +27,9 @@ import {
     USER_RESPONSES_ROUTE,
     TESTS_ROUTE,
     PRACTICES_ROUTE,
-    REQUESTED_VACANCIES_ROUTE,
+    REQUESTED_VACANCIES_ROUTE, USERS_ROUTE,
 } from "./utils/consts";
+import UserListPage from "./pages/authorization/UserListPage";
 
 
 export const authRoutes = [
@@ -81,6 +82,10 @@ export const authRoutes = [
         path: REQUESTED_VACANCIES_ROUTE,
         Component: RequestedVacanciesPage
     },
+    {
+        path: USERS_ROUTE,
+        Component: UserListPage
+    }
 
 
 

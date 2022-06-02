@@ -5,6 +5,7 @@ import {Context} from "../../index";
 import {fetchTests} from "../../http/testAPI";
 import {fetchPracticeTests} from "../../http/practiceAPI";
 import {updateVacancy} from "../../http/vacanciesAPI";
+import {toast, ToastContainer} from "react-toastify";
 const VacancyUpdateModal = observer((props) => {
 
 
@@ -38,13 +39,15 @@ const VacancyUpdateModal = observer((props) => {
         const data = await updateVacancy(id ,title, description, qualifications, offer, theoryTestId, practiceExerciseId, status)
 
         if(data){
-            window.location.reload(false);
+            const notify = () => toast.success(data.message);
+            notify()
         }
 
     }
 
 
     return (
+        <ToastContainer/>,
         <Modal show={props.show}
                size="lg"
                aria-labelledby="contained-modal-title-vcenter"
@@ -179,7 +182,8 @@ const VacancyUpdateModal = observer((props) => {
                     <Button
                         className="shadow"
                         variant="dark"
-                        onClick={update}
+                        onClick={event => {update()
+                        props.close()}}
                     >Saglabāt izmaiņas</Button>
                 </Row>
             </Modal.Body>

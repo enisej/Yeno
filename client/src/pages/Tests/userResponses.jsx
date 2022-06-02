@@ -3,7 +3,7 @@ import {fetchResponsesByUser} from "../../http/PracticeResponsesAPI";
 import {Context} from "../../index";
 import {observer} from "mobx-react-lite";
 import jwt_decode from "jwt-decode";
-import {Badge, Card, Col, Container, Row} from "react-bootstrap";
+import {Alert, Badge, Card, Col, Container, Row} from "react-bootstrap";
 import NotFound from "../../components/alerts/NotFound";
 
 
@@ -13,12 +13,13 @@ const UserResponses = observer(() => {
     const userData = jwt_decode(localStorage.token)
     const userId = userData.id
 
+
     useEffect(() => {
         fetchResponsesByUser(userId).then(data => {practiceResponses.setPracticeResponse(data)
 
         })
 
-    }, [practiceResponses, userId])
+    }, [practiceResponses.practiceResponse, userId, practiceResponses])
 
     return (
         <Container>
@@ -38,11 +39,17 @@ const UserResponses = observer(() => {
                                     :
                                     <Badge className="bg-danger">Atbilde nav parbaudīta</Badge>}
                             </Card.Header>
-                            <Card.Body>Uzdevuma nosaukums:<a
-                                href={responses.practiceExercise.link}> {responses.practiceExercise.title}</a></Card.Body>
-                            <Card.Body>Iesniegta atbilde: <Card.Link
-                                href={responses.responseLink}>Atbilde</Card.Link></Card.Body>
-                            <Card.Footer>Jūsu komentāri: {responses.responseDescription}</Card.Footer>
+                                        <Row className="p-2">
+                                        <Col>
+                                            <Card.Body>Uzdevuma nosaukums: <b> {responses.practiceExercise.title}</b></Card.Body>
+                                            <Card.Body>Iesniegta atbilde:<Card.Link href={responses.responseLink}> Atbilde</Card.Link></Card.Body>
+                                        </Col>
+                                            <Col className="mt-3 me-3">
+                                                <Alert variant="info">Paldies kā iesniedzāt uzdevumu, pēc uzdevuma parbaudes mēs ar jūms sazināsimies, jā uzdevums ir izpildīts atbilstoši noteikumiem!</Alert>
+                                            </Col>
+                                        </Row>
+
+                           <Card.Footer>Izpildīta uzdevuma komentāri: {responses.responseDescription}</Card.Footer>
                         </Card>
                     )
                 }

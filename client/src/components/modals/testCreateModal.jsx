@@ -1,7 +1,9 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {Button, Form, Modal, Row} from "react-bootstrap";
 import {observer} from "mobx-react-lite";
 import {createTest} from "../../http/testAPI";
+import {toast, ToastContainer} from "react-toastify";
+import {Context} from "../../index";
 
 const TestCreateModal = observer((props) => {
 
@@ -9,17 +11,21 @@ const TestCreateModal = observer((props) => {
     const [link, setLink] = useState('')
     const [description, setDescription] = useState('')
     const [responseLink, setResponseLink] = useState('')
+    const {tests} = useContext(Context)
 
 
     const post = async () => {
         const data = await createTest(title, link, description, responseLink)
         if(data){
-            window.location.reload(false);
+            tests.setTheoryTests(data)
+            const notify = () => toast.success(data.message);
+            notify()
         }
 
     }
 
     return (
+        <ToastContainer/>,
         <Modal
             show={props.show}
             size="lg"
@@ -70,7 +76,13 @@ const TestCreateModal = observer((props) => {
                 </Form.Group>
 
                 <Row  className="mt-4" >
-                    <Button variant="dark" className="shadow" onClick={post}>Publicēt</Button>
+                    <Button variant="dark" className="shadow" onClick={e=> {post()
+                    props.close()
+                        setDescription('')
+                        setResponseLink('')
+                        setLink('')
+                        setTitle('')
+                    }}>Publicēt</Button>
                 </Row>
 
             </Modal.Body>

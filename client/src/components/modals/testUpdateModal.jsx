@@ -1,7 +1,10 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {Button, Form, Modal, Row} from "react-bootstrap";
 import {observer} from "mobx-react-lite";
 import {updateTest} from "../../http/testAPI";
+import {toast} from "react-toastify";
+import {Context} from "../../index";
+
 
 const TestUpdateModal = observer((props) => {
 
@@ -10,11 +13,15 @@ const TestUpdateModal = observer((props) => {
     const [description, setDescription] = useState('')
     const [responseLink, setResponseLink] = useState('')
 
+    const {tests} = useContext(Context)
+
     const update = async () => {
         const id = props.test.id
         const data = await updateTest(id ,title, link, description, responseLink)
         if(data){
-            window.location.reload(false);
+            tests.setTheoryTests(data)
+            const notify = () => toast.success(data.message);
+            notify()
         }
 
     }
@@ -77,7 +84,9 @@ const TestUpdateModal = observer((props) => {
                 </Form.Group>
 
                 <Row  className="mt-4" >
-                    <Button variant="dark" className="shadow" onClick={update}>Saglabāt izmaiņas</Button>
+                    <Button variant="dark" className="shadow" onClick={e =>{
+                        update()
+                        props.close()}}>Saglabāt izmaiņas</Button>
                 </Row>
 
             </Modal.Body>

@@ -1,113 +1,150 @@
-import React, {useContext, useEffect, useState} from 'react';
-import {observer} from "mobx-react-lite";
-import {Button, Card, Col, Container, Row, Table} from "react-bootstrap";
-import {deletePractice} from "../../http/practiceAPI";
+import React, {useState, useRef, useEffect, useMemo, useCallback, useContext} from 'react';
+import { AgGridReact } from 'ag-grid-react'; // the AG Grid React Component
+
+import 'ag-grid-community/dist/styles/ag-grid.css'; // Core grid CSS, always needed
+import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
+
+import {Button, Card, Col, Container, Row} from "react-bootstrap";
+import {toast, ToastContainer} from "react-toastify";
 import {Context} from "../../index";
-import {fetchPracticeTests} from "../../http/practiceAPI";
+import {observer} from "mobx-react-lite"; // Optional theme CSS
+import { AG_GRID_LOCALE_LV } from "../../utils/locale.lv";
+import {deletePractice, fetchPracticeTests} from "../../http/practiceAPI";
 import PracticeCreateModal from "../../components/modals/practiceCreateModal";
 import PracticeUpdateModal from "../../components/modals/practiceUpdateModal";
 import {useHistory} from "react-router-dom";
-import jwt_decode from "jwt-decode";
-import {HOME_ROUTE, PRACTICE_RESPONSE_ROUTE} from "../../utils/consts";
+import {PRACTICE_RESPONSE_ROUTE} from "../../utils/consts";
+import {format, parseISO} from "date-fns";
 
 const PracticesPage = observer(() => {
 
-    const history = useHistory()
-    const userData = jwt_decode(localStorage.token)
-    if(userData.status === 'USER'){
-        history.push(HOME_ROUTE)
+    const gridRef = useRef(); // Optional - for accessing Grid's API
+    const [rowData, setRowData] = useState(); // Set rowData to Array of Objects, one Object per Row
+    const history = useHistory();
+
+    const deletePracticeTest = async (id) => {
+
+        const data = await deletePractice(id)
+        if(data){
+            practices.setPracticeTest(data)
+            const notify = () => toast.success(data.message);
+            notify()
+
+        }
     }
 
-    const [showTestCreate, setTestShowCreate] = useState(false)
-    const [showTestUpdate, setTestShowUpdate] = useState(false)
-    const [testToModal, setTestToModal] = useState('')
+    // Each Column Definition results in one Column.
+    const columnDefs = ([
+        {field: 'id', headerName: '#', width: 80},
+        {field: 'title', headerName: 'Nosaukums',},
+        {field: 'description', headerName: 'Apraksts'},
+        {field: 'link', headerName: 'Links'},
+        {headerName: 'Izveidots', cellRenderer:(data)=>
+                <div>{format(parseISO(data.data.createdAt), 'yyyy/MM/dd')}</div>
+            },
+        {headerName: 'Rediģēts', cellRenderer:(data)=>
+                <div>{format(parseISO(data.data.updatedAt), 'yyyy/MM/dd')}</div>
+        },
+        {field: 'Actions', headerName: 'Darbības',
+            cellRenderer:(data)=>
+                <div className="d-flex m-auto mt-1" >
+                    <Button variant="outline-warning" className="me-1" onClick={event => {
+                        setTestShowUpdate(true)
+                        setTestToModal(data.data)
+                    }} size="sm"><i className="bi bi-pencil"></i></Button>
+                    <Button
+                        variant="outline-danger"
+                        className="me-1" size="sm"
+                        onClick={()=>{
+                            deletePracticeTest(data.data.id)
+                        }}>
+                        <i className="bi bi-trash"></i>
+                    </Button>
+
+                </div>},
+        {field: 'Results', headerName: 'Rezultāti',
+            cellRenderer:(data)=><Button
+                variant="outline-success"
+                className="me-1" size="sm"
+                onClick={()=>{history.push(PRACTICE_RESPONSE_ROUTE + '/' + data.data.id)}}
+            >
+                <i className="bi bi-archive "></i>
+            </Button>},
+    ]);
+
+
+    // DefaultColDef sets props common to all Columns
+    const defaultColDef = useMemo(() => ({
+        sortable: true,
+        filter: true
+    }), []);
 
     const {practices} = useContext(Context)
 
     useEffect(() => {
-        let isMounted = true;
-        fetchPracticeTests().then(data => {
-
-            if(isMounted) practices.setPracticeTest(data);
-
-        })
-        return () => { isMounted = false };
-    },[practices])
-
-    const deletePracticeItem = async (id) => {
-        const data = await deletePractice(id)
-        if(data){
-            window.location.reload(false);
-        }
-    }
+        fetchPracticeTests().then(
+            data => {
+                setRowData(data)
+            }
+        )
+    }, [practices.practices]);
 
 
+
+    const onFirstDataRendered = useCallback((params) => {
+        gridRef.current.api.sizeColumnsToFit()
+    }, []);
+
+    const [showTestCreate, setTestShowCreate] = useState(false)
+    const [showTestUpdate,  setTestShowUpdate] = useState(false)
+    const [testToModal, setTestToModal] = useState('')
     return (
-        <Container className="mb-xxl-5 p-3 ">
-            <Card className="shadow mb-4">
+        <Container>
+            <ToastContainer/>
+            <Card className="shadow mb-4 mt-3">
                 <Card.Body>
                     <Row>
-                        <Col>
+                        <Col sm={10} >
+                            <h4 className="fw-bold">Praktiskie uzdevumi</h4>
+                        </Col>
+                        <Col sm={1}>
+
                             <Button
-                                variant="success"
+                                variant="outline-info"
                                 onClick={() => {setTestShowCreate(true);}}
-                            >Pievienot testu
+                            ><i className="bi bi-plus-circle"></i>
                             </Button>
                         </Col>
                     </Row>
                 </Card.Body>
             </Card>
-            <Table responsive hover bordered striped className="shadow">
-                <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Nosaukums</th>
-                    <th>Links uz testu</th>
-                    <th>Apraksts</th>
-                    <th>Izveidots</th>
-                    <th>Rediģēts</th>
-                    <th>Rezultāti</th>
-                    <th>Rediģēt</th>
-                    <th>Izdzēst</th>
-                </tr>
-                </thead>
+            {/* On div wrapping Grid a) specify theme CSS Class Class and b) sets Grid size */}
+            <div className="ag-theme-alpine mb-5" style={{width: '100%', height: window.innerHeight}}>
+                <AgGridReact
+                    localeText={AG_GRID_LOCALE_LV}
+                    onFirstDataRendered={onFirstDataRendered}
+                    ref={gridRef} // Ref for accessing Grid's API
+                    rowData={rowData} // Row Data for Rows
+                    columnDefs={columnDefs} // Column Defs for Columns
+                    defaultColDef={defaultColDef} // Default Column Properties
+                    animateRows={true}// Optional - set to 'true' to have rows animate when sorted// Optional - registering for Grid Event
 
-                <tbody>
-                {practices.practices.map(practice =>
-                    <tr key={practice.id}>
-                        <td>{practice.id}</td>
-                        <td>{practice.title}</td>
-                        <td><a href={practice.link}>Links</a></td>
-                        <td>{practice.description}</td>
-                        <td>{practice.createdAt}</td>
-                        <td>{practice.updatedAt}</td>
-                        <td><Button variant="dark" onClick={()=>{history.push(PRACTICE_RESPONSE_ROUTE + '/' + practice.id)}}>Apskatīt</Button></td>
-                        <td><Button variant="warning"
-                                    onClick={() => {
-                                        setTestToModal(practice)
-                                        setTestShowUpdate(true)
-                                    }}
-                                    >Rediģēt</Button></td>
-                        <td><Button
-                            variant="danger"
-                            onClick={()=>{deletePracticeItem(practice.id)}}
-                        >Izdzēst</Button></td>
-                    </tr>
-                )}
-                </tbody>
+                />
+            </div>
 
-            </Table>
+            <PracticeCreateModal
+                show={showTestCreate}
+                close={()=> setTestShowCreate(false)}
+            />
             <PracticeUpdateModal
                 practice={testToModal}
                 show={showTestUpdate}
                 close={()=> setTestShowUpdate(false)}
 
             />
-            <PracticeCreateModal
-                show={showTestCreate}
-                close={()=> setTestShowCreate(false)}
-            />
+
         </Container>
+
     );
 });
 

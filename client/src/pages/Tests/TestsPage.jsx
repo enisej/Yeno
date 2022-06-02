@@ -1,120 +1,153 @@
-import React, {useContext, useEffect, useState} from 'react';
-import {observer} from "mobx-react-lite";
+import React, {useState, useRef, useEffect, useMemo, useCallback, useContext} from 'react';
+import { AgGridReact } from 'ag-grid-react'; // the AG Grid React Component
 
-import {Button, Card, Col, Container, Image, Row, Table} from "react-bootstrap";
-import download from "bootstrap-icons/icons/cloud-download.svg";
+import 'ag-grid-community/dist/styles/ag-grid.css'; // Core grid CSS, always needed
+import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
+
+import {Button, Card, Col, Container, Row} from "react-bootstrap";
 
 import {deleteTest, fetchTests} from "../../http/testAPI";
-import {Context} from "../../index";
-
-import {format, parseISO} from "date-fns";
-
-import TestUpdateModal from "../../components/modals/testUpdateModal";
+import {toast, ToastContainer} from "react-toastify";
 import TestCreateModal from "../../components/modals/testCreateModal";
-
-import jwt_decode from "jwt-decode";
+import {Context} from "../../index";
+import {observer} from "mobx-react-lite"; // Optional theme CSS
+import { AG_GRID_LOCALE_LV } from "../../utils/locale.lv";
+import TestUpdateModal from "../../components/modals/testUpdateModal";
+import {format, parseISO} from "date-fns";
 import {useHistory} from "react-router-dom";
-import {HOME_ROUTE} from "../../utils/consts";
+import {USERS_ROUTE} from "../../utils/consts";
 
+const TestPage = observer(() => {
 
-const TestsPage = observer(() => {
+    const gridRef = useRef(); // Optional - for accessing Grid's API
+    const [rowData, setRowData] = useState(); // Set rowData to Array of Objects, one Object per Row
+    const [results, setResults] = useState('');
+    const deleteTheoryTest = async (id) => {
 
-    const history = useHistory()
-    const userData = jwt_decode(localStorage.token)
-    if(userData.status === 'USER'){
-        history.push(HOME_ROUTE)
+        const data = await deleteTest(id)
+        if(data){
+            tests.setTheoryTests(data)
+            const notify = () => toast.success(data.message);
+            notify()
+
+        }
     }
 
-    const [showTestCreate, setTestShowCreate] = useState(false)
-    const [showTestUpdate, setTestShowUpdate] = useState(false)
-    const [testToModal, setTestToModal] = useState('')
+    // Each Column Definition results in one Column.
+    const columnDefs = ([
+        {field: 'id', headerName: '#', width: 80},
+        {field: 'title', headerName: 'Nosaukums',},
+        {field: 'description', headerName: 'Apraksts'},
+        {field: 'link', headerName: 'Links'},
+        {headerName: 'Izveidots' ,cellRenderer:(data)=>
+                <div>{format(parseISO(data.data.createdAt), 'yyyy/MM/dd')}</div>
+        },
+        {headerName: 'Rediģēts', cellRenderer:(data)=>
+                <div>{format(parseISO(data.data.updatedAt), 'yyyy/MM/dd')}</div>
+        },
+        {field: 'Actions', headerName: 'Darbības',
+            cellRenderer:(data)=>
+                <div className="d-flex m-auto mt-1" >
+                    <Button variant="outline-warning" className="me-1" onClick={event => {
+                        setTestShowUpdate(true)
+                        setTestToModal(data.data)
+                    }} size="sm"><i className="bi bi-pencil"></i></Button>
+                    <Button
+                        variant="outline-danger"
+                        className="me-1" size="sm"
+                        onClick={()=>{
+                            deleteTheoryTest(data.data.id)
+                        }}>
+                        <i className="bi bi-trash"></i>
+                </Button>
+            </div>},
+        {field: 'Results', headerName: 'Rezultāti',
+            cellRenderer:(data)=><Button
+                variant="outline-success"
+                className="me-1" size="sm"
+                onMouseOver={e=>{setResults(data.data.responseLink.replace('/pubhtml', '/pub?output=csv'))}}
+            ><a href={results}><i className="bi bi-upload "></i></a>
+            </Button>}
+    ]);
+
+
+    // DefaultColDef sets props common to all Columns
+    const defaultColDef = useMemo(() => ({
+        sortable: true,
+        filter: true
+    }), []);
 
     const {tests} = useContext(Context)
 
     useEffect(() => {
-        let isMounted = true;
-        fetchTests().then(data => {
-            if (isMounted) tests.setTheoryTests(data);
-        })
-        return () => { isMounted = false };
-    },[tests])
+        fetchTests().then(
+            data => {
+                setRowData(data)
+            }
+        )
+    }, [tests.tests]);
 
 
-    const deleteTestItem = async (id) => {
-        const data = await deleteTest(id)
-        if(data){
-            window.location.reload(false);
-        }
-    }
 
+    const onFirstDataRendered = useCallback((params) => {
+        gridRef.current.api.sizeColumnsToFit()
+    }, []);
 
+    const [showTestCreate, setTestShowCreate] = useState(false)
+    const [showTestUpdate,  setTestShowUpdate] = useState(false)
+    const [testToModal, setTestToModal] = useState('')
+    const history = useHistory();
     return (
-        <Container className="mb-xxl-5 p-3 ">
-            <Card className="shadow mb-4">
+        <Container>
+            <ToastContainer/>
+            <Card className="shadow mb-4 mt-3">
                 <Card.Body>
                     <Row>
+                        <Col sm={9} >
+                            <h4 className="fw-bold">Teoretiskie testi</h4>
+                        </Col>
                         <Col>
+                            <Button variant="outline-dark" onClick={()=>{history.push(USERS_ROUTE)}}>Lietotāju saraksts</Button>
+                        </Col>
+                        <Col sm={1}>
                             <Button
-                                variant="success"
+                                variant="outline-info"
                                 onClick={() => {setTestShowCreate(true);}}
-                            >Pievienot testu
+                            ><i className="bi bi-plus-circle"></i>
                             </Button>
                         </Col>
+
                     </Row>
                 </Card.Body>
             </Card>
-            <Table responsive hover bordered striped className="shadow">
-                <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Nosaukums</th>
-                    <th>Links uz testu</th>
-                    <th>Apraksts</th>
-                    <th>Izveidots</th>
-                    <th>Rediģēts</th>
-                    <th>Rezultāti</th>
-                    <th>Rediģēt</th>
-                    <th>Izdzēst</th>
-                </tr>
-                </thead>
-                <tbody>
-                {tests.tests.map(test =>
-                <tr key={test.id}>
-                    <td>{test.id}</td>
-                    <td>{test.title}</td>
-                    <td><a href={test.link}>Links</a></td>
-                    <td>{test.description}</td>
-                    <td>{format(parseISO(test.createdAt), 'dd/MM/yyyy')}</td>
-                    <td>{format(parseISO(test.updatedAt), 'dd/MM/yyyy')}</td>
-                    <td><Button href={test.responseLink.replace("/pubhtml", "/pub?output=xlsx")} variant="outline-dark"
-                    ><Image src={download}  alt={download}/></Button></td>
-                    <td><Button variant="warning"
-                                onClick={() => {
-                                    setTestShowUpdate(true);
-                                    setTestToModal(test);
-                    }}>Rediģēt</Button></td>
-                    <td><Button
-                        variant="danger"
-                        onClick={()=>{deleteTestItem(test.id)}}
-                    >Izdzēst</Button></td>
-                </tr>
-                )}
-                </tbody>
+            {/* On div wrapping Grid a) specify theme CSS Class Class and b) sets Grid size */}
+            <div className="ag-theme-alpine " style={{width: '100%', height: window.innerHeight}}>
+                <AgGridReact
+                    localeText={AG_GRID_LOCALE_LV}
+                    onFirstDataRendered={onFirstDataRendered}
+                    ref={gridRef} // Ref for accessing Grid's API
+                    rowData={rowData} // Row Data for Rows
+                    columnDefs={columnDefs} // Column Defs for Columns
+                    defaultColDef={defaultColDef} // Default Column Properties
+                    animateRows={true}// Optional - set to 'true' to have rows animate when sorted// Optional - registering for Grid Event
 
-            </Table>
+                />
+            </div>
+
+            <TestCreateModal
+                show={showTestCreate}
+                close={()=> setTestShowCreate(false)}
+            />
             <TestUpdateModal
                 test={testToModal}
                 show={showTestUpdate}
                 close={()=> setTestShowUpdate(false)}
 
             />
-            <TestCreateModal
 
-                show={showTestCreate}
-                close={()=> setTestShowCreate(false)}
-            />
         </Container>
+
     );
 });
 
-export default TestsPage;
+export default TestPage;

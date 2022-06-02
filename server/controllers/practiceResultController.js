@@ -5,8 +5,17 @@ class PracticeResultController{
 
     async create(req, res, next ){
         try {
-            const {userId, practiceExerciseId, responseLink, responseDescription, timeSpent} = req.body
-            await PracticeResult.create({userId, practiceExerciseId, responseLink, responseDescription, timeSpent});
+
+            const {userId, practiceExerciseId, responseLink} = req.body
+            const reqExercise = await PracticeResult.findOne({where: {userId, practiceExerciseId}})
+
+            if (reqExercise) {
+                return res.json({
+                    "message": "Jūs jau iesniedzāt atbildi par šo testu!"
+                });
+            }
+
+            await PracticeResult.create({userId, practiceExerciseId, responseLink});
             res.json({
                 "message": "Result created"
             });
@@ -33,8 +42,8 @@ class PracticeResultController{
 
     async SendFeedback(req, res, next){
         try{
-            const {RecievedPoints, Feedback} = req.body
-            await PracticeResult.update({RecievedPoints, Feedback}, {
+            const {RecievedPoints, Feedback, responseDescription} = req.body
+            await PracticeResult.update({RecievedPoints, Feedback, responseDescription}, {
                 where: {
                     id: req.params.id
                 }
@@ -87,6 +96,8 @@ class PracticeResultController{
         }
 
     }
+
+
 
 }
 

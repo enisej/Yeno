@@ -24,8 +24,6 @@ const VacancyTestPage = observer(() => {
         })
     }, [practices, practiceExerciseId])
 
-
-
     return (
         <div>
             <VacancyTestsList practices={practices} tests={tests}/>

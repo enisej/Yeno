@@ -32,7 +32,9 @@ const PracticeExercise = sequelize.define('practiceExercises', {
     title: {type: DataTypes.STRING, allowNull: false },
     link: {type: DataTypes.STRING, allowNull: false, unique: true },
     description: {type: DataTypes.TEXT, allowNull: false},
-}, {timestamps: false})
+    createdAt: {type: DataTypes.DATE, allowNull: false, defaultValue: Date.now()},
+    updatedAt: {type: DataTypes.DATE, allowNull: false, defaultValue: Date.now()}
+})
 
 const TheoryTest = sequelize.define('theoryTests', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true  },
@@ -47,9 +49,11 @@ const TheoryTest = sequelize.define('theoryTests', {
 const PracticeResult = sequelize.define('practiceResults', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true  },
     responseLink: {type: DataTypes.STRING, allowNull: false},
-    responseDescription: {type: DataTypes.TEXT, allowNull: false},
+    responseDescription: {type: DataTypes.TEXT, allowNull: true},
     RecievedPoints: {type: DataTypes.INTEGER, allowNull: true },
-    Feedback: {type: DataTypes.BOOLEAN, allowNull: false, defaultValue: false}
+    Feedback: {type: DataTypes.BOOLEAN, allowNull: false, defaultValue: false},
+    createdAt: {type: DataTypes.DATE, allowNull: false, defaultValue: Date.now()},
+    updatedAt: {type: DataTypes.DATE, allowNull: false, defaultValue: Date.now()}
 })
 
 const RequestedVacancies = sequelize.define('requestedVacancies',{
@@ -68,7 +72,7 @@ PracticeResult.belongsTo(PracticeExercise)
 User.hasMany(PracticeResult)
 PracticeResult.belongsTo(User)
 
-Vacancy.hasMany(RequestedVacancies)
+Vacancy.hasMany(RequestedVacancies , { onDelete: 'cascade' })
 RequestedVacancies.belongsTo(Vacancy)
 
 User.hasMany(RequestedVacancies)

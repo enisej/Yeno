@@ -2,9 +2,11 @@ import {$authHost, $host} from "./index";
 import jwt_decode from "jwt-decode";
 
 export const registration = async (email, password, name, surname, birthDate, tel_number, cv, githubLink) => {
+
     const {data} = await $host.post('api/user/registration', {email, password, name, surname, birthDate, tel_number, cv, githubLink})
     localStorage.setItem('token', data.token)
     return jwt_decode(data.token)
+
 }
 
 export const login = async (email, password) => {
@@ -14,9 +16,13 @@ export const login = async (email, password) => {
 }
 
 export const check = async () => {
-    const {data} = await $authHost.get('api/user/auth')
-    localStorage.setItem('token', data.token)
-    return jwt_decode(data.token)
+        const {data} = await $authHost.get('api/user/auth')
+    if(data.token) {
+        localStorage.setItem('token', data.token)
+        return jwt_decode(data.token)
+    }else{
+        return console.log("hei")
+    }
 }
 
 export const deleteUser = async (id) => {
