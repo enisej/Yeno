@@ -1,29 +1,13 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {Button, Form, Modal, Dropdown, Row, Col} from "react-bootstrap";
 import {observer} from "mobx-react-lite";
 import {createVacancy} from "../../http/vacanciesAPI";
 import {Context} from "../../index";
-import {fetchTests} from "../../http/testAPI";
-import {fetchPracticeTests} from "../../http/practiceAPI";
 import {toast, ToastContainer} from "react-toastify";
 
 const VacancyCreateModal = observer((props) => {
 
-    const {tests} = useContext(Context)
-
-    useEffect(() => {
-        fetchTests().then(data => {
-            tests.setTheoryTests(data)
-        })
-    }, [tests])
-
-    const {practices} = useContext(Context)
-
-    useEffect(() => {
-        fetchPracticeTests().then(data => {
-            practices.setPracticeTest(data)
-        })
-    }, [practices])
+    const {tests,practices} = useContext(Context)
 
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
@@ -31,36 +15,62 @@ const VacancyCreateModal = observer((props) => {
     const [offer, setOffer] = useState('')
     const [theoryTestId, setTheoryTestId] = useState('')
     const [practiceExerciseId, setPracticeExerciseId] = useState('')
+    const [validated, setValidated] = useState(false)
+    const {vacancies} = useContext(Context)
 
-    const post = async () => {
+    const post = async (event) => {
+
+        event.preventDefault();
+
+        const form = event.currentTarget;
+        if (form.checkValidity() === false) {
+
+            event.stopPropagation();
+        }
+        setValidated(true);
+
+        if (form.checkValidity()) {
+
+
         const data = await createVacancy(title, description, qualifications, offer, theoryTestId, practiceExerciseId)
         if(data){
+            vacancies.setVacancies(data)
             const notify = () => toast.success(data.message);
             notify()
+            setTitle('')
+            setDescription('')
+            setQualifications('')
+            setOffer('')
+            setPracticeExerciseId('')
+            setTheoryTestId('')
+            props.close()
+        }
         }
     }
 
 
     return (
-        <ToastContainer/>,
+
         <Modal show={props.show}
                size="lg"
                aria-labelledby="contained-modal-title-vcenter"
                centered
         >
-
+            <ToastContainer/>
             <Modal.Header closeButton
                           onClick={props.close}
                           className="p-4" >
                 <h4>Vakances izveide</h4>
             </Modal.Header>
             <Modal.Body>
+                <Form noValidate validated={validated} onSubmit={post}>
                 <Form.Group controlId="title" className="mb-3">
                     <Form.Label>Nosakumus</Form.Label>
                     <Form.Control
                         placeholder="Nosaukums"
                         value={title}
                         onChange={e => setTitle(e.target.value)}
+                        required
                     />
 
                 </Form.Group>
@@ -73,6 +83,7 @@ const VacancyCreateModal = observer((props) => {
                         placeholder="Vakances apraksts"
                         value={description}
                         onChange={e => setDescription(e.target.value)}
+                        required
                     />
 
                 </Form.Group>
@@ -85,6 +96,7 @@ const VacancyCreateModal = observer((props) => {
                         placeholder="Vajadzīga pieredze"
                         value={qualifications}
                         onChange={e => setQualifications(e.target.value)}
+                        required
                     />
 
                 </Form.Group>
@@ -97,14 +109,15 @@ const VacancyCreateModal = observer((props) => {
                         placeholder="Mūsu piedāvājumi"
                         value={offer}
                         onChange={e => setOffer(e.target.value)}
+                        required
                     />
 
                 </Form.Group>
 
                 <Row className="d-flex justify-content-center">
                     <Col sm={3} >
-                <Dropdown className="mb-2">
-                    <Dropdown.Toggle variant="secondary" id="dropdown-basic">
+                <Dropdown className="mb-2" >
+                    <Dropdown.Toggle variant="secondary" id="dropdown-basic" >
                         Izvēlētais tests: {theoryTestId}
                     </Dropdown.Toggle>
                     <Dropdown.Menu >
@@ -154,22 +167,12 @@ const VacancyCreateModal = observer((props) => {
 
                 <Button
                     className="shadow"
-                    variant="dark"
-                    onClick={e=> {
-                        post()
-                        props.close()
-                        setTitle('')
-                        setDescription('')
-                        setQualifications('')
-                        setOffer('')
-                        setPracticeExerciseId('')
-                        setTheoryTestId('')
-
-                    }}
-
+                    variant="success"
+                    type='submit'
                 >Publicēt</Button>
 
                 </Row>
+                </Form>
             </Modal.Body>
         </Modal>
     );

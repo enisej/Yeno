@@ -53,7 +53,8 @@ const PracticeResult = sequelize.define('practiceResults', {
     RecievedPoints: {type: DataTypes.INTEGER, allowNull: true },
     Feedback: {type: DataTypes.BOOLEAN, allowNull: false, defaultValue: false},
     createdAt: {type: DataTypes.DATE, allowNull: false, defaultValue: Date.now()},
-    updatedAt: {type: DataTypes.DATE, allowNull: false, defaultValue: Date.now()}
+    updatedAt: {type: DataTypes.DATE, allowNull: false, defaultValue: Date.now()},
+
 })
 
 const RequestedVacancies = sequelize.define('requestedVacancies',{
@@ -69,6 +70,7 @@ Vacancy.belongsTo(TheoryTest)
 PracticeExercise.hasMany(PracticeResult)
 PracticeResult.belongsTo(PracticeExercise)
 
+
 User.hasMany(PracticeResult)
 PracticeResult.belongsTo(User)
 
@@ -77,6 +79,9 @@ RequestedVacancies.belongsTo(Vacancy)
 
 User.hasMany(RequestedVacancies)
 RequestedVacancies.belongsTo(User)
+
+RequestedVacancies.hasOne(PracticeResult, {onDelete: 'cascade'})
+PracticeResult.belongsTo(RequestedVacancies)
 
 module.exports = {
         User,

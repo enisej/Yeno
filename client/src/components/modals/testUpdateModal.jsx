@@ -12,18 +12,31 @@ const TestUpdateModal = observer((props) => {
     const [link, setLink] = useState('')
     const [description, setDescription] = useState('')
     const [responseLink, setResponseLink] = useState('')
-
+    const [validated, setValidated] = useState(false)
     const {tests} = useContext(Context)
 
-    const update = async () => {
-        const id = props.test.id
-        const data = await updateTest(id ,title, link, description, responseLink)
-        if(data){
-            tests.setTheoryTests(data)
-            const notify = () => toast.success(data.message);
-            notify()
-        }
+    const update = async (event) => {
 
+        event.preventDefault();
+
+        const form = event.currentTarget;
+        if (form.checkValidity() === false) {
+
+            event.stopPropagation();
+        }
+        setValidated(true);
+
+        if (form.checkValidity()) {
+
+            const id = props.test.id
+            const data = await updateTest(id, title, link, description, responseLink)
+            if (data) {
+                tests.setTheoryTests(data)
+                const notify = () => toast.success(data.message);
+                notify()
+                props.close()
+            }
+        }
     }
 
 
@@ -40,14 +53,17 @@ const TestUpdateModal = observer((props) => {
                 setResponseLink(props.test.responseLink)
             }}
         >
+
             <Modal.Header closeButton onClick={props.close} className="p-4"><h4>Testa pievienošana</h4></Modal.Header>
             <Modal.Body>
+                <Form noValidate validated={validated} onSubmit={update}>
                 <Form.Group controlId="title" className="mb-3">
                     <Form.Label>Nosakumus</Form.Label>
                     <Form.Control
                         placeholder="Nosaukums"
                         value={title}
                         onChange={e => setTitle(e.target.value)}
+                        required
                     />
 
                 </Form.Group>
@@ -58,6 +74,8 @@ const TestUpdateModal = observer((props) => {
                         placeholder="Links"
                         value={link}
                         onChange={e => setLink(e.target.value)}
+                        pattern="https://.*" size="30"
+                        required
                     />
 
                     <Form.Group controlId="ResponseLink" className="mb-3">
@@ -66,6 +84,8 @@ const TestUpdateModal = observer((props) => {
                             placeholder="Links"
                             value={responseLink}
                             onChange={e => setResponseLink(e.target.value)}
+                            pattern="https://.*" size="30"
+                            required
                         />
 
                     </Form.Group>
@@ -79,16 +99,15 @@ const TestUpdateModal = observer((props) => {
                         placeholder="Apraksts"
                         value={description}
                         onChange={e => setDescription(e.target.value)}
+                        required
                     />
 
                 </Form.Group>
 
                 <Row  className="mt-4" >
-                    <Button variant="dark" className="shadow" onClick={e =>{
-                        update()
-                        props.close()}}>Saglabāt izmaiņas</Button>
+                    <Button variant="dark" className="shadow" type='submit'>Saglabāt izmaiņas</Button>
                 </Row>
-
+                </Form>
             </Modal.Body>
 
 

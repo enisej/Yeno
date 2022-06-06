@@ -40,7 +40,7 @@ const Auth = observer(() => {
 
     return (
 
-            <Container className="mt-1" >
+            <Container className="mt-1 d-flex flex-column min-vh-100" >
                 <ToastContainer/>
                 <Form noValidate validated={validated} onSubmit={signIn}>
                     <Row >

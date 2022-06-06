@@ -28,3 +28,21 @@ export const deleteVacancy = async (id) => {
     const {data} = await $authHost.delete('api/vacancies/delete/' + id)
     return data
 }
+
+export const sortVacancyByName = async (page, limit, sort) => {
+    const {data} = await $authHost.get('api/vacancies/sort/name?sort=' + sort, { params: {page, limit }})
+    return data
+
+}
+
+export const sortVacancyByDate = async (page, limit, sort) => {
+    const {data} = await $authHost.get('api/vacancies/sort/date?sort=' + sort, { params: {page, limit }})
+    return data
+
+}
+
+export const sortVacancyByStatus = async (page, limit, sort) => {
+    const {data} = await $authHost.get('api/vacancies/sort/status?sort=' + sort, { params: {page, limit }})
+    return data
+
+}

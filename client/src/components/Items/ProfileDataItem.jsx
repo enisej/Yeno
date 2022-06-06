@@ -2,9 +2,6 @@ import React, {useContext, useState} from 'react';
 import {Button, Card, Col, Image, ListGroup, ListGroupItem, Row} from "react-bootstrap";
 import {observer} from "mobx-react-lite";
 
-import globe from "bootstrap-icons/icons/globe.svg";
-import gem from "bootstrap-icons/icons/gem.svg";
-import git from "bootstrap-icons/icons/git.svg";
 import logo from "../../images/user.png";
 import UserUpdateModal from "../modals/userUpdateModal";
 import {deleteUser} from "../../http/userAPI";
@@ -36,17 +33,21 @@ const ProfileDataItem = observer(() => {
             <Col sm={4} >
                 <Card  className="p-3 d-flex align-items-center">
                     <Image className="bg-light rounded-circle shadow" src={logo} width={100} height={100}/>
-                    <h2 className="mt-2">{userData.name} {userData.surname}</h2>
-                    <Card.Link><Image src={globe} alt={globe}/> {userData.cv}</Card.Link>
-                    <p>{userData.status}</p>
-                    <Col>
+                    <h2 className="mt-2"><b>{userData.name} {userData.surname}</b></h2>
+
+                    {userData.status === 'ADMIN' ?
+                        <h4>Administrators</h4>
+                        :
+                        <h4>Lietotājs</h4>
+                    }
+                    <Col className='mt-3'>
                         <Button className="me-1 mb-4"
-                                variant="dark"
+                                variant="outline-warning"
                                 onClick={() =>
                                     setShow(true)
                                 }
-                        >Rediģet</Button>
-                        <Button className="me-1 mb-4" variant="outline-danger" onClick={() => deleteProfile(userData.id)} >Izdzēst</Button>
+                        ><i className="bi-pencil"></i></Button>
+                        <Button className="me-1 mb-4" variant="outline-danger" onClick={() => deleteProfile(userData.id)} ><i className="bi-trash"></i></Button>
                     </Col>
                 </Card>
             </Col>
@@ -85,13 +86,13 @@ const ProfileDataItem = observer(() => {
                     <ListGroupItem>
                         <Row>
                             <Col><b>CV: </b> </Col>
-                            <Col><Button variant="outline-secondary"><a href={userData.cv} ><Image src={gem} alt={gem}/></a></Button></Col>
+                            <Col><Button size="sm" variant="outline-dark" href={'http://' + userData.cv} >cv</Button></Col>
                         </Row>
                     </ListGroupItem>
                     <ListGroupItem>
                         <Row>
                             <Col><b>GitHub: </b> </Col>
-                            <Col><Button variant="outline-secondary"><a href={userData.githubLink}><Image src={git} alt={git}/></a></Button></Col>
+                            <Col><Button size="sm" variant="outline-dark" href={'http://' + userData.githubLink}><i className="bi-github"></i></Button></Col>
                         </Row>
 
                     </ListGroupItem>

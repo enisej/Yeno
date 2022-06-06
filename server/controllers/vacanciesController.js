@@ -8,7 +8,7 @@ class VacancyController {
             const {title, description, theoryTestId, practiceExerciseId, status, qualifications, offer} = req.body
             await Vacancy.create({title, description, theoryTestId, practiceExerciseId, status, offer, qualifications})
             res.json({
-                "message": "Vacancy Created"
+                "message": "Vakance ir izveidota!"
             });
         } catch {
             return next(ApiError.internal())
@@ -29,6 +29,66 @@ class VacancyController {
             return next(ApiError.internal())
         }
     }
+
+    async getSortedByName(req, res, next) {
+        try {
+            let {limit, page, sort} = req.query
+            page = page || 1
+            limit = limit || 9
+            let offset = page * limit - limit
+
+            const vacancies = await Vacancy.findAndCountAll({limit, offset,
+                distinct: true,
+                order: [
+                    ['title', sort]
+                ],
+            })
+            return res.json(vacancies)
+        } catch {
+            return next(ApiError.internal())
+        }
+    }
+
+    async getSortedByDate(req, res, next) {
+        try {
+            let {limit, page, sort} = req.query
+            page = page || 1
+            limit = limit || 9
+            let offset = page * limit - limit
+
+            const vacancies = await Vacancy.findAndCountAll({limit, offset,
+                distinct: true,
+                order: [
+                    ['createdAt', sort]
+                ],
+            })
+            return res.json(vacancies)
+        } catch {
+            return next(ApiError.internal())
+        }
+    }
+
+    async getSortByStatus(req, res, next) {
+        try {
+            let {limit, page, sort} = req.query
+            page = page || 1
+            limit = limit || 9
+            let offset = page * limit - limit
+
+            const vacancies = await Vacancy.findAndCountAll({limit, offset,
+                distinct: true,
+                order: [
+                    ['status', sort]
+                ],
+            })
+            return res.json(vacancies)
+        } catch {
+            return next(ApiError.internal())
+        }
+    }
+
+
+
 
     async getAllActive(req, res, next) {
         try {
@@ -58,7 +118,7 @@ class VacancyController {
             });
 
             res.json({
-                "message": "Vacancy Deleted"
+                "message": "Vakance ir izdzēsta!"
             });
         } catch {
             return next(ApiError.internal())
@@ -73,7 +133,7 @@ class VacancyController {
                 }
             });
             res.json({
-                "message": "Vacancy Updated"
+                "message": "Izmaiņas ir saglābātas!"
             });
         } catch{
             return next(ApiError.internal())

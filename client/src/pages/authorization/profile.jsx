@@ -13,6 +13,7 @@ const Profile = observer(() => {
 const {user} = useContext(Context)
 
     return (
+        <Container className='d-flex flex-column min-vh-100'>
         <Container className=" p-4 mt-3 shadow bg-light">
             <ToastContainer/>
             <ProfileDataItem/>
@@ -21,6 +22,7 @@ const {user} = useContext(Context)
                 : <></>
             }
 
+        </Container>
         </Container>
     );
 });

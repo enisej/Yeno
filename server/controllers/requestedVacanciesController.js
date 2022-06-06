@@ -10,14 +10,14 @@ async create(req, res, next) {
         const reqVacancy = await RequestedVacancies.findOne({where: {userId, vacancyId}})
         if (reqVacancy) {
             return res.json({
-                "message": "vacancy has already been added"
+                "message": "Jūs jau pieteicaties šajai vakancei!"
             });
         }
 
         await RequestedVacancies.create({userId, vacancyId})
 
         res.json({
-            "message": "Vacancy added"
+            "message": "Jūs pieteicaties vakancei!"
         });
     } catch {
         return next(ApiError.internal())
@@ -39,6 +39,22 @@ async create(req, res, next) {
 
     }
 
+    async getByUserIdAndTestId(req, res, next) {
+        try {
+            let {userId, practiceExerciseId} = req.query
+            let result = await RequestedVacancies.findAll({
+                where: {userId},
+                include: [{model:Vacancy, attributes: ['title', 'theoryTestId', 'practiceExerciseId'] , where: {practiceExerciseId} }]})
+            return res.json(result)
+
+        } catch {
+
+            return next(ApiError.internal())
+        }
+
+    }
+
+
     async delete(req, res, next){
         try {
             await RequestedVacancies.destroy({
@@ -48,7 +64,7 @@ async create(req, res, next) {
             });
 
             res.json({
-                "message": "Vacancy deleted from profile"
+                "message": "Pieteikums vakancei ir izdzēst"
             });
         } catch {
             return next(ApiError.internal())

@@ -40,6 +40,10 @@ export const getUser = async (id) => {
     const {data} = await $authHost.get('api/user/' + id)
     return data
 }
+export const getUsers = async (id) => {
+    const {data} = await $authHost.get('api/user/')
+    return data
+}
 
 
 

@@ -12,13 +12,28 @@ const PracticeUpdateModal = observer((props) => {
     const [title, setTitle] = useState('')
     const [link, setLink] = useState('')
     const [description, setDescription] = useState('')
-    const update = async () => {
-        const id = props.practice.id
-        const data = await updatePractice(id ,title, link, description)
-        if(data){
-            practices.setPracticeTest(data)
-            const notify = () => toast.success(data.message);
-            notify()
+    const [validated, setValidated] = useState(false)
+
+    const update = async (event) => {
+
+        event.preventDefault();
+
+        const form = event.currentTarget;
+        if (form.checkValidity() === false) {
+
+            event.stopPropagation();
+        }
+        setValidated(true);
+
+        if (form.checkValidity()) {
+            const id = props.practice.id
+            const data = await updatePractice(id, title, link, description)
+            if (data) {
+                practices.setPracticeTest(data)
+                const notify = () => toast.success(data.message);
+                notify()
+                props.close()
+            }
         }
 
     }
@@ -38,12 +53,14 @@ const PracticeUpdateModal = observer((props) => {
         >
             <Modal.Header closeButton onClick={props.close} className="p-4"><h4>Testa pievienošana</h4></Modal.Header>
             <Modal.Body>
+                <Form noValidate validated={validated} onSubmit={update}>
                 <Form.Group controlId="title" className="mb-3">
                     <Form.Label>Nosakumus</Form.Label>
                     <Form.Control
                         placeholder="Nosaukums"
                         value={title}
                         onChange={e => setTitle(e.target.value)}
+                        required
                     />
 
                 </Form.Group>
@@ -54,6 +71,8 @@ const PracticeUpdateModal = observer((props) => {
                         placeholder="Links"
                         value={link}
                         onChange={e => setLink(e.target.value)}
+                        pattern="https://.*" size="30"
+                        required
                     />
                 </Form.Group>
 
@@ -64,14 +83,15 @@ const PracticeUpdateModal = observer((props) => {
                         placeholder="Apraksts"
                         value={description}
                         onChange={e => setDescription(e.target.value)}
+                        required
                     />
 
                 </Form.Group>
 
                 <Row  className="mt-4" >
-                    <Button variant="dark" className="shadow" onClick={e=>{update()
-                    props.close()}}>Saglabāt izmaiņas</Button>
+                    <Button variant="dark" className="shadow" type='submit'>Saglabāt izmaiņas</Button>
                 </Row>
+                </Form>
 
             </Modal.Body>
 

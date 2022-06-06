@@ -12,6 +12,11 @@ export const GetRequestedVacancy = async (userId) =>{
     return data
 }
 
+export const GetRequestedVacancyByUserAndTest = async (userId, practiceExerciseId) =>{
+    const {data} = await $authHost.get('api/requested_vacancies/req/?userId=' + userId + '&practiceExerciseId=' + practiceExerciseId)
+    return data
+}
+
 export const deleteRequestedVacancy = async (id) =>{
     const {data} = await $authHost.delete('api/requested_vacancies/delete/' + id)
     return data

@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {Badge, Button, Dropdown, Form, Modal, Row} from "react-bootstrap";
+import { Button, Col, Dropdown, Form, Modal, Row} from "react-bootstrap";
 import {observer} from "mobx-react-lite";
 import {Context} from "../../index";
 import {fetchTests} from "../../http/testAPI";
@@ -33,16 +33,33 @@ const VacancyUpdateModal = observer((props) => {
     const [offer, setOffer] = useState('')
     const [theoryTestId, setTheoryTestId] = useState('')
     const [practiceExerciseId, setPracticeExerciseId] = useState('')
+    const [validated, setValidated] = useState(false)
 
-    const update = async () => {
-        const id = props.vacancy.id
-        const data = await updateVacancy(id ,title, description, qualifications, offer, theoryTestId, practiceExerciseId, status)
+    const {vacancies} = useContext(Context)
 
-        if(data){
-            const notify = () => toast.success(data.message);
-            notify()
+    const update = async (event) => {
+
+        event.preventDefault();
+
+        const form = event.currentTarget;
+        if (form.checkValidity() === false) {
+
+            event.stopPropagation();
         }
+        setValidated(true);
 
+        if (form.checkValidity()) {
+
+            const id = props.vacancy.id
+            const data = await updateVacancy(id, title, description, qualifications, offer, theoryTestId, practiceExerciseId, status)
+
+            if (data) {
+                vacancies.setVacancies(data)
+                const notify = () => toast.success(data.message);
+                notify()
+                props.close()
+            }
+        }
     }
 
 
@@ -67,12 +84,14 @@ const VacancyUpdateModal = observer((props) => {
                           className="p-4">
             </Modal.Header>
             <Modal.Body>
+                <Form noValidate validated={validated} onSubmit={update}>
                 <Form.Group controlId="title" className="mb-3">
                     <Form.Label>Nosakumus</Form.Label>
                     <Form.Control
                         placeholder="Nosaukums"
                         value={title}
                         onChange={e => setTitle(e.target.value)}
+                        required
                     />
 
                 </Form.Group>
@@ -85,6 +104,7 @@ const VacancyUpdateModal = observer((props) => {
                         placeholder="Vakances apraksts"
                         value={description}
                         onChange={e => setDescription(e.target.value)}
+                        required
                     />
 
                 </Form.Group>
@@ -97,6 +117,7 @@ const VacancyUpdateModal = observer((props) => {
                         placeholder="Vajadzīga pieredze"
                         value={qualifications}
                         onChange={e => setQualifications(e.target.value)}
+                        required
                     />
 
                 </Form.Group>
@@ -109,13 +130,15 @@ const VacancyUpdateModal = observer((props) => {
                         placeholder="Mūsu piedāvājumi"
                         value={offer}
                         onChange={e => setOffer(e.target.value)}
+                        required
                     />
 
                 </Form.Group>
-
+                    <Row className="d-flex justify-content-center">
+                        <Col sm={3}>
                         <Dropdown className="mb-2">
-                            <Dropdown.Toggle variant="dark" id="dropdown-basic">
-                                Izvēlies testu
+                            <Dropdown.Toggle variant="secondary" id="dropdown-basic">
+                                Izvēlētais tests: {theoryTestId}
                             </Dropdown.Toggle>
                             <Dropdown.Menu >
                                 <Dropdown.Item onClick={() => setTheoryTestId('') }>
@@ -131,12 +154,11 @@ const VacancyUpdateModal = observer((props) => {
                                 )}
                             </Dropdown.Menu>
                         </Dropdown>
-
-                        <h5><Badge bg="warning" className="text-dark mb-3"> Izvēlētais tests: {theoryTestId}</Badge></h5>
-
+                        </Col>
+                        <Col sm={3}>
                         <Dropdown className="mb-2">
-                            <Dropdown.Toggle variant="dark" id="dropdown-basic">
-                                Izvēlies uzdevumu
+                            <Dropdown.Toggle variant="secondary" id="dropdown-basic">
+                                Izvēlētais uzdevums: {practiceExerciseId}
                             </Dropdown.Toggle>
 
 
@@ -154,8 +176,8 @@ const VacancyUpdateModal = observer((props) => {
                                 )}
                             </Dropdown.Menu>
                         </Dropdown>
-                        <h5><Badge bg="warning" className="text-dark mb-3"> Izvēlētais uzdevums: {practiceExerciseId}</Badge></h5>
-
+                        </Col>
+                    </Row>
                         <Form.Label>
                             {status === false ?
                                 <Button variant="success" onClick={e => {
@@ -170,22 +192,20 @@ const VacancyUpdateModal = observer((props) => {
                                 }}>
                                     Deaktivizēt
                                 </Button>
+
                             }
-
-
-
-
                         </Form.Label>
 
                 <Row  className="mt-4">
 
+
                     <Button
                         className="shadow"
-                        variant="dark"
-                        onClick={event => {update()
-                        props.close()}}
+                        variant="success"
+                        type='submit'
                     >Saglabāt izmaiņas</Button>
                 </Row>
+                </Form>
             </Modal.Body>
 
         </Modal>

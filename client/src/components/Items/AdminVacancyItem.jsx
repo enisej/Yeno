@@ -4,7 +4,7 @@ import {
     Button,
     Card,
     Col,
-    Container,
+    Container, DropdownButton,
     Form, FormControl,
     Image,
     Row
@@ -13,13 +13,20 @@ import icon from "bootstrap-icons/icons/clock-fill.svg";
 import {observer} from "mobx-react-lite";
 import {format, parseISO} from "date-fns";
 import VacancyCreateModal from "../modals/vacancyCreateModal";
-import {deleteVacancy, fetchAllVacancies} from "../../http/vacanciesAPI";
+import {
+    deleteVacancy,
+    fetchAllVacancies,
+    sortVacancyByDate,
+    sortVacancyByName,
+    sortVacancyByStatus
+} from "../../http/vacanciesAPI";
 import VacancyUpdateModal from "../modals/vacancyUpdateModal";
 import VacancyModalItem from "../modals/vacancyModalItem";
 import {toast, ToastContainer} from "react-toastify";
 
 import NotFound from "../alerts/NotFound";
 import {Context} from "../../index";
+import DropdownItem from "react-bootstrap/DropdownItem";
 
 
 const AdminVacancyItem = observer( () => {
@@ -27,31 +34,96 @@ const AdminVacancyItem = observer( () => {
     const [showCreate, setShowCreate] = useState(false);
     const [showUpdate, setShowUpdate] = useState(false);
     const [vacancy, setVacancy] = useState('');
+    const [rowData, setRowData] = useState();
 
     const deleteVacancyItem = async (id) => {
         const data = await deleteVacancy(id)
         if(data){
+            vacancies.setVacancies(data)
             const notify = () => toast.success(data.message);
             notify()
         }
     }
 
-
-
     const {vacancies} = useContext(Context)
 
-    useEffect(() => {
 
+    useEffect(() => {
         fetchAllVacancies(vacancies.page, 5).then(data => {
-            vacancies.setTotalCount(data.count);
-            vacancies.setVacancies(data.rows);
+                //vacancies.setVacancies(data.rows)
+                vacancies.setTotalCount(data.count);
+                setRowData(data.rows);
         })
     }, [vacancies.vacancies, vacancies])
 
-    return (
 
+    const Cancel = () => {
+        fetchAllVacancies(vacancies.page, 5).then(data => {
+            
+            vacancies.setTotalCount(data.count);
+            setRowData(data.rows);
+        })
+
+    }
+
+
+    const sortByNameASC = () => {
+         sortVacancyByName(vacancies.page, 5, 'ASC').then(data => {
+
+             vacancies.setTotalCount(data.count);
+            setRowData(data.rows)
+        })
+
+    }
+
+    const sortByNameDESC = () => {
+        sortVacancyByName(vacancies.page, 5, 'DESC').then(data => {
+
+            vacancies.setTotalCount(data.count);
+            setRowData(data.rows)
+        })
+
+    }
+
+    const sortByDateASC = async () => {
+        await sortVacancyByDate(vacancies.page, 5, 'ASC').then(data => {
+
+            vacancies.setTotalCount(data.count);
+            setRowData(data.rows)
+
+        })
+    }
+
+    const sortByDateDESC = async () => {
+        await sortVacancyByDate(vacancies.page, 5, 'DESC').then(data => {
+
+            vacancies.setTotalCount(data.count);
+            setRowData(data.rows)
+
+        })
+    }
+
+    const sortByStatusASC = async () => {
+        await sortVacancyByStatus(vacancies.page, 5, 'ASC').then(data => {
+
+            vacancies.setTotalCount(data.count);
+            setRowData(data.rows)
+        })
+    }
+
+    const sortByStatusDESC = async () => {
+        await sortVacancyByStatus(vacancies.page, 5, 'DESC').then(data => {
+
+            vacancies.setTotalCount(data.count);
+            setRowData(data.rows)
+        })
+    }
+
+
+    return (
         <Container className="mt-xxl-5">
             <ToastContainer/>
+
             <Card className="shadow">
                 <Card.Body>
                     <Row>
@@ -66,7 +138,29 @@ const AdminVacancyItem = observer( () => {
                             </Button>
                         </Col>
                         <Col>
-
+                            <DropdownButton variant='secondary' title='Kārtot'>
+                                <DropdownItem onClick={e=>{Cancel()}}>
+                                    Atcelt
+                                </DropdownItem>
+                                <DropdownItem
+                                    onClick={e=>{sortByNameASC() }}>Pēc nosaukuma <i className="bi-arrow-up"></i>
+                                </DropdownItem>
+                                <DropdownItem onClick={e=>{sortByNameDESC()}}>
+                                    Pēc nosaukuma <i className="bi-arrow-down"></i>
+                                </DropdownItem>
+                                <DropdownItem onClick={e=>{sortByDateASC()}}>
+                                    Pēc izveides datuma <i className="bi-arrow-up"></i>
+                                </DropdownItem>
+                                <DropdownItem onClick={e=>{sortByDateDESC()}}>
+                                    Pēc izveides datuma <i className="bi-arrow-down"></i>
+                                </DropdownItem>
+                                <DropdownItem onClick={e=>{sortByStatusASC()}}>
+                                    Pēc statusa <i className="bi-arrow-up"></i>
+                                </DropdownItem>
+                                <DropdownItem onClick={e=>{sortByStatusDESC()}}>
+                                    Pēc statusa <i className="bi-arrow-down"></i>
+                                </DropdownItem>
+                            </DropdownButton>
                         </Col>
                         <Col>
                             <Form className="d-flex">
@@ -75,6 +169,7 @@ const AdminVacancyItem = observer( () => {
                                     placeholder="Meklēšana..."
                                     className="me-2"
                                     aria-label="Search"
+
                                 />
                                 <Button variant="outline-success"><i className="bi-search"></i></Button>
                             </Form>
@@ -82,16 +177,14 @@ const AdminVacancyItem = observer( () => {
                     </Row>
                 </Card.Body>
             </Card>
-            {vacancies.vacancies.length ?
+            {rowData ?
                 <div>
-                    {vacancies.vacancies.map(vacancy =>
-
+                    {rowData.map(vacancy =>
                         <Card className="mt-5 shadow" key={vacancy.id}>
 
                             <Card.Body>
                                 <Row className="justify-content-md-center">
                                     <Col sm>
-
                                         <Card.Title className="fs-1 mb-5 ">{vacancy.title}
 
                                         </Card.Title>
@@ -146,7 +239,6 @@ const AdminVacancyItem = observer( () => {
                 <NotFound/>
             }
             <VacancyModalItem
-
                 icon = {icon}
                 vacancy={vacancy}
                 show={showDetails}

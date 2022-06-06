@@ -22,7 +22,7 @@ const UserResponses = observer(() => {
     }, [practiceResponses.practiceResponse, userId, practiceResponses])
 
     return (
-        <Container>
+        <Container className='d-flex flex-column min-vh-100'>
             {practiceResponses.practiceResponse.length ?
 
                 <div>
@@ -41,7 +41,13 @@ const UserResponses = observer(() => {
                             </Card.Header>
                                         <Row className="p-2">
                                         <Col>
-                                            <Card.Body>Uzdevuma nosaukums: <b> {responses.practiceExercise.title}</b></Card.Body>
+                                            <Card.Body>Uzdevuma nosaukums:
+                                                {!responses.practiceExerciseId
+                                                    ?
+                                                    <b>Uzdevums tika izdzēsts!</b>
+                                                    :
+                                                    <b> {responses.practiceExercise.title}</b>
+                                                }</Card.Body>
                                             <Card.Body>Iesniegta atbilde:<Card.Link href={responses.responseLink}> Atbilde</Card.Link></Card.Body>
                                         </Col>
                                             <Col className="mt-3 me-3">

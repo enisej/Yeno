@@ -98,13 +98,13 @@ const TestPage = observer(() => {
     const [testToModal, setTestToModal] = useState('')
     const history = useHistory();
     return (
-        <Container>
+        <Container className='d-flex flex-column min-vh-100'>
             <ToastContainer/>
             <Card className="shadow mb-4 mt-3">
                 <Card.Body>
                     <Row>
                         <Col sm={9} >
-                            <h4 className="fw-bold">Teoretiskie testi</h4>
+                            <h4 className="fw-bold mt-2">Teoretiskie testi</h4>
                         </Col>
                         <Col>
                             <Button variant="outline-dark" onClick={()=>{history.push(USERS_ROUTE)}}>Lietotāju saraksts</Button>

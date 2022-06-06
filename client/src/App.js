@@ -51,7 +51,7 @@ const App = observer(() => {
 
   return (
 
-    <BrowserRouter>
+    <BrowserRouter >
         <Navigation/>
         <AppRouter />
         <Footer/>

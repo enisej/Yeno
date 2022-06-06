@@ -20,7 +20,7 @@ ReactDOM.render(
         requestedVacancies: new RequestedVacanciesStore(),
 
     }}>
-        <App />
+        <App/>
     </Context.Provider>,
 
     document.getElementById('root')

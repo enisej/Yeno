@@ -8,7 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 const Home = () => {
 
     return (
-        <Container>
+        <Container className='d-flex flex-column min-vh-100'>
             <MainInfo/>
             <GoalCardInfo/>
             <Info/>

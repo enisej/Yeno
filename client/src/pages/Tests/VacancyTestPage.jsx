@@ -25,7 +25,7 @@ const VacancyTestPage = observer(() => {
     }, [practices, practiceExerciseId])
 
     return (
-        <div>
+        <div className='d-flex flex-column min-vh-100'>
             <VacancyTestsList practices={practices} tests={tests}/>
         </div>
     );

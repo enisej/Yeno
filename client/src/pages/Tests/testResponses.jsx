@@ -36,7 +36,7 @@ const TestResponses = observer(() => {
                 }
             )
         }catch {
-            console.log("pizda")
+
         }
     }, [readRemoteFile, validLink, id, tests])
 

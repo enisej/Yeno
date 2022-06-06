@@ -18,7 +18,7 @@ const TestPage = observer(() => {
     }, [tests, id])
 
     return (
-        <div>
+        <div className='d-flex flex-column min-vh-100'>
             <TestItem tests={tests}/>
         </div>
     );

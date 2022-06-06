@@ -12,13 +12,23 @@ export const fetchResponsesByTestId = async(practiceId) => {
     return data
 }
 
-export const createResponses = async (responseLink, userId, practiceExerciseId) => {
-    const {data} = await $authHost.post('api/practice_results/create', {responseLink, userId, practiceExerciseId})
+export const createResponses = async (responseLink, userId, practiceExerciseId, requestedVacancyId) => {
+    const {data} = await $authHost.post('api/practice_results/create', {responseLink, userId, practiceExerciseId, requestedVacancyId})
     return data
 }
 
 export const sendFeedback = async (id, RecievedPoints, Feedback, responseDescription) => {
     const {data} = await $authHost.patch('api/practice_results/feedback/'+ id , {RecievedPoints, Feedback, responseDescription})
+    return data
+}
+
+export const TopTestResults = async (practiceExerciseId) => {
+    const {data} = await $authHost.get('api/practice_results/top/?practiceExerciseId=' + practiceExerciseId)
+    return data
+}
+
+export const TestWithoutFeedback = async (practiceExerciseId) => {
+    const {data} = await $authHost.get('api/practice_results/feedback/?practiceExerciseId=' + practiceExerciseId)
     return data
 }
 

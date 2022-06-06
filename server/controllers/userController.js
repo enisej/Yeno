@@ -18,11 +18,11 @@ class UserController {
         try {
             const {name, surname, email, password, birthDate, status, tel_number, cv, githubLink} = req.body
             if (!email || !password || !name || !surname || !birthDate || !tel_number || !cv || !githubLink ) {
-                return next(ApiError.custom('Incorrect data'))
+                return next(ApiError.custom('Nepareizi ievadīti dati!'))
             }
             const candidate = await User.findOne({where: {email}})
             if (candidate) {
-                return next(ApiError.custom('User with this email already exists'))
+                return next(ApiError.custom('Lietotājs ar šo e-pastu jau eksistē!'))
             }
             const hashPassword = await bcrypt.hash(password, 5)
             const user = await User.create({name, surname, email, birthDate, status, tel_number, githubLink, cv, password: hashPassword})
@@ -40,11 +40,11 @@ class UserController {
         const {email, password} = req.body
         const user = await User.findOne({where: {email}})
         if (!user) {
-            return next(ApiError.custom('User not found'))
+            return next(ApiError.custom('Lietotājs ar šo e-pastu neēksistē!'))
         }
         let comparePassword = bcrypt.compareSync(password, user.password)
         if (!comparePassword) {
-            return next(ApiError.custom('Wrong password'))
+            return next(ApiError.custom('Nepareizi ievadīta parole!'))
         }
         const token = generateJwt(user.id, user.email, user.status, user.name, user.surname, user.birthDate, user.tel_number, user.cv, user.githubLink)
         return res.json({token})
@@ -68,7 +68,7 @@ class UserController {
 
             const {name, surname, email, password, birthDate, status, tel_number, cv, githubLink} = req.body
             if (!email || !password || !name || !surname || !birthDate || !status || !tel_number || !cv || !githubLink) {
-                return next(ApiError.custom('Empty fields!'))
+                return next(ApiError.custom('Nepareizi ievadīti dati!'))
             }
             const hashPassword = await bcrypt.hash(password, 5)
             await User.update({name, surname, email, password: hashPassword, birthDate, status, tel_number, cv, githubLink}, {
@@ -77,7 +77,7 @@ class UserController {
                 }
             });
             res.json({
-                "message": "User data updated"
+                "message": "Lietotāja dati ir izmainīti!"
             });
         }catch {
             return next(ApiError.internal())
@@ -94,7 +94,7 @@ class UserController {
             });
 
             res.json({
-                "message": "User deleted"
+                "message": "Lietotājs ir izdzēsts!"
             });
         } catch {
             return next(ApiError.internal())

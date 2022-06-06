@@ -18,7 +18,7 @@ const PracticePage = observer(() => {
     }, [practices, id])
 
     return (
-        <Container>
+        <Container className='d-flex flex-column min-vh-100'>
             <PracticeItem practices={practices}/>
         </Container>
     );

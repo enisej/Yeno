@@ -15,7 +15,7 @@ const Vacancies = observer(() => {
     }
 
     return (
-        <Container className="mb-xxl-5">
+        <Container className="mb-xxl-5 d-flex flex-column min-vh-100">
             {localStorage.token && userData.status === 'ADMIN'
                 ?
             <Row>

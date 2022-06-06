@@ -22,13 +22,15 @@ const Register = observer(() => {
             event.preventDefault();
             const form = event.currentTarget;
             if (form.checkValidity() === false) {
+
                 event.stopPropagation();
             }
             setValidated(true);
-
-            const data = await registration(email, password, name, surname, birthDate, tel_number, cv, githubLink)
-            if (data) {
-                window.location.href = PROFILE_ROUTE;
+            if(form.checkValidity()) {
+                const data = await registration(email, password, name, surname, birthDate, tel_number, cv, githubLink)
+                if (data) {
+                    window.location.href = PROFILE_ROUTE;
+                }
             }
         }catch (e){
         const notify = () => toast.warning(e.response.data.message);
@@ -38,7 +40,7 @@ const Register = observer(() => {
     }
 
     return (
-            <Container className="mt-2" >
+            <Container className="mt-2 d-flex flex-column min-vh-100" >
                 <ToastContainer/>
                 <Form noValidate validated={validated} onSubmit={signup}>
                 <Row className="mt-2">
@@ -52,8 +54,12 @@ const Register = observer(() => {
                                     placeholder="Jānis"
                                     value={name}
                                     onChange={e => setName(e.target.value)}
+                                    pattern='^[A-Za-z]{3,16}$'
                                     required
                                 />
+                                <Form.Control.Feedback type="invalid">
+                                    Vārds ir ievadīts nepareizi!
+                                </Form.Control.Feedback>
 
                             </Form.Group>
                             <Form.Group controlId="FormSurname" >
@@ -63,8 +69,12 @@ const Register = observer(() => {
                                     placeholder="Bērziņš"
                                     value={surname}
                                     onChange={e => setSurname(e.target.value)}
+                                    pattern='^[A-Za-z]{3,16}$'
                                     required
                                 />
+                                <Form.Control.Feedback type="invalid">
+                                    Uzvārds ir ievadīts nepareizi!
+                                </Form.Control.Feedback>
                             </Form.Group>
 
                             <Form.Group controlId="Date" >
@@ -75,8 +85,10 @@ const Register = observer(() => {
                                     value={birthDate}
                                     onChange={e => setBirthDate(e.target.value)}
                                     required
-
                                 />
+                                <Form.Control.Feedback type="invalid">
+                                    Dzimšanas datums ir ievadīts nepareizi!
+                                </Form.Control.Feedback>
 
                             </Form.Group>
                             <Form.Group controlId="formBasicEmail" >
@@ -88,30 +100,39 @@ const Register = observer(() => {
                                     onChange={e => setEmail(e.target.value)}
                                     required
                                     />
-
+                                <Form.Control.Feedback type="invalid">
+                                    E-pasts ir ievadīts nepareizi!
+                                </Form.Control.Feedback>
                             </Form.Group>
 
                         <Form.Group controlId="formBasicTel_number" >
                             <Form.Label>Telefona numurs</Form.Label>
                             <Form.Control
                                 type="TelNumber"
-                                placeholder="+371 272 29 293"
+                                placeholder="272 29 293"
                                 value={tel_number}
                                 onChange={e => setTelNumber(e.target.value)}
+                                pattern='[0-9]{8,16}'
                                 required
                             />
-
+                            <Form.Control.Feedback type="invalid">
+                                Telefona numurs ir ievadīts nepareizi!
+                            </Form.Control.Feedback>
                         </Form.Group>
 
                         <Form.Group controlId="formBasicCvLink" >
                             <Form.Label>Links uz CV</Form.Label>
                             <Form.Control
                                 type="link"
-                                placeholder="www.linked.id"
+                                placeholder="https://www.linked.id"
                                 value={cv}
                                 onChange={e => setCv(e.target.value)}
+                                pattern="https://.*" size="30"
                                 required
                             />
+                            <Form.Control.Feedback type="invalid">
+                                Links ir ievadīts nepareizi! Ievadīet 'https://' pirms ievadīt adresi!
+                            </Form.Control.Feedback>
 
                         </Form.Group>
 
@@ -122,8 +143,12 @@ const Register = observer(() => {
                                     placeholder="www.github.com/user"
                                     value={githubLink}
                                     onChange={e => setGithubLink(e.target.value)}
+                                    pattern="https://.*" size="30"
                                     required
                                 />
+                                <Form.Control.Feedback type="invalid">
+                                    Links ir ievadīts nepareizi! Ievadīet 'https://' pirms ievadīt adresi!
+                                </Form.Control.Feedback>
 
                         </Form.Group>
 
@@ -135,8 +160,12 @@ const Register = observer(() => {
                                     value={password}
                                     onChange={e => setPassword(e.target.value)}
                                     autoComplete="on"
+                                    pattern=".{6,20}"
                                     required
                                     />
+                                <Form.Control.Feedback type="invalid">
+                                    Parole ir ievadīta nepareizi, parolei jabūt 6-20 simboliem!
+                                </Form.Control.Feedback>
 
                             </Form.Group>
 
@@ -149,9 +178,12 @@ const Register = observer(() => {
                                     value={repeatPassword}
                                     onChange={e=>setRepeatPassword(e.target.value)}
                                     autoComplete="on"
+                                    pattern=".{6,}"
                                     required
                                 />
-
+                                <Form.Control.Feedback type="invalid">
+                                    Parole ir atkartota nepareizi!
+                                </Form.Control.Feedback>
                             </Form.Group>
 
                             <Button className="w-100 mt-3" variant="dark" type="submit" >

@@ -8,7 +8,7 @@ class PracticeTestController{
             const {title, link, description} = req.body
             await PracticeExercise.create({title, link, description});
             res.json({
-                "message": "Practice created"
+                "message": "Praktiskais uzdevums ir izveidots!"
             });
         } catch {
             return next(ApiError.internal())
@@ -23,7 +23,7 @@ class PracticeTestController{
                 }
             });
             res.json({
-                "message": "Practice updated"
+                "message": "Izmaiņas ir saglabātas!"
             });
         } catch{
             return next(ApiError.internal())
@@ -38,7 +38,7 @@ class PracticeTestController{
                 }
             });
             res.json({
-                "message": "Practice deleted"
+                "message": "Praktiskais uzdevums ir izdzēsts"
             });
         } catch {
             return next(ApiError.internal())

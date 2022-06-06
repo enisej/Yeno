@@ -13,7 +13,7 @@ import {deletePractice, fetchPracticeTests} from "../../http/practiceAPI";
 import PracticeCreateModal from "../../components/modals/practiceCreateModal";
 import PracticeUpdateModal from "../../components/modals/practiceUpdateModal";
 import {useHistory} from "react-router-dom";
-import {PRACTICE_RESPONSE_ROUTE} from "../../utils/consts";
+import {PRACTICE_RESPONSE_ROUTE, USERS_ROUTE} from "../../utils/consts";
 import {format, parseISO} from "date-fns";
 
 const PracticesPage = observer(() => {
@@ -99,13 +99,16 @@ const PracticesPage = observer(() => {
     const [showTestUpdate,  setTestShowUpdate] = useState(false)
     const [testToModal, setTestToModal] = useState('')
     return (
-        <Container>
+        <Container className='d-flex flex-column min-vh-100'>
             <ToastContainer/>
             <Card className="shadow mb-4 mt-3">
                 <Card.Body>
                     <Row>
-                        <Col sm={10} >
-                            <h4 className="fw-bold">Praktiskie uzdevumi</h4>
+                        <Col sm={9}>
+                            <h4 className="fw-bold mt-2">Praktiskie uzdevumi</h4>
+                        </Col>
+                        <Col>
+                            <Button variant="outline-dark" onClick={()=>{history.push(USERS_ROUTE)}}>Lietotāju saraksts</Button>
                         </Col>
                         <Col sm={1}>
 
@@ -140,7 +143,6 @@ const PracticesPage = observer(() => {
                 practice={testToModal}
                 show={showTestUpdate}
                 close={()=> setTestShowUpdate(false)}
-
             />
 
         </Container>

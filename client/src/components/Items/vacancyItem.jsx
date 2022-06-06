@@ -28,21 +28,21 @@ const VacancyItem = observer( () => {
         if(data){}
     }
 
+    const [rowData, setRowData ] = useState('')
+
     useEffect(() => {
         fetchVacancies(vacancies.page, 5).then(data => {
-            vacancies.setVacancies(data.rows)
+            setRowData(data.rows);
             vacancies.setTotalCount(data.count)
         })
     }, [vacancies.vacancies, vacancies])
 
     return (
         <Container>
-            {vacancies.vacancies.length ?
+            {rowData.length ?
                 <div>
-                    {vacancies.vacancies.map(vacancy =>
-
+                    {rowData.map(vacancy =>
                         <Card className="mt-5 shadow" key={vacancy.id}>
-
                             <Card.Body>
                                 <Row className="justify-content-md-center">
                                     <Col sm>

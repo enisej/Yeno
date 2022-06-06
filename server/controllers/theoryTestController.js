@@ -8,7 +8,7 @@ class TheoryTestController{
             const {title, link, description, responseLink} = req.body
             await TheoryTest.create({title, link, description, responseLink});
             res.json({
-                "message": "Test created"
+                "message": "Teorijas tests ir izveidots!"
             });
         } catch {
             return next(ApiError.internal())
@@ -23,7 +23,7 @@ class TheoryTestController{
                 }
             });
             res.json({
-                "message": "Test updated"
+                "message": "Izmaiņas ir saglabātas"
             });
         } catch{
             return next(ApiError.internal())
@@ -38,7 +38,7 @@ class TheoryTestController{
                 }
             });
             res.json({
-                "message": "Test deleted"
+                "message": "Teorijas tests ir izdzēsts!"
             });
         } catch {
             return next(ApiError.internal())
