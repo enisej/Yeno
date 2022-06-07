@@ -3,7 +3,7 @@ import {observer} from "mobx-react-lite";
 import {Pagination} from "react-bootstrap";
 import {Context} from "../../index";
 
-const Pages = observer(() => {
+const Pages = observer((props) => {
     const {vacancies} = useContext(Context)
     const pageCount = Math.ceil(vacancies.totalCount / vacancies.limit)
     const pages = []

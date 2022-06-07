@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {Card, Col, Container, Image, Row, Button} from "react-bootstrap";
+import {Card, Col, Container, Image, Row, Button, FormControl} from "react-bootstrap";
 import icon from "bootstrap-icons/icons/clock-fill.svg";
 import VacancyModalItem from "../modals/vacancyModalItem";
 import {ALL_TEST_ROUTE} from "../../utils/consts";
@@ -9,8 +9,11 @@ import {format, parseISO} from "date-fns";
 import {AddRequestedVacancy} from "../../http/RequestedVacanciesAPI";
 import jwt_decode from "jwt-decode";
 import {Context} from "../../index";
-import {fetchVacancies} from "../../http/vacanciesAPI";
+import {
+    fetchVacancies,
+} from "../../http/vacanciesAPI";
 import NotFound from "../alerts/NotFound";
+
 
 
 const VacancyItem = observer( () => {
@@ -32,17 +35,65 @@ const VacancyItem = observer( () => {
 
     useEffect(() => {
         fetchVacancies(vacancies.page, 5).then(data => {
-            setRowData(data.rows);
             vacancies.setTotalCount(data.count)
+            setRowData(data.rows);
+
         })
-    }, [vacancies.vacancies, vacancies])
+    }, [vacancies.vacancies,vacancies.page, vacancies])
+
+    const [title, setTitle] = useState('')
+
+    if (title === '') {
+        fetchVacancies(vacancies.page, 5).then(data => {
+            vacancies.setTotalCount(data.count);
+            return setRowData(data.rows);})
+    }
+
+    const Search = () => {
+        if (title === '') {
+            fetchVacancies(vacancies.page, 5).then(data => {
+                vacancies.setTotalCount(data.count);
+                return setRowData(data.rows);})
+        } else {
+            const filtered = rowData.filter(obj => {
+                return obj.title.toLowerCase() === title.toLowerCase();
+            });
+            setRowData(filtered)
+        }
+    }
 
     return (
-        <Container>
+        <Container className='mt-4'>
+            <Card className="shadow">
+                <Card.Body>
+                    <Row>
+                        <Col >
+                            <Row>
+                                <Col sm={6}>
+
+                                </Col>
+                                <Col>
+                                    <FormControl
+                                        type="search"
+                                        placeholder="Meklēt pēc nosaukuma..."
+                                        className="me-2"
+                                        aria-label="Search"
+                                        onChange={e => {
+                                            setTitle(e.target.value)
+                                        }}
+                                    />
+                                </Col>
+                                <Col sm={1}><Button variant="outline-success" onClick={Search}><i className="bi-search"></i></Button></Col>
+
+                            </Row>
+                        </Col>
+                    </Row>
+                </Card.Body>
+            </Card>
             {rowData.length ?
                 <div>
                     {rowData.map(vacancy =>
-                        <Card className="mt-5 shadow" key={vacancy.id}>
+                        <Card className="mt-4 shadow" key={vacancy.id}>
                             <Card.Body>
                                 <Row className="justify-content-md-center">
                                     <Col sm>

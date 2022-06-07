@@ -8,8 +8,8 @@ router.patch('/update/:id',checkRole('ADMIN'), VacanciesController.update)
 router.delete('/delete/:id',checkRole('ADMIN'), VacanciesController.delete)
 router.get('/all' ,checkRole('ADMIN'), VacanciesController.getAll )
 router.get('/' , VacanciesController.getAllActive )
-router.get('/sort/name' , checkRole('USER'),VacanciesController.getSortedByName )
-router.get('/sort/status' , checkRole('USER'), VacanciesController.getSortByStatus )
-router.get('/sort/date' , checkRole('USER'),VacanciesController.getSortedByDate )
+router.get('/sort/name' ,VacanciesController.getSortedByName )
+router.get('/sort/status' , checkRole('ADMIN'), VacanciesController.getSortByStatus )
+router.get('/sort/date' ,VacanciesController.getSortedByDate )
 
 module.exports = router

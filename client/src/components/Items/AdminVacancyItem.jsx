@@ -5,7 +5,7 @@ import {
     Card,
     Col,
     Container, DropdownButton,
-    Form, FormControl,
+    FormControl,
     Image,
     Row
 } from "react-bootstrap";
@@ -50,30 +50,24 @@ const AdminVacancyItem = observer( () => {
 
     useEffect(() => {
         fetchAllVacancies(vacancies.page, 5).then(data => {
-                //vacancies.setVacancies(data.rows)
                 vacancies.setTotalCount(data.count);
                 setRowData(data.rows);
         })
-    }, [vacancies.vacancies, vacancies])
+    }, [vacancies.vacancies,vacancies.page, vacancies])
 
 
     const Cancel = () => {
         fetchAllVacancies(vacancies.page, 5).then(data => {
-            
             vacancies.setTotalCount(data.count);
             setRowData(data.rows);
         })
-
     }
-
 
     const sortByNameASC = () => {
          sortVacancyByName(vacancies.page, 5, 'ASC').then(data => {
-
              vacancies.setTotalCount(data.count);
             setRowData(data.rows)
         })
-
     }
 
     const sortByNameDESC = () => {
@@ -87,7 +81,6 @@ const AdminVacancyItem = observer( () => {
 
     const sortByDateASC = async () => {
         await sortVacancyByDate(vacancies.page, 5, 'ASC').then(data => {
-
             vacancies.setTotalCount(data.count);
             setRowData(data.rows)
 
@@ -96,7 +89,6 @@ const AdminVacancyItem = observer( () => {
 
     const sortByDateDESC = async () => {
         await sortVacancyByDate(vacancies.page, 5, 'DESC').then(data => {
-
             vacancies.setTotalCount(data.count);
             setRowData(data.rows)
 
@@ -119,7 +111,26 @@ const AdminVacancyItem = observer( () => {
         })
     }
 
+    const [title, setTitle] = useState('')
 
+    if (title === '') {
+        fetchAllVacancies(vacancies.page, 5).then(data => {
+            vacancies.setTotalCount(data.count);
+            return setRowData(data.rows);})
+    }
+
+    const Search = () => {
+         if (title === '') {
+              fetchAllVacancies(vacancies.page, 5).then(data => {
+                 vacancies.setTotalCount(data.count);
+                  return setRowData(data.rows);})
+         } else {
+             const filtered = rowData.filter(obj => {
+                 return obj.title.toLowerCase() === title.toLowerCase();
+             });
+             setRowData(filtered)
+         }
+     }
     return (
         <Container className="mt-xxl-5">
             <ToastContainer/>
@@ -127,7 +138,7 @@ const AdminVacancyItem = observer( () => {
             <Card className="shadow">
                 <Card.Body>
                     <Row>
-                        <Col sm={1}>
+                        <Col sm={5}>
                             <Button
                                 variant="outline-info"
                                 onClick={() => {
@@ -137,7 +148,7 @@ const AdminVacancyItem = observer( () => {
                             ><i className="bi bi-plus-circle"></i>
                             </Button>
                         </Col>
-                        <Col>
+                        <Col sm={1}>
                             <DropdownButton variant='secondary' title='Kārtot'>
                                 <DropdownItem onClick={e=>{Cancel()}}>
                                     Atcelt
@@ -162,17 +173,22 @@ const AdminVacancyItem = observer( () => {
                                 </DropdownItem>
                             </DropdownButton>
                         </Col>
-                        <Col>
-                            <Form className="d-flex">
+                        <Col >
+                            <Row>
+                                <Col sm={10}>
                                 <FormControl
                                     type="search"
-                                    placeholder="Meklēšana..."
+                                    placeholder="Meklēt pēc nosaukuma..."
                                     className="me-2"
                                     aria-label="Search"
-
+                                    onChange={e => {
+                                        setTitle(e.target.value)
+                                    }}
                                 />
-                                <Button variant="outline-success"><i className="bi-search"></i></Button>
-                            </Form>
+                                </Col>
+                                <Col sm={1}><Button variant="outline-success" onClick={Search}><i className="bi-search"></i></Button></Col>
+
+                            </Row>
                         </Col>
                     </Row>
                 </Card.Body>
