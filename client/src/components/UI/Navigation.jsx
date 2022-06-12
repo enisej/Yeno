@@ -1,7 +1,6 @@
 import React, {useContext} from 'react';
 import {Context} from "../../index";
-import {Image, Nav, Navbar, Button} from "react-bootstrap";
-import logo from "bootstrap-icons/icons/clouds.svg";
+import { Nav, Navbar, Button} from "react-bootstrap";
 import {observer} from "mobx-react-lite";
 import {
     HOME_ROUTE,
