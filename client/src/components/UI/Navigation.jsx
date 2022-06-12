@@ -1,7 +1,7 @@
 import React, {useContext} from 'react';
 import {Context} from "../../index";
 import {Image, Nav, Navbar, Button} from "react-bootstrap";
-import logo from "../../images/logo.png";
+import logo from "bootstrap-icons/icons/clouds.svg";
 import {observer} from "mobx-react-lite";
 import {
     HOME_ROUTE,
@@ -26,7 +26,7 @@ const Navigation = observer(() => {
 
     return (
         <Navbar  collapseOnSelect bg="dark" className="p-2" expand="lg" variant="dark">
-                <Nav.Link href="/home"><Image style={{height: '2.5rem'}} src={logo}/></Nav.Link>
+                <Nav.Link href="/home" ><h3 className="bi-layers text-white mt-2"></h3></Nav.Link>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     {user.isAuth ?
                         <Navbar.Collapse id="responsive-navbar-nav">
