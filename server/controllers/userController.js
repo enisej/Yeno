@@ -3,6 +3,8 @@ const {User} = require('../models/models')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const {hash} = require("bcrypt");
+const uuid = require('uuid')
+const path = require('path')
 
 const generateJwt = (id, email, status, name, surname, birthDate, tel_number, cv, githubLink) => {
     return jwt.sign(
@@ -17,6 +19,7 @@ class UserController {
     async registration(req, res, next) {
         try {
             const {name, surname, email, password, birthDate, status, tel_number, cv, githubLink} = req.body
+
             if (!email || !password || !name || !surname || !birthDate || !tel_number || !cv || !githubLink ) {
                 return next(ApiError.custom('Nepareizi ievadīti dati!'))
             }
@@ -32,6 +35,26 @@ class UserController {
             return next(ApiError.internal())
         }
 
+
+    }
+
+    async updateUserImage(req, res, next){
+        try{
+            const {img} = req.files
+            let fileName = uuid.v4() + ".jpg"
+            img.mv(path.resolve(__dirname, '..', 'static', fileName))
+            console.log({img: fileName})
+            await User.update({img: fileName}, {
+                where:{
+                    id: req.params.id
+                }
+            });
+            res.json({
+                "message": "Attēls ir nomainīts!"
+            });
+        }catch {
+            return next(ApiError.internal())
+        }
 
     }
 
@@ -66,24 +89,40 @@ class UserController {
     async update(req, res, next) {
         try {
 
-            const {name, surname, email, password, birthDate, status, tel_number, cv, githubLink} = req.body
-            if (!email || !password || !name || !surname || !birthDate || !status || !tel_number || !cv || !githubLink) {
-                return next(ApiError.custom('Nepareizi ievadīti dati!'))
-            }
-            const hashPassword = await bcrypt.hash(password, 5)
-            await User.update({name, surname, email, password: hashPassword, birthDate, status, tel_number, cv, githubLink}, {
+            const {name, surname, email, birthDate, tel_number, cv, githubLink} = req.body
+
+            await User.update({name, surname, email, birthDate, tel_number, cv, githubLink}, {
                 where: {
                     id: req.params.id
                 }
             });
             res.json({
-                "message": "Lietotāja dati ir izmainīti!"
+                "message": "Lietotāja dati ir izmainīti! Pēc lapas refresha jūs atgriezīsies pie pieslēgšanas formas!"
             });
         }catch {
             return next(ApiError.internal())
         }
 
     }
+
+    async updateUserPassword(req, res, next){
+        try{
+            const {password} = req.body
+            const hashPassword = await bcrypt.hash(password, 5)
+            await User.update({password: hashPassword}, {
+                where:{
+                    id: req.params.id
+                }
+            });
+            res.json({
+                "message": "Parole ir nomainīta!"
+            });
+        }catch {
+            return next(ApiError.internal())
+        }
+
+    }
+
 
     async delete(req, res, next) {
         try {
@@ -133,6 +172,8 @@ class UserController {
             return ApiError.internal()
         }
     }
+
+
 
 }
 

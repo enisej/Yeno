@@ -1,19 +1,22 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Button, Card, Col, Image, ListGroup, ListGroupItem, Row} from "react-bootstrap";
 import {observer} from "mobx-react-lite";
 
-import logo from "../../images/user.png";
 import UserUpdateModal from "../modals/userUpdateModal";
-import {deleteUser} from "../../http/userAPI";
+import {deleteUser, getUser} from "../../http/userAPI";
 import {HOME_ROUTE} from "../../utils/consts";
 import {format, parseISO} from "date-fns";
 import {Context} from "../../index";
 import jwt_decode from "jwt-decode";
+import {ToastContainer} from "react-toastify";
+import PasswordChangeModal from "../modals/passwordChangeModal";
+import ImageChangeModal from "../modals/imageChangeModal";
+import profLogo from '../../images/user.jpg';
 
 const ProfileDataItem = observer(() => {
 
     const [show, setShow] = useState(false);
-
+    const {user} = useContext(Context)
     const deleteProfile = async (id) => {
         const data = await deleteUser(id)
         if(data){
@@ -26,16 +29,41 @@ const ProfileDataItem = observer(() => {
     const userData = jwt_decode(localStorage.token)
     const date = parseISO(userData.birthDate)
     const birthDate = format(date, 'yyyy/MM/dd')
-    const {user} = useContext(Context)
+    const [data, setData] = useState([])
+    const [passwordChange, setPasswordChange] = useState(false)
+
+
+    useEffect(() => {
+        getUser(userData.id).then(data => {
+            setData(data)
+
+
+        })
+    }, [userData.id , data.img])
+
+    const [imageCrop, setImageCrop] = useState(false)
+
+
 
     return (
         <Row>
-            <Col sm={4} >
-                <Card  className="p-3 d-flex align-items-center">
-                    <Image className="bg-light rounded-circle shadow" src={logo} width={100} height={100}/>
-                    <h2 className="mt-2"><b>{userData.name} {userData.surname}</b></h2>
+            <ToastContainer/>
+            <Col sm={4}>
+                <Card className="p-3 d-flex align-items-center">
+                    {data.img ?
+                    <Image className="bg-light rounded-circle shadow"
+                           src={process.env.REACT_APP_API_URL + data.img} width={100}
+                           height={100}/>
+                        :
+                        <Image className="bg-light rounded-circle shadow"
+                               src={profLogo} alt={profLogo} width={100}
+                               height={100}/>
+                    }
+                    <Button variant='outline-success' className="m-2" onClick={e =>setImageCrop(true)}><i className='bi-image '></i></Button>
+                    <h2 className="mt-2"><b>{data.name} {data.surname}</b></h2>
 
-                    {userData.status === 'ADMIN' ?
+                    {data.status === 'ADMIN'
+                        ?
                         <h4>Administrators</h4>
                         :
                         <h4>Lietotājs</h4>
@@ -47,34 +75,35 @@ const ProfileDataItem = observer(() => {
                                     setShow(true)
                                 }
                         ><i className="bi-pencil"></i></Button>
-                        <Button className="me-1 mb-4" variant="outline-danger" onClick={() => deleteProfile(userData.id)} ><i className="bi-trash"></i></Button>
+                        <Button className="me-1 mb-4" variant="outline-danger"
+                                onClick={() => deleteProfile(data.id)}><i className="bi-trash"></i></Button>
                     </Col>
                 </Card>
             </Col>
-            <Col sm={8} >
+            <Col sm={8}>
                 <ListGroup>
                     <ListGroupItem>
                         <Row>
                             <Col><b>Vārds: </b> </Col>
-                            <Col>{userData.name}</Col>
+                            <Col>{data.name}</Col>
                         </Row>
                     </ListGroupItem>
                     <ListGroupItem>
                         <Row>
                             <Col><b>Uzvārds: </b> </Col>
-                            <Col>{userData.surname}</Col>
+                            <Col>{data.surname}</Col>
                         </Row>
                     </ListGroupItem>
                     <ListGroupItem>
                         <Row>
                             <Col><b>E-pasts: </b> </Col>
-                            <Col>{userData.email}</Col>
+                            <Col>{data.email}</Col>
                         </Row>
                     </ListGroupItem>
                     <ListGroupItem>
                         <Row>
                             <Col><b>Telefona numurs: </b> </Col>
-                            <Col>{userData.tel_number}</Col>
+                            <Col>{data.tel_number}</Col>
                         </Row>
                     </ListGroupItem>
                     <ListGroupItem>
@@ -86,23 +115,42 @@ const ProfileDataItem = observer(() => {
                     <ListGroupItem>
                         <Row>
                             <Col><b>CV: </b> </Col>
-                            <Col><Button size="sm" variant="outline-dark" href={'http://' + userData.cv} >cv</Button></Col>
+                            <Col><Button size="sm" variant="outline-dark" href={'http://' + data.cv}>cv</Button></Col>
                         </Row>
                     </ListGroupItem>
                     <ListGroupItem>
                         <Row>
                             <Col><b>GitHub: </b> </Col>
-                            <Col><Button size="sm" variant="outline-dark" href={'http://' + userData.githubLink}><i className="bi-github"></i></Button></Col>
+                            <Col><Button size="sm" variant="outline-dark" href={'http://' + data.githubLink}><i className="bi-github"></i></Button></Col>
                         </Row>
-
                     </ListGroupItem>
                 </ListGroup>
+                <Card className="d-flex align-items-center mt-2">
+                    <Row>
+                        <Col className="p-2"><Button size='sm'  variant="outline-info" onClick={() => setPasswordChange(true)}><i className="bi-pen"></i> Pamainīt paroli</Button></Col>
+                    </Row>
+                </Card>
                 <UserUpdateModal
                     show={show}
-                    user={userData}
-                    close={() => setShow (false)}/>
+                    user={data}
+                    close={() => setShow(false)}/>
+
+                <PasswordChangeModal
+                    show={passwordChange}
+                    userId={data.id}
+                    close={() => setPasswordChange(false)}/>
+                <ImageChangeModal
+                    show={imageCrop}
+                    userId={data.id}
+                    close={()=> setImageCrop(false)}
+
+                />
+
+
             </Col>
         </Row>
+
+
     );
 });
 

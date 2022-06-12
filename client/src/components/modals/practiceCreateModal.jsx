@@ -83,7 +83,7 @@ const PracticeCreateModal = observer((props) => {
                 </Form.Group>
 
                 <Row  className="mt-4" >
-                    <Button variant="dark" className="shadow" type='submit' onClick={e=>{
+                    <Button variant="success" className="shadow" type='submit' onClick={e=>{
                         }}>Publicēt</Button>
                 </Row>
                     </Form>

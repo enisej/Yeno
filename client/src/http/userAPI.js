@@ -1,9 +1,9 @@
 import {$authHost, $host} from "./index";
 import jwt_decode from "jwt-decode";
 
-export const registration = async (email, password, name, surname, birthDate, tel_number, cv, githubLink) => {
+export const registration = async (email, password, name, surname, birthDate, tel_number, cv, githubLink, img) => {
 
-    const {data} = await $host.post('api/user/registration', {email, password, name, surname, birthDate, tel_number, cv, githubLink})
+    const {data} = await $host.post('api/user/registration', {email, password, name, surname, birthDate, tel_number, cv, githubLink, img})
     localStorage.setItem('token', data.token)
     return jwt_decode(data.token)
 
@@ -30,10 +30,21 @@ export const deleteUser = async (id) => {
     return {data}
 }
 
-export const updateUser = async (id ,email, password, name, surname, birthDate, tel_number, cv, githubLink, status) => {
-    const {data} = await $authHost.patch('api/user/update/'+ id, {email, password, name, surname, birthDate, tel_number, cv, githubLink, status})
+export const updateUser = async (id, name, surname, email, tel_number, birthDate, cv, githubLink ) => {
+    const {data} = await $authHost.patch('api/user/update/'+ id, {name, surname, email, tel_number, birthDate, cv, githubLink })
     localStorage.setItem('token', data.token)
     return data
+}
+
+export const updatePassword = async (id, password) => {
+    const {data} = await  $authHost.patch('api/user/change/password/ ' + id, {password})
+    localStorage.setItem('token', data.token)
+    return {data}
+}
+
+export const updateImage = async (id, img) => {
+    const {data} = await  $authHost.put('api/user/image/change/' + id, img)
+    return {data}
 }
 
 export const getUser = async (id) => {

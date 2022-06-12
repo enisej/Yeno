@@ -113,11 +113,14 @@ const AdminVacancyItem = observer( () => {
 
     const [title, setTitle] = useState('')
 
-    if (title === '') {
-        fetchAllVacancies(vacancies.page, 5).then(data => {
-            vacancies.setTotalCount(data.count);
-            return setRowData(data.rows);})
+    const checkSearch = (target) => {
+        if (target === '') {
+            fetchAllVacancies(vacancies.page, 5).then(data => {
+                vacancies.setTotalCount(data.count);
+                return setRowData(data.rows);})
+        }
     }
+
 
     const Search = () => {
          if (title === '') {
@@ -149,8 +152,8 @@ const AdminVacancyItem = observer( () => {
                             </Button>
                         </Col>
                         <Col sm={1}>
-                            <DropdownButton variant='secondary' title='Kārtot'>
-                                <DropdownItem onClick={e=>{Cancel()}}>
+                            <DropdownButton  variant='secondary' title='Kārtot'>
+                                <DropdownItem  onClick={e=>{Cancel()}}>
                                     Atcelt
                                 </DropdownItem>
                                 <DropdownItem
@@ -183,6 +186,7 @@ const AdminVacancyItem = observer( () => {
                                     aria-label="Search"
                                     onChange={e => {
                                         setTitle(e.target.value)
+                                        checkSearch(e.target.value)
                                     }}
                                 />
                                 </Col>

@@ -1,5 +1,5 @@
 import React, {useContext, useState} from 'react';
-import {Button, Form, Modal, Dropdown, Row, Col} from "react-bootstrap";
+import {Button, Form, Modal, Dropdown, Row} from "react-bootstrap";
 import {observer} from "mobx-react-lite";
 import {createVacancy} from "../../http/vacanciesAPI";
 import {Context} from "../../index";
@@ -17,6 +17,12 @@ const VacancyCreateModal = observer((props) => {
     const [practiceExerciseId, setPracticeExerciseId] = useState('')
     const [validated, setValidated] = useState(false)
     const {vacancies} = useContext(Context)
+
+    const [testData, setTestData] = useState([])
+    const [practiceData, setPracticeData] = useState([])
+    const [practiceTitle, setPracticeTitle]= useState('')
+    const [theoryTitle, setTheoryTitle] = useState('')
+
 
     const post = async (event) => {
 
@@ -43,7 +49,10 @@ const VacancyCreateModal = observer((props) => {
             setOffer('')
             setPracticeExerciseId('')
             setTheoryTestId('')
+            setPracticeTitle('')
+            setTheoryTitle('')
             props.close()
+
         }
         }
     }
@@ -55,6 +64,10 @@ const VacancyCreateModal = observer((props) => {
                size="lg"
                aria-labelledby="contained-modal-title-vcenter"
                centered
+               onShow={e=>{
+                   setTestData(tests.tests)
+                   setPracticeData(practices.practices)
+               }}
         >
             <ToastContainer/>
             <Modal.Header closeButton
@@ -98,7 +111,6 @@ const VacancyCreateModal = observer((props) => {
                         onChange={e => setQualifications(e.target.value)}
                         required
                     />
-
                 </Form.Group>
 
                 <Form.Group controlId="offer" className="mb-3">
@@ -115,42 +127,41 @@ const VacancyCreateModal = observer((props) => {
                 </Form.Group>
 
                 <Row className="d-flex justify-content-center">
-                    <Col sm={3} >
-                <Dropdown className="mb-2" >
+                <Dropdown className="mb-3" >
                     <Dropdown.Toggle variant="secondary" id="dropdown-basic" >
-                        Izvēlētais tests: {theoryTestId}
+                        Izvēlētais tests: {theoryTitle}
                     </Dropdown.Toggle>
                     <Dropdown.Menu >
                         <Dropdown.Item onClick={() => setTheoryTestId('') }>
                             Izvēlies testu
                         </Dropdown.Item>
-                        {tests.tests.map(test =>
+                        {testData.map(test =>
                         <Dropdown.Item
                             key={test.id}
-                            onClick={() => setTheoryTestId(test.id) }
+                            onClick={() => {
+                                setTheoryTestId(test.id)
+                                setTheoryTitle(test.title)
+                            }}
                         >
                             {test.title}
                         </Dropdown.Item>
                         )}
                     </Dropdown.Menu>
                 </Dropdown>
-
-                    </Col>
-                    <Col sm={3}>
-                        <Dropdown className="mb-2">
+                        <Dropdown className="mb-3">
                             <Dropdown.Toggle variant="secondary" id="dropdown-basic">
-                                 Izvēlētais uzdevums: {practiceExerciseId}
+                                 Izvēlētais uzdevums: {practiceTitle}
                             </Dropdown.Toggle>
-
-
                             <Dropdown.Menu >
                                 <Dropdown.Item onClick={() => setPracticeExerciseId('') }>
                                     Izvēlies uzdevumu
                                 </Dropdown.Item>
-                                {practices.practices.map(practice =>
+                                {practiceData.map(practice =>
                                     <Dropdown.Item
                                         key={practice.id}
-                                        onClick={() => setPracticeExerciseId(practice.id) }
+                                        onClick={() => {
+                                            setPracticeExerciseId(practice.id)
+                                            setPracticeTitle(practice.title)}}
                                     >
                                         {practice.title}
                                     </Dropdown.Item>
@@ -159,8 +170,6 @@ const VacancyCreateModal = observer((props) => {
                             </Dropdown.Menu>
                         </Dropdown>
 
-
-                    </Col>
                 </Row>
 
                 <Row  className="mt-4">

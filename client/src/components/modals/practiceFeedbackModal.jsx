@@ -69,7 +69,7 @@ const PracticeFeedbackModal = observer((props) => {
                     />
                 </Form.Group>
 
-                <Button variant="dark" type='submit'>Publicēt</Button>
+                <Button variant="success" type='submit'>Publicēt</Button>
                 </Form>
             </Modal.Body>
         </Modal>

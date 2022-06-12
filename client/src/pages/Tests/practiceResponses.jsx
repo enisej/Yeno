@@ -106,7 +106,7 @@ const PracticeResponses = observer(() => {
 
             {practiceResponses.practiceResponse.length
                 ?
-                <div ref={componentRef}>
+                <div ref={componentRef} >
                 <Card className="d-flex align-items-center shadow"  >
                     {practiceResponses.practiceResponse.map(response =>
                         <Col sm={8} key={response.id} >

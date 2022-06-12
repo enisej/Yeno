@@ -101,7 +101,7 @@ const TestCreateModal = observer((props) => {
                 </Form.Group>
 
                 <Row  className="mt-4" >
-                    <Button variant="dark" className="shadow" type='submit'>Publicēt</Button>
+                    <Button variant="success" className="shadow" type='submit'>Publicēt</Button>
                 </Row>
                 </Form>
 

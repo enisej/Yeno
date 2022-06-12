@@ -54,7 +54,7 @@ const Register = observer(() => {
                                     placeholder="Jānis"
                                     value={name}
                                     onChange={e => setName(e.target.value)}
-                                    pattern='^[A-Za-z]{3,16}$'
+                                    pattern='.{3,16}'
                                     required
                                 />
                                 <Form.Control.Feedback type="invalid">
@@ -69,7 +69,7 @@ const Register = observer(() => {
                                     placeholder="Bērziņš"
                                     value={surname}
                                     onChange={e => setSurname(e.target.value)}
-                                    pattern='^[A-Za-z]{3,16}$'
+                                    pattern='.{3,16}'
                                     required
                                 />
                                 <Form.Control.Feedback type="invalid">

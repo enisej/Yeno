@@ -89,7 +89,7 @@ const PracticeUpdateModal = observer((props) => {
                 </Form.Group>
 
                 <Row  className="mt-4" >
-                    <Button variant="dark" className="shadow" type='submit'>Saglabāt izmaiņas</Button>
+                    <Button variant="success" className="shadow" type='submit'>Saglabāt izmaiņas</Button>
                 </Row>
                 </Form>
 

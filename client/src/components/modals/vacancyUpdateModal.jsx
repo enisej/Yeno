@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import { Button, Col, Dropdown, Form, Modal, Row} from "react-bootstrap";
+import { Button, Dropdown, Form, Modal, Row} from "react-bootstrap";
 import {observer} from "mobx-react-lite";
 import {Context} from "../../index";
 import {fetchTests} from "../../http/testAPI";
@@ -35,7 +35,13 @@ const VacancyUpdateModal = observer((props) => {
     const [practiceExerciseId, setPracticeExerciseId] = useState('')
     const [validated, setValidated] = useState(false)
 
+    const [testData, setTestData] = useState([])
+    const [practiceData, setPracticeData] = useState([])
+
     const {vacancies} = useContext(Context)
+
+    const [practiceTitle, setPracticeTitle]= useState('')
+    const [theoryTitle, setTheoryTitle] = useState('')
 
     const update = async (event) => {
 
@@ -61,7 +67,11 @@ const VacancyUpdateModal = observer((props) => {
             }
         }
     }
-
+    const [isSwitchOn, setIsSwitchOn] = useState(false);
+    const onSwitchAction = () => {
+        setIsSwitchOn(!isSwitchOn);
+        setStatus(!isSwitchOn);
+    };
 
     return (
         <ToastContainer/>,
@@ -77,6 +87,11 @@ const VacancyUpdateModal = observer((props) => {
                    setTheoryTestId(props.vacancy.theoryTestId)
                    setPracticeExerciseId(props.vacancy.practiceExerciseId)
                    setStatus(props.vacancy.status)
+                   setTestData(tests.tests)
+                   setPracticeData(practices.practices)
+                   setIsSwitchOn(props.vacancy.status)
+                   setTheoryTitle(props.vacancy.theoryTestId)
+                   setPracticeTitle(props.vacancy.practiceExerciseId)
                }}
         >
             <Modal.Header closeButton
@@ -135,67 +150,64 @@ const VacancyUpdateModal = observer((props) => {
 
                 </Form.Group>
                     <Row className="d-flex justify-content-center">
-                        <Col sm={3}>
-                        <Dropdown className="mb-2">
+                        <Dropdown className="mb-3">
                             <Dropdown.Toggle variant="secondary" id="dropdown-basic">
-                                Izvēlētais tests: {theoryTestId}
+                                Izvēlētais tests: {theoryTitle}
                             </Dropdown.Toggle>
                             <Dropdown.Menu >
-                                <Dropdown.Item onClick={() => setTheoryTestId('') }>
+                                <Dropdown.Item onClick={() => {
+                                    setTheoryTestId('')
+                                    setTheoryTitle('')
+                                }}>
                                     Izvēlies testu
                                 </Dropdown.Item>
-                                {tests.tests.map(test =>
+                                {testData.map(test =>
                                     <Dropdown.Item
                                         key={test.id}
-                                        onClick={() => setTheoryTestId(test.id) }
+                                        onClick={() => {
+                                            setTheoryTestId(test.id)
+                                            setTheoryTitle(test.title)
+                                        }}
                                     >
                                         {test.id}. {test.title}
                                     </Dropdown.Item>
                                 )}
                             </Dropdown.Menu>
                         </Dropdown>
-                        </Col>
-                        <Col sm={3}>
-                        <Dropdown className="mb-2">
+                        <Dropdown className="mb-3">
                             <Dropdown.Toggle variant="secondary" id="dropdown-basic">
-                                Izvēlētais uzdevums: {practiceExerciseId}
+                                Izvēlētais uzdevums: {practiceTitle}
                             </Dropdown.Toggle>
 
 
                             <Dropdown.Menu >
-                                <Dropdown.Item onClick={() => setPracticeExerciseId('') }>
+                                <Dropdown.Item onClick={() => {
+                                    setPracticeTitle('')
+                                    setPracticeExerciseId('')
+                                }}>
                                     Izvēlies uzdevumu
                                 </Dropdown.Item>
-                                {practices.practices.map(practice =>
+                                {practiceData.map(practice =>
                                     <Dropdown.Item
                                         key={practice.id}
-                                        onClick={() => setPracticeExerciseId(practice.id) }
+                                        onClick={() => {
+                                            setPracticeExerciseId(practice.id)
+                                            setPracticeTitle(practice.title)
+                                        }}
                                     >
                                         {practice.id}. {practice.title}
                                     </Dropdown.Item>
                                 )}
                             </Dropdown.Menu>
                         </Dropdown>
-                        </Col>
                     </Row>
-                        <Form.Label>
-                            {status === false ?
-                                <Button variant="success" onClick={e => {
-                                    setStatus('true')
 
-                                }}>
-                                    Aktivizēt
-                                </Button>
-                                :
-                                <Button variant="danger" onClick={e => {
-                                    setStatus('false')
-                                }}>
-                                    Deaktivizēt
-                                </Button>
-
-                            }
-                        </Form.Label>
-
+                    <Form.Check
+                        type="switch"
+                        checked={isSwitchOn}
+                        label="Ieslēgt/Izslēgt"
+                        onChange={onSwitchAction}
+                    />
                 <Row  className="mt-4">
 
 

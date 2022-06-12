@@ -11,7 +11,8 @@ const User = sequelize.define('users', {
     birthDate: {type: DataTypes.DATE, allowNull: false},
     cv: {type: DataTypes.STRING, allowNull: false},
     githubLink: {type: DataTypes.STRING, allowNull: false},
-    status: {type: DataTypes.STRING, defaultValue: 'USER'}
+    status: {type: DataTypes.STRING, defaultValue: 'USER'},
+    img: {type: DataTypes.STRING, allowNull: true}
 }, {
     timestamps: false
 })
