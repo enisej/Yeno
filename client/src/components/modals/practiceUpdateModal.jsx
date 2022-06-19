@@ -51,7 +51,7 @@ const PracticeUpdateModal = observer((props) => {
                 setDescription(props.practice.description)
             }}
         >
-            <Modal.Header closeButton onClick={props.close} className="p-4"><h4>Testa pievienošana</h4></Modal.Header>
+            <Modal.Header closeButton onClick={props.close} className="p-4"><h4>Uzdevuma rediģēšana</h4></Modal.Header>
             <Modal.Body>
                 <Form noValidate validated={validated} onSubmit={update}>
                 <Form.Group controlId="title" className="mb-3">

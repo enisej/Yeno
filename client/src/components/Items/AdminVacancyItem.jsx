@@ -29,6 +29,7 @@ import {Context} from "../../index";
 import DropdownItem from "react-bootstrap/DropdownItem";
 
 
+
 const AdminVacancyItem = observer( () => {
     const [showDetails, setShowDetails] = useState(false);
     const [showCreate, setShowCreate] = useState(false);
@@ -46,6 +47,7 @@ const AdminVacancyItem = observer( () => {
     }
 
     const {vacancies} = useContext(Context)
+
 
 
     useEffect(() => {
@@ -141,44 +143,9 @@ const AdminVacancyItem = observer( () => {
             <Card className="shadow">
                 <Card.Body>
                     <Row>
-                        <Col sm={5}>
-                            <Button
-                                variant="outline-info"
-                                onClick={() => {
-                                    setVacancy(vacancy)
-                                    setShowCreate(true);
-                                }}
-                            ><i className="bi bi-plus-circle"></i>
-                            </Button>
-                        </Col>
-                        <Col sm={1}>
-                            <DropdownButton  variant='secondary' title='Kārtot'>
-                                <DropdownItem  onClick={e=>{Cancel()}}>
-                                    Atcelt
-                                </DropdownItem>
-                                <DropdownItem
-                                    onClick={e=>{sortByNameASC() }}>Pēc nosaukuma <i className="bi-arrow-up"></i>
-                                </DropdownItem>
-                                <DropdownItem onClick={e=>{sortByNameDESC()}}>
-                                    Pēc nosaukuma <i className="bi-arrow-down"></i>
-                                </DropdownItem>
-                                <DropdownItem onClick={e=>{sortByDateASC()}}>
-                                    Pēc izveides datuma <i className="bi-arrow-up"></i>
-                                </DropdownItem>
-                                <DropdownItem onClick={e=>{sortByDateDESC()}}>
-                                    Pēc izveides datuma <i className="bi-arrow-down"></i>
-                                </DropdownItem>
-                                <DropdownItem onClick={e=>{sortByStatusASC()}}>
-                                    Pēc statusa <i className="bi-arrow-up"></i>
-                                </DropdownItem>
-                                <DropdownItem onClick={e=>{sortByStatusDESC()}}>
-                                    Pēc statusa <i className="bi-arrow-down"></i>
-                                </DropdownItem>
-                            </DropdownButton>
-                        </Col>
                         <Col >
                             <Row>
-                                <Col sm={10}>
+                                <Col sm={4}>
                                 <FormControl
                                     type="search"
                                     placeholder="Meklēt pēc nosaukuma..."
@@ -190,8 +157,42 @@ const AdminVacancyItem = observer( () => {
                                     }}
                                 />
                                 </Col>
-                                <Col sm={1}><Button variant="outline-success" onClick={Search}><i className="bi-search"></i></Button></Col>
-
+                                <Col sm={6}><Button variant="outline-success" onClick={Search}><i className="bi-search"></i></Button></Col>
+                                <Col sm={1}>
+                                    <DropdownButton  variant='secondary' title='Kārtot'>
+                                        <DropdownItem  onClick={e=>{Cancel()}}>
+                                            Atcelt
+                                        </DropdownItem>
+                                        <DropdownItem
+                                            onClick={e=>{sortByNameASC() }}>Pēc nosaukuma <i className="bi-arrow-up"></i>
+                                        </DropdownItem>
+                                        <DropdownItem onClick={e=>{sortByNameDESC()}}>
+                                            Pēc nosaukuma <i className="bi-arrow-down"></i>
+                                        </DropdownItem>
+                                        <DropdownItem onClick={e=>{sortByDateASC()}}>
+                                            Pēc izveides datuma <i className="bi-arrow-up"></i>
+                                        </DropdownItem>
+                                        <DropdownItem onClick={e=>{sortByDateDESC()}}>
+                                            Pēc izveides datuma <i className="bi-arrow-down"></i>
+                                        </DropdownItem>
+                                        <DropdownItem onClick={e=>{sortByStatusASC()}}>
+                                            Pēc statusa <i className="bi-arrow-up"></i>
+                                        </DropdownItem>
+                                        <DropdownItem onClick={e=>{sortByStatusDESC()}}>
+                                            Pēc statusa <i className="bi-arrow-down"></i>
+                                        </DropdownItem>
+                                    </DropdownButton>
+                                </Col>
+                                <Col sm={1}>
+                                    <Button
+                                        variant="success"
+                                        onClick={() => {
+                                            setVacancy(vacancy)
+                                            setShowCreate(true);
+                                        }}
+                                    ><i className="bi bi-plus-circle"></i>
+                                    </Button>
+                                </Col>
                             </Row>
                         </Col>
                     </Row>
@@ -229,6 +230,7 @@ const AdminVacancyItem = observer( () => {
                                             }}
                                         ><i className="bi-pencil"></i>
                                         </Button>
+
                                         <Button
                                             variant="danger"
                                             className="align-self-center shadow m-1"

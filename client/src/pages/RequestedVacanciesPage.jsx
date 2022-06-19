@@ -40,6 +40,9 @@ const RequestedVacanciesPage = observer(() => {
                 ?
                 <div>
                     <ToastContainer/>
+                    <Card className="mt-3 p-3 shadow">
+                        <h3><b>Jūsu pieteiktas vakances</b></h3>
+                    </Card>
                     {reqVac.map(request =>
                         <Card className="mt-5 shadow" key={request.id}>
                             <Row>
@@ -57,7 +60,7 @@ const RequestedVacanciesPage = observer(() => {
                                             history.push(ALL_TEST_ROUTE + '/' + request.vacancy.theoryTestId + '/' + request.vacancy.practiceExerciseId)
                                         }}
                                     >
-                                        Testi
+                                        Pildīt uzdevumus
                                     </Button>
                                     <Button
                                         variant="outline-danger"
@@ -65,7 +68,7 @@ const RequestedVacanciesPage = observer(() => {
                                         onClick={e => {
                                             deleteReqVacancy(request.id)
                                         }}>
-                                        Izdzēst
+                                        <i className="bi-trash"></i>
                                     </Button>
                                 </Col>
                             </Row>

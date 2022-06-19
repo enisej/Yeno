@@ -1,6 +1,7 @@
 const sequelize = require('../db.js')
 const {DataTypes} = require('sequelize')
 
+//lietotāja modelis
 const User = sequelize.define('users', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true  },
     name: {type: DataTypes.STRING(20), allowNull: false },
@@ -13,7 +14,7 @@ const User = sequelize.define('users', {
 }, {
     timestamps: false
 })
-
+//vakances modelis
 const Vacancy = sequelize.define('vacancies', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true  },
     title: {type: DataTypes.STRING(20), allowNull: false },
@@ -25,6 +26,7 @@ const Vacancy = sequelize.define('vacancies', {
     updatedAt: {type: DataTypes.DATE, allowNull: false, default: Date.now()}
 })
 
+//praktiska uzdevuma modelis
 const PracticeExercise = sequelize.define('practiceExercises', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true  },
     title: {type: DataTypes.STRING(20), allowNull: false },
@@ -35,7 +37,7 @@ const PracticeExercise = sequelize.define('practiceExercises', {
 }, {
     timestamps: false
 })
-
+//teoretiska testa modelis
 const TheoryTest = sequelize.define('theoryTests', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true  },
     title: {type: DataTypes.STRING(20), allowNull: false },
@@ -47,13 +49,7 @@ const TheoryTest = sequelize.define('theoryTests', {
     timestamps: false
 })
 
-const TheoryTestResult = sequelize.define('theoryTestResults', {
-    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true  },
-    response_link: {type: DataTypes.STRING(100), allowNull: false},
-}, {
-    timestamps: false
-})
-
+//praktiska uzdevuma rezultatu modelis
 const PracticeResult = sequelize.define('practiceResults', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true  },
     response_link: {type: DataTypes.STRING(100), allowNull: false},
@@ -64,28 +60,28 @@ const PracticeResult = sequelize.define('practiceResults', {
     timestamps: false
 })
 
-
+//relacijas
+//vakancei ir viens praktiskais uzdevums
 PracticeExercise.hasOne(Vacancy)
 Vacancy.belongsTo(PracticeExercise)
 
+//vakancei ir viens teoretiskais tests
 TheoryTest.hasOne(Vacancy)
 Vacancy.belongsTo(TheoryTest)
 
-
+//praktiskam uzdevumam ir daudz praktisko rezultatu
 PracticeExercise.hasMany(PracticeResult)
 PracticeResult.belongsTo(PracticeExercise)
 
+// lietotajam ir daudz praktisko uzdevuma rezultatu
 User.hasMany(PracticeResult)
 PracticeResult.belongsTo(User)
 
-TheoryTest.hasMany(TheoryTestResult)
-TheoryTestResult.belongsTo(TheoryTest)
-
+//modelu un relaciju eksports
 module.exports = {
         User,
         Vacancy,
         TheoryTest,
-        TheoryTestResult,
         PracticeExercise,
         PracticeResult
 }

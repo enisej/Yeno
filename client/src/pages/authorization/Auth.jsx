@@ -1,6 +1,6 @@
 import React, {useContext, useState} from 'react';
-import {Col, Container, Form, Row, Button} from "react-bootstrap";
-import {HOME_ROUTE} from "../../utils/consts";
+import {Col, Container, Form, Row, Button, Card} from "react-bootstrap";
+import {HOME_ROUTE, REGISTER_ROUTE} from "../../utils/consts";
 import {observer} from "mobx-react-lite";
 import {login} from "../../http/userAPI";
 import {Context} from "../../index";
@@ -77,6 +77,7 @@ const Auth = observer(() => {
                                 <Button className="w-100 mt-3" variant="dark" type="submit">
                                     Ieiet
                                 </Button>
+                            <p className="d-flex justify-content-center mt-3">Nav konta? <Card.Link href={REGISTER_ROUTE}>Rēģistēties</Card.Link></p>
                         </Col>
                     </Row>
                 </Form>

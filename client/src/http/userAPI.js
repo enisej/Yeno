@@ -43,7 +43,7 @@ export const updatePassword = async (id, password) => {
 }
 
 export const updateImage = async (id, img) => {
-    const {data} = await  $authHost.put('api/user/image/change/' + id, img)
+    const {data} = await  $authHost.patch('api/user/image/change/' + id, img)
     return {data}
 }
 

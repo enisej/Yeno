@@ -43,7 +43,7 @@ const ProfileDataItem = observer(() => {
 
     const [imageCrop, setImageCrop] = useState(false)
 
-
+    console.log(process.env.REACT_APP_API_URL + data.img)
 
     return (
         <Row>
@@ -127,7 +127,7 @@ const ProfileDataItem = observer(() => {
                 </ListGroup>
                 <Card className="d-flex align-items-center mt-2">
                     <Row>
-                        <Col className="p-2"><Button size='sm'  variant="outline-info" onClick={() => setPasswordChange(true)}><i className="bi-pen"></i> Pamainīt paroli</Button></Col>
+                        <Col className="p-2"><Button size='sm'  variant="outline-info" onClick={() => setPasswordChange(true)}><i className="bi-pen"></i>Nomainīt paroli</Button></Col>
                     </Row>
                 </Card>
                 <UserUpdateModal

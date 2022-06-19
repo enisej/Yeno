@@ -13,7 +13,7 @@ router.delete('/delete/:id',checkRole('USER'), userController.delete)
 router.patch('/change/password/:id',checkRole('USER'), userController.updateUserPassword)
 router.get('/', checkRole('ADMIN') ,userController.getAll)
 router.get('/:id', checkRole('USER') ,userController.getById)
-router.put('/image/change/:id', checkRole('USER'), userController.updateUserImage)
+router.patch('/image/change/:id', checkRole('USER'), userController.updateUserImage)
 
 
 

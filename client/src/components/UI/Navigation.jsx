@@ -7,7 +7,7 @@ import {
     LOGIN_ROUTE,
     PRACTICES_ROUTE,
     PROFILE_ROUTE,
-    REGISTER_ROUTE, TESTS_ROUTE,
+    TESTS_ROUTE,
     VACANCIES_ROUTE
 } from "../../utils/consts";
 import {useHistory} from "react-router-dom"
@@ -35,7 +35,7 @@ const Navigation = observer(() => {
                             {user.user.status === 'ADMIN' ?
                                 <>
                                 <Button className={"nav-link"} variant={"outline-dark"}
-                                        onClick={() => history.push(PRACTICES_ROUTE)}>Praktskie testi</Button>
+                                        onClick={() => history.push(PRACTICES_ROUTE)}>Praktskie uzdevumi</Button>
                                 <Button className={"nav-link"} variant={"outline-dark"}
                                         onClick={() => history.push(TESTS_ROUTE)}>Teoretiskie testi</Button>
                                 </>
@@ -54,7 +54,6 @@ const Navigation = observer(() => {
                         <Nav className="me-auto">
                             <Button className={"nav-link"} variant={"outline-dark"} onClick={() =>history.push(HOME_ROUTE)}>Sākums</Button>
                             <Button className={"nav-link"} variant={"outline-dark"} onClick={() =>history.push(VACANCIES_ROUTE)}>Vakances</Button>
-                            <Button className={"nav-link"} variant={"outline-dark"} onClick={() =>history.push(REGISTER_ROUTE)} >Reģistrēties</Button>
                             <Button className={"nav-link"} variant={"outline-dark"} onClick={() => history.push(LOGIN_ROUTE)}>Pieslēgšanas</Button>
                         </Nav>
                         </Navbar.Collapse>

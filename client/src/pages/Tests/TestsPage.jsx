@@ -111,7 +111,7 @@ const TestPage = observer(() => {
                         </Col>
                         <Col sm={1}>
                             <Button
-                                variant="outline-info"
+                                variant="success"
                                 onClick={() => {setTestShowCreate(true);}}
                             ><i className="bi bi-plus-circle"></i>
                             </Button>

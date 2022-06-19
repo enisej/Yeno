@@ -5,10 +5,7 @@ import {observer} from "mobx-react-lite";
 import 'react-toastify/dist/ReactToastify.css';
 
 
-
 const VacancyModalItem = observer ((props) => {
-
-
 
     return (
         <Modal show={props.show}
@@ -49,7 +46,6 @@ const VacancyModalItem = observer ((props) => {
 
                         </ListGroup.Item>
                     </ListGroup>
-
             </Modal.Body>
 
 <Modal.Footer><Image src={infoIcon} alt={infoIcon} height={30} /></Modal.Footer>

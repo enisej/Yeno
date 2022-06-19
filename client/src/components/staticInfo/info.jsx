@@ -5,7 +5,7 @@ const Info = () => {
     return (
         <Row className="mt-5 mb-5">
             <Col>
-                <Card className="h-100 shadow">
+                <Card className="h-100 shadow ">
                     <Card.Header>STRATĒGIJA</Card.Header>
                     <Card.Body>
                         Darbadevējam ir vajadzīgi labākie specialisti , līdz ar to bija izstradāta šī vietne ,
