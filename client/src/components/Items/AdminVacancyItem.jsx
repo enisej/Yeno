@@ -142,10 +142,14 @@ const AdminVacancyItem = observer( () => {
 
             <Card className="shadow">
                 <Card.Body>
+
                     <Row>
                         <Col >
                             <Row>
-                                <Col sm={4}>
+                                <Col >
+                                    <h3><b>Vakances</b></h3>
+                                </Col>
+                                <Col >
                                 <FormControl
                                     type="search"
                                     placeholder="Meklēt pēc nosaukuma..."
@@ -157,7 +161,7 @@ const AdminVacancyItem = observer( () => {
                                     }}
                                 />
                                 </Col>
-                                <Col sm={6}><Button variant="outline-success" onClick={Search}><i className="bi-search"></i></Button></Col>
+                                <Col ><Button variant="outline-success" onClick={Search}><i className="bi-search"></i></Button></Col>
                                 <Col sm={1}>
                                     <DropdownButton  variant='secondary' title='Kārtot'>
                                         <DropdownItem  onClick={e=>{Cancel()}}>

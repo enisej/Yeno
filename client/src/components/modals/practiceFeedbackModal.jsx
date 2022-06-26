@@ -49,12 +49,12 @@ const PracticeFeedbackModal = observer((props) => {
             <Modal.Body>
                 <Form noValidate validated={validated} onSubmit={postFeedback}>
                 <Form.Group controlId="points" className="mb-3">
-                    <Form.Label>Punkti</Form.Label>
+                    <Form.Label>Vertējums 1-10</Form.Label>
                     <Form.Control
-                        placeholder="Punkti"
+                        placeholder="Atzīme"
                         value={recievedPoints}
                         onChange={e => setRecievedPoints(e.target.value)}
-                        pattern='[0-9]{1,3}'
+                        pattern='[0-9]{1,2}'
                         required
                     />
                 </Form.Group>

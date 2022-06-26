@@ -69,7 +69,10 @@ const VacancyItem = observer( () => {
                     <Row>
                         <Col >
                             <Row>
-                                <Col sm={6}>
+                                <Col >
+                                    <h3><b>Vakances</b></h3>
+                                </Col>
+                                <Col sm={3}>
 
                                 </Col>
                                 <Col>

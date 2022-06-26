@@ -23,6 +23,9 @@ const UserResponses = observer(() => {
 
     return (
         <Container className='d-flex flex-column min-vh-100'>
+            <Card className="mt-3 p-3 shadow">
+                <h3><b>Praktisko uzdevumu rezultāti</b></h3>
+            </Card>
             {practiceResponses.practiceResponse.length ?
 
                 <div>
@@ -33,7 +36,7 @@ const UserResponses = observer(() => {
                             <Card.Header>
                                 {responses.Feedback ?
                                     <Row><Col sm={9}><Badge className="bg-success">Atbilde ir parbaudīta</Badge></Col>
-                                        <Col sm={3}>Saņemtie punkti: {responses.RecievedPoints}</Col>
+                                        <Col sm={3}>Atzīme: {responses.RecievedPoints}/10</Col>
 
                                     </Row>
                                     :
