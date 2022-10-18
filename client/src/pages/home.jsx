@@ -6,7 +6,6 @@ import GoalCardInfo from "../components/staticInfo/GoalCardInfo";
 import 'react-toastify/dist/ReactToastify.css';
 
 const Home = () => {
-
     return (
         <Container className='d-flex flex-column min-vh-100'>
             <MainInfo/>

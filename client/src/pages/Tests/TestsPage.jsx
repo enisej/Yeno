@@ -65,7 +65,7 @@ const TestPage = observer(() => {
             cellRenderer:(data)=><Button
                 variant="outline-success"
                 className="me-1" size="sm"
-                onMouseOver={e=>{setResults(data.data.responseLink.replace('/pubhtml', '/pub?output=csv'))}}
+                onMouseOver={e=>{setResults(data.data.responseLink.replace('/pubhtml', '/pub?output=xlsx'))}}
             ><a href={results}><i className="bi bi-upload "></i></a>
             </Button>}
     ]);

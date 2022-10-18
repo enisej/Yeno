@@ -174,10 +174,10 @@ const PracticeResponses = observer(() => {
                                         <ListGroupItem>
                                             <Row>
                                                 <Col>
-                                                    <b>Saņemtie punkti</b>
+                                                    <b>Vērtējums</b>
                                                 </Col>
                                                 <Col>
-                                                    <Card.Text>{response.RecievedPoints}</Card.Text>
+                                                    <Card.Text>{response.RecievedPoints}/10</Card.Text>
                                                 </Col>
                                             </Row>
                                         </ListGroupItem>
