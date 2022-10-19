@@ -28,6 +28,8 @@ services:
       - db
     networks:
       - react-express
+    volumes:
+      - ./:/app
   client:
     image: client
     stdin_open: true
@@ -35,6 +37,8 @@ services:
       - "3000:3000"
     networks:
       - react-express
+    volumes:
+      - ./:/app
 
 networks:
   react-express:

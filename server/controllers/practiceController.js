@@ -14,7 +14,6 @@ class PracticeTestController{
             return next(ApiError.internal())
         }
     }
-
     async update(req, res, next){
         try {
             await PracticeExercise.update(req.body, {
