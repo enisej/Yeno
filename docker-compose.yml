@@ -18,14 +18,25 @@ services:
         POSTGRES_DB: yeno
     ports:
       - 5432:5432
+    networks:
+      - react-express
   api:
     image: api
     ports:
       - 5000:5000
     depends_on:
       - db
+    networks:
+      - react-express
   client:
     image: client
+    stdin_open: true
     ports:
-      - 3000:3000
+      - "3000:3000"
+    networks:
+      - react-express
+
+networks:
+  react-express:
+    driver: bridge
 

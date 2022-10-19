@@ -43,7 +43,7 @@ const ProfileDataItem = observer(() => {
 
     const [imageCrop, setImageCrop] = useState(false)
 
-    console.log(process.env.REACT_APP_API_URL + data.img)
+    console.log('http://localhost:5000/' + data.img)
 
     return (
         <Row>
@@ -52,7 +52,7 @@ const ProfileDataItem = observer(() => {
                 <Card className="p-3 d-flex align-items-center">
                     {data.img ?
                     <Image className="bg-light rounded-circle shadow"
-                           src={process.env.REACT_APP_API_URL + data.img} width={100}
+                           src={'http://localhost:5000/' + data.img} width={100}
                            height={100}/>
                         :
                         <Image className="bg-light rounded-circle shadow"

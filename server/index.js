@@ -38,7 +38,7 @@ const start = async () => {
         await sequelize.sync()
         //izmantot portu , kurs ir norādīts .env faila.
         //parādīt konsole , kā serveris stradā
-        app.listen(PORT, ()=>console.log(`Server started on port ${PORT}`))
+        app.listen(PORT, '0.0.0.0', ()=>console.log(`Server started on port ${PORT}`))
     } catch(e) {
         //izvadīt koncosle , ja ir kludas
         console.log(e)
