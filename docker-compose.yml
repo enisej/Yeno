@@ -39,7 +39,6 @@ services:
       - react-express
     volumes:
       - ./:/app
-
 networks:
   react-express:
     driver: bridge

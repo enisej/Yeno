@@ -74,7 +74,7 @@ const Auth = observer(() => {
 
                                 </Form.Group>
 
-                                <Button className="w-100 mt-3" variant="dark" type="submit">
+                                <Button id="submitButton" className="w-100 mt-3" variant="dark" type="submit">
                                     Ieiet
                                 </Button>
                             <p className="d-flex justify-content-center mt-3">Nav konta? <Card.Link href={REGISTER_ROUTE}>Rēģistēties</Card.Link></p>
