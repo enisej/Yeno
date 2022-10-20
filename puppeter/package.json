@@ -2,15 +2,16 @@
   "name": "puppeter",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "db/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node puppetier.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "puppeteer": "^19.0.0",
-    "puppeteer-core": "^19.0.0"
+    "puppeteer-core": "^19.0.0",
+    "sqlite3": "^5.1.2"
   }
 }
