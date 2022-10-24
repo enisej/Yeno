@@ -1,7 +1,8 @@
-const puppeteer = require("puppeteer");
-const { store } = require("./store");
+const {consts} = require("../utils/consts");
 
 class theoryTestController {
+
+
 
     async openModal(page) {
         try {
@@ -13,24 +14,19 @@ class theoryTestController {
                 await page.click('[class="btn btn-success"]')
             ])
 
-            await page.screenshot({path: 'screenshots/modal.png'});
+
 
         } catch (error) {
             console.log(error)
         }
     }
 
-    async fillWithData(page) {
+    async fillWithData(page, test) {
         try {
-
-            await page.type('#title', store.TITLE);
-            await page.type('#link', store.LINK);
-            await page.type('#ResponseLink', store.RESPONSE_LINK);
-            await page.type('#description', store.DESCRIPTION);
-
-
-
-            await page.screenshot({path: 'screenshots/test.png'});
+            await page.type('#title', test.title);
+            await page.type('#link', test.link);
+            await page.type('#ResponseLink', test.responseLink);
+            await page.type('#description', test.description);
 
         } catch (error) {
             console.log(error)
@@ -42,7 +38,8 @@ class theoryTestController {
             await Promise.all([
                 await page.click('[class="shadow btn btn-success"]')
             ])
-            await page.screenshot({path: 'screenshots/submit.png'});
+
+
         } catch (error) {
             console.log(error)
         }
