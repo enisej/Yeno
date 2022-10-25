@@ -37,7 +37,7 @@ const PracticeExercise = sequelize.define('practiceExercises', {
     updatedAt: {type: DataTypes.DATE, allowNull: false, defaultValue: Date.now()}
 })
 
-const TheoryTest = sequelize.define('theoryTests', {
+const TheoryTest = sequelize.define('theory_tests', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true  },
     title: {type: DataTypes.STRING, allowNull: false },
     link: {type: DataTypes.STRING, allowNull: false, unique: true },

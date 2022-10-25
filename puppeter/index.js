@@ -28,6 +28,7 @@ const start = async () => {
             await sequelize.sync();
             console.log('Connection has been established successfully.');
             app.listen(PORT, ()=>console.log(`Server started on port ${PORT}`))
+
             const puppeteerApp = require('./client/puppetier.js')
     } catch(e) {
         //izvadīt koncosle , ja ir kludas

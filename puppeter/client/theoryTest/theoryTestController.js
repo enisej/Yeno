@@ -1,4 +1,5 @@
 const {consts} = require("../utils/consts");
+const {updateTheoryTestStatus} = require("../http/TheoryTestAPI");
 
 class theoryTestController {
 
@@ -6,10 +7,11 @@ class theoryTestController {
 
     async openModal(page) {
         try {
+            await Promise.all([
             await page.goto('http://localhost:3000/tests', {
                 waitUntil: 'networkidle0',
-            });
-
+            })
+            ])
             await Promise.all([
                 await page.click('[class="btn btn-success"]')
             ])
@@ -33,12 +35,14 @@ class theoryTestController {
         }
     }
 
-    async submit(page) {
+    async submit(page, id) {
         try {
+            const status = true
             await Promise.all([
-                await page.click('[class="shadow btn btn-success"]')
+                await page.click('[class="shadow btn btn-success"]'),
+                await updateTheoryTestStatus(id, status),
+                await page.close()
             ])
-
 
         } catch (error) {
             console.log(error)
